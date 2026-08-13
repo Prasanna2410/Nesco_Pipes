@@ -11,24 +11,28 @@ const framePath = (index: number) =>
 
 const chapters = [
   {
-    eyebrow: "01 / RAW POTENTIAL",
-    title: <>Every system starts<br />with the right <em>metal.</em></>,
-    copy: "Selected stainless steel grades create the foundation for pressure, temperature and corrosion resistance.",
+    eyebrow: "01 / NESCO PIPE & TUBES",
+    label: "Product range",
+    title: <>Stainless steel and alloy products, organized for <em>industry.</em></>,
+    copy: "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, fasteners and valves from one Mumbai supply team.",
   },
   {
-    eyebrow: "02 / FORMING FORCE",
-    title: <>Heat. Pressure.<br /><em>Precision.</em></>,
-    copy: "Controlled forming turns engineered material into dependable pipe geometry without compromising integrity.",
+    eyebrow: "02 / MATERIAL RANGE",
+    label: "Material grades",
+    title: <>From stainless to nickel alloys, grade comes <em>first.</em></>,
+    copy: "Stainless steel, duplex, super duplex, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminum and SMO 254 options.",
   },
   {
-    eyebrow: "03 / EXACT GEOMETRY",
-    title: <>Form follows<br /><em>flow.</em></>,
-    copy: "Tight dimensions, consistent wall thickness and carefully finished surfaces—built around the application.",
+    eyebrow: "03 / QUALITY SYSTEM",
+    label: "Quality system",
+    title: <>Specifications, certificates and inspection support in <em>flow.</em></>,
+    copy: "Orders can be supported with MTCs, dimensional checks, third-party inspection and export-ready packing.",
   },
   {
-    eyebrow: "04 / READY FOR INDUSTRY",
-    title: <>Made in Mumbai.<br /><em>Built to move.</em></>,
-    copy: "Finished stainless systems supplied for critical industries across India and international markets.",
+    eyebrow: "04 / READY FOR SUPPLY",
+    label: "Supply network",
+    title: <>Made in Mumbai.<br /><em>Ready to move.</em></>,
+    copy: "Fast quotation and dispatch support for industrial buyers across India, the Middle East, Asia and global markets.",
   },
 ];
 
@@ -127,8 +131,8 @@ export default function ScrollSequenceHero() {
   return (
     <section className="sequence-hero" id="top" ref={sectionRef}>
       <div className="sequence-stage">
+        <div className="sequence-atmosphere" aria-hidden="true"><i /><i /><span>NESCO</span></div>
         <div className="sequence-copy">
-          <div className="sequence-kicker"><i /> ISO 9001:2015 CERTIFIED <span>NESCO / PIPE & TUBES</span></div>
           <div className="sequence-chapters" aria-live="polite">
             {chapters.map((chapter, index) => (
               <motion.article
@@ -142,36 +146,45 @@ export default function ScrollSequenceHero() {
                 }}
                 transition={{ duration: .55, ease: [0.22, 1, 0.36, 1] }}
               >
-                <small>{chapter.eyebrow}</small>
+                <div className="sequence-chapter-meta"><small>{chapter.eyebrow}</small><span>{chapter.label}</span></div>
                 <h1>{chapter.title}</h1>
                 <p>{chapter.copy}</p>
                 {index === 0 ? (
-                  <Link href="#about">Discover our standard <ArrowUpRight /></Link>
+                  <Link href="#products">Explore products <ArrowUpRight /></Link>
                 ) : null}
               </motion.article>
             ))}
           </div>
-          <div className="sequence-scroll-hint"><ArrowDown /><span>Scroll to manufacture</span></div>
+          <div className="sequence-scroll-hint"><ArrowDown /><span>Scroll to explore</span><i /></div>
         </div>
 
         <div className="sequence-visual">
-          <div className="sequence-frame" ref={frameWrapRef}>
-            <canvas ref={canvasRef} aria-label="Scroll-controlled stainless steel pipe manufacturing animation" />
-            <div className="sequence-frame-shade" />
-            <div className="sequence-corners"><i /><i /><i /><i /></div>
-            {loaded < expectedFrames ? (
-              <div className="sequence-loading">Preparing sequence <b>{loadPercent}%</b></div>
-            ) : null}
-          </div>
-          <div className="sequence-visual-meta">
-            <span ref={frameLabelRef}>FRAME 001 / {FRAME_COUNT}</span>
-            <span>SCROLL-DRIVEN PROCESS</span>
+          <div className="sequence-visual-shell">
+            <div className="sequence-visual-head">
+              <span><i /> Material visualizer</span>
+              <b>{chapters[activeChapter].label}</b>
+              <small>0{activeChapter + 1} / 04</small>
+            </div>
+            <div className="sequence-frame" ref={frameWrapRef}>
+              <canvas ref={canvasRef} aria-label="Scroll-controlled stainless steel pipe manufacturing animation" />
+              <div className="sequence-frame-grid" aria-hidden="true" />
+              <div className="sequence-frame-shade" />
+              <div className="sequence-corners"><i /><i /><i /><i /></div>
+              <div className="sequence-frame-tags" aria-hidden="true"><span>FORM / STOCK</span><span>GRADE / PROJECT</span></div>
+              {loaded < expectedFrames ? (
+                <div className="sequence-loading">Preparing sequence <b>{loadPercent}%</b></div>
+              ) : null}
+            </div>
+            <div className="sequence-visual-meta">
+              <span ref={frameLabelRef}>FRAME 001 / {FRAME_COUNT}</span>
+              <span><i /> Scroll-driven material sequence</span>
+            </div>
           </div>
         </div>
 
         <div className="sequence-progress" aria-hidden="true">
           {chapters.map((chapter, index) => (
-            <span key={chapter.eyebrow} className={index <= activeChapter ? "active" : ""}><i />0{index + 1}</span>
+            <span key={chapter.eyebrow} className={index <= activeChapter ? "active" : ""}><i /><b>0{index + 1}</b><small>{chapter.label}</small></span>
           ))}
         </div>
       </div>

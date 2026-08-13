@@ -1,58 +1,53 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { motion, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll } from "framer-motion";
+import { ArrowUpRight, CheckCircle2, ChevronLeft, ChevronRight, Factory, FileCheck2, Globe2, Mail, MapPin, MoveRight, Phone, Plane } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { ArrowUpRight, Check, Factory, FileCheck2, Globe2, Mail, MapPin, MoveRight, Phone, ShieldCheck } from "lucide-react";
 import SmoothScroll from "@/components/SmoothScroll";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import ScrollSequenceHero from "@/components/ScrollSequenceHero";
+import { productCategories } from "@/lib/catalog";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const products = [
-  { n: "01", title: "Seamless Pipes", image: "/assets/product-universe/01-seamless-pipes.webp", href: "/stainless-steel-seamless-pipe-manufacturer-india" },
-  { n: "02", title: "Welded Pipes", image: "/assets/product-universe/02-welded-pipes.webp", href: "/stainless-steel-welded-pipe-manufacturer-india" },
-  { n: "03", title: "Seamless Tubes", image: "/assets/product-universe/03-seamless-tubes.webp", href: "/stainless-steel-seamless-tube-manufacturer-india" },
-  { n: "04", title: "Welded Tubes", image: "/assets/product-universe/04-welded-tubes.webp", href: "/stainless-steel-welded-tube-manufacturer-india" },
-  { n: "05", title: "Section Tubes", image: "/assets/product-universe/05-section-tubes.webp", href: "/stainless-steel-section-tubes-manufacturer-india" },
-  { n: "06", title: "U Tubes", image: "/assets/product-universe/06-u-tubes.webp", href: "/stainless-steel-u-tubes-manufacturer-india" },
-  { n: "07", title: "Corrugated Tubes", image: "/assets/product-universe/07-corrugated-tubes.webp", href: "/stainless-steel-corrugated-tubes-manufacturer-india" },
-  { n: "08", title: "Fittings", image: "/assets/product-universe/08-fittings.webp", href: "/stainless-steel-fittings-manufacturer-supplier-india" },
-  { n: "09", title: "Valves", image: "/assets/product-universe/09-valves.webp", href: "/stainless-steel-valves-manufacturer-india" },
-  { n: "10", title: "Sheets & Plates", image: "/assets/product-universe/10-sheets-plates.webp", href: "/stainless-steel-sheet-manufacturer-india" },
-];
-
-const story = [
-  { n: "01", eyebrow: "Material", title: "The right metal", body: "Premium stainless steel selected for pressure, temperature, corrosion and hygiene." },
-  { n: "02", eyebrow: "Precision", title: "The exact grade", body: "From 304 and 316L to 321H and 904L—matched to the demands of your application." },
-  { n: "03", eyebrow: "Proof", title: "Tested. Certified.", body: "Dimensional checks, material test certificates and third-party inspection on critical orders." },
-  { n: "04", eyebrow: "Delivery", title: "Ready for the world", body: "Made in Mumbai and supplied across India, the Middle East, Asia, Europe and beyond." },
+const strengths = [
+  ["01", "Complete product range", "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, fasteners, instrumentation fittings and valves."],
+  ["02", "Materials and grades", "Stainless steel, duplex, super duplex, nickel alloys, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminum and SMO 254."],
+  ["03", "Quality documentation", "Material test certificates, dimensional checks, inspection support and export packing can be arranged for project orders."],
+  ["04", "Mumbai supply hub", "Responsive dispatch support for India, the Middle East, Asia, Europe and other export destinations."],
 ];
 
 const industries = [
-  { name: "Oil & Gas", text: "High-pressure stainless systems for aggressive flow conditions.", stat: "Up to export supply", image: "/assets/industries/01-oil-gas.webp", position: "center 48%" },
-  { name: "Power Plants", text: "Heat-tolerant pipe and tube programs for utility-scale performance.", stat: "Thermal-ready", image: "/assets/industries/02-power-plants.webp", position: "center 51%" },
-  { name: "Chemical", text: "Corrosion-conscious grades for process lines and controlled media.", stat: "316L to 904L", image: "/assets/industries/03-chemical.webp", position: "62% 50%" },
-  { name: "Food & Pharma", text: "Clean-finish tubing, fittings and valves for hygienic production.", stat: "Sanitary flow", image: "/assets/industries/04-food-pharma.webp", position: "62% 50%" },
-  { name: "Marine & Shipbuilding", text: "Reliable steel sections for salt-heavy and vibration-heavy environments.", stat: "Marine durable", image: "/assets/industries/05-marine-shipbuilding.webp", position: "center 54%" },
-  { name: "Infrastructure", text: "Fast-moving stock support for fabricators, EPC and industrial buyers.", stat: "Mumbai dispatch", image: "/assets/industries/06-infrastructure.webp", position: "center 52%" },
+  { name: "Oil & Gas", text: "Pipe, flange and fitting supply for high-pressure process lines.", focus: "Pressure / process / offshore", image: "/assets/industry-backgrounds/01-oil-and-gas.png" },
+  { name: "Power Plants", text: "Heat-resistant grades for utility and maintenance requirements.", focus: "Heat / steam / utility", image: "/assets/industry-backgrounds/02-power-plants.png" },
+  { name: "Chemical", text: "Corrosion-conscious alloys for aggressive media and plant piping.", focus: "Corrosion / containment", image: "/assets/industry-backgrounds/03-chemical.png" },
+  { name: "Food & Pharma", text: "Clean-finish tubes, valves and fittings for hygienic systems.", focus: "Hygienic / clean finish", image: "/assets/industry-backgrounds/04-food-and-pharma.png" },
+  { name: "Marine", text: "Durable metals for salt-heavy and fabrication-intensive environments.", focus: "Saltwater / ship systems", image: "/assets/industry-backgrounds/05-marine.png" },
+  { name: "Infrastructure", text: "Fast-moving stock support for EPC, fabrication and project teams.", focus: "Structural / EPC / fabrication", image: "/assets/industry-backgrounds/06-infrastructure.png" },
+];
+
+const aboutSlides = [
+  { image: "/assets/about-slider/01-pipes-tubes.png", title: "Pipes & tubes", detail: "Seamless, welded and precision tubular products" },
+  { image: "/assets/about-slider/02-sheets-plates.png", title: "Sheets & plates", detail: "Flat products prepared around grade and thickness" },
+  { image: "/assets/about-slider/03-flanges-fittings.png", title: "Flanges & fittings", detail: "Connection components for demanding piping systems" },
+  { image: "/assets/about-slider/04-product-range.png", title: "Complete product range", detail: "One coordinated source for industrial metal supply" },
 ];
 
 function Loader() {
   const [done, setDone] = useState(false);
   useEffect(() => {
-    const timer = window.setTimeout(() => setDone(true), 1650);
+    const timer = window.setTimeout(() => setDone(true), 900);
     return () => window.clearTimeout(timer);
   }, []);
   return (
-    <motion.div className="loader" initial={false} animate={{ y: done ? "-100%" : 0 }} transition={{ duration: .9, ease: [0.76, 0, 0.24, 1] }} aria-hidden="true">
+    <motion.div className="loader" initial={false} animate={{ y: done ? "-100%" : 0 }} transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }} aria-hidden="true">
       <div className="loader-mark"><span>NE</span><i /><span>SCO</span></div>
-      <div className="loader-line"><motion.i initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.25, ease: "easeInOut" }} /></div>
-      <p>Precision in motion</p>
+      <div className="loader-line"><motion.i initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.85, ease: "easeInOut" }} /></div>
+      <p>Pipe & Tubes</p>
     </motion.div>
   );
 }
@@ -62,138 +57,272 @@ function ScrollProgress() {
   return <motion.div className="page-progress" style={{ scaleY: scrollYProgress }} />;
 }
 
-function Manifesto() {
-  const wrap = useRef<HTMLElement>(null);
+function AboutProductSlider() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const slide = aboutSlides[activeSlide];
+
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(".standard-word", { opacity: .12, y: 28 }, { opacity: 1, y: 0, stagger: .08, scrollTrigger: { trigger: wrap.current, start: "top 68%", end: "45% 48%", scrub: true } });
-      gsap.fromTo(".standard-card", { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: .12, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".standard-grid", start: "top 78%" } });
-      gsap.to(".standard-core", { rotate: 18, scrollTrigger: { trigger: wrap.current, start: "top bottom", end: "bottom top", scrub: 1 } });
-    }, wrap);
-    return () => ctx.revert();
-  }, []);
-  const standards = [
-    ["01", "Material selection", "Application-led grade selection for corrosion, pressure, temperature and hygiene."],
-    ["02", "Controlled production", "Modern processes and experienced specialists maintain consistent pipe geometry."],
-    ["03", "Verified quality", "Chemical, mechanical and dimensional checks support dependable performance."],
-    ["04", "Documented delivery", "Material test certificates and inspection support are available for critical orders."],
-  ];
+    if (paused) return;
+    const timer = window.setTimeout(() => setActiveSlide((current) => (current + 1) % aboutSlides.length), 5200);
+    return () => window.clearTimeout(timer);
+  }, [activeSlide, paused]);
+
+  const move = (direction: number) => setActiveSlide((current) => (current + direction + aboutSlides.length) % aboutSlides.length);
+
   return (
-    <section className="standard-v3" id="about" ref={wrap}>
+    <div className="about-product-slider" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)}>
+      <AnimatePresence mode="sync" initial={false}>
+        <motion.div
+          className="about-product-slide"
+          key={slide.image}
+          initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.08, clipPath: reduceMotion ? "inset(0)" : "inset(0 0 14% 0)" }}
+          animate={{ opacity: 1, scale: 1, clipPath: "inset(0)" }}
+          exit={{ opacity: 0, scale: reduceMotion ? 1 : 1.025 }}
+          transition={{ duration: reduceMotion ? 0 : 1.05, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Image src={slide.image} alt={`${slide.title} supplied by NESCO Pipe & Tubes`} fill sizes="(max-width: 900px) 88vw, 42vw" priority={activeSlide === 0} />
+        </motion.div>
+      </AnimatePresence>
+      <div className="about-slider-shade" aria-hidden="true" />
+      <div className="about-slider-scan" aria-hidden="true" />
+      <div className="about-slider-top"><span><i /> NESCO / PRODUCT SYSTEMS</span><b>{String(activeSlide + 1).padStart(2, "0")} / {String(aboutSlides.length).padStart(2, "0")}</b></div>
+      <div className="about-slider-copy" aria-live="polite"><small>Industrial supply range</small><strong>{slide.title}</strong><span>{slide.detail}</span></div>
+      <div className="about-slider-controls">
+        <button type="button" onClick={() => move(-1)} aria-label="Show previous About NESCO image"><ChevronLeft /></button>
+        <div>{aboutSlides.map((item, index) => <button type="button" className={index === activeSlide ? "active" : ""} onClick={() => setActiveSlide(index)} aria-label={`Show ${item.title}`} aria-current={index === activeSlide ? "true" : undefined} key={item.title}><i /></button>)}</div>
+        <button type="button" onClick={() => move(1)} aria-label="Show next About NESCO image"><ChevronRight /></button>
+      </div>
+      <div className={`about-slider-progress ${paused ? "paused" : ""}`} aria-hidden="true"><i key={activeSlide} /></div>
+    </div>
+  );
+}
+
+function Standard() {
+  return (
+    <section className="standard-v3" id="about">
       <div className="standard-heading">
-        <div><span>/ 01 — OUR STANDARD</span><p>ISO 9001:2015 certified systems</p></div>
-        <h2>{"Precision is not the finish. It is the entire process.".split(" ").map((word, index) => <span className="standard-word" key={`${word}-${index}`}>{word} </span>)}</h2>
+        <div><span>/ 01 - ABOUT NESCO</span><p>Manufacturer, supplier and exporter</p></div>
+        <h2>Industrial metals supplied with the clarity buyers need.</h2>
       </div>
       <div className="standard-grid">
+        <AboutProductSlider />
+        <div className="pipe-flow-visual" role="img" aria-label="Animated NESCO material sourcing and delivery pipeline">
+          <svg viewBox="0 0 600 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="pipe-metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#6f8498" /><stop offset="0.28" stopColor="#edf5fb" /><stop offset="0.52" stopColor="#8ca0b3" /><stop offset="0.78" stopColor="#f8fbfe" /><stop offset="1" stopColor="#61778c" /></linearGradient>
+              <filter id="pipe-shadow"><feDropShadow dx="0" dy="8" stdDeviation="7" floodColor="#082b56" floodOpacity=".2" /></filter>
+            </defs>
+            <g className="pipe-route" filter="url(#pipe-shadow)">
+              <path id="pipe-source" d="M44 126 H205 Q242 126 242 163 V248 Q242 275 270 275" />
+              <path id="pipe-inspect" d="M556 128 H414 Q377 128 377 165 V246 Q377 275 345 275" />
+              <path id="pipe-pack" d="M46 474 H194 Q232 474 232 436 V359 Q232 327 270 327" />
+              <path id="pipe-deliver" d="M554 476 H422 Q382 476 382 437 V360 Q382 327 345 327" />
+            </g>
+            <g className="pipe-highlight">
+              <path d="M44 126 H205 Q242 126 242 163 V248 Q242 275 270 275" />
+              <path d="M556 128 H414 Q377 128 377 165 V246 Q377 275 345 275" />
+              <path d="M46 474 H194 Q232 474 232 436 V359 Q232 327 270 327" />
+              <path d="M554 476 H422 Q382 476 382 437 V360 Q382 327 345 327" />
+            </g>
+            <g className="pipe-joints"><circle cx="44" cy="126" r="13" /><circle cx="556" cy="128" r="13" /><circle cx="46" cy="474" r="13" /><circle cx="554" cy="476" r="13" /></g>
+            <circle className="flow-particle fp-blue" r="8"><animateMotion dur="4.2s" repeatCount="indefinite"><mpath href="#pipe-source" /></animateMotion></circle>
+            <circle className="flow-particle fp-copper" r="8"><animateMotion dur="5s" repeatCount="indefinite"><mpath href="#pipe-inspect" /></animateMotion></circle>
+            <circle className="flow-particle fp-blue" r="8"><animateMotion dur="4.6s" repeatCount="indefinite"><mpath href="#pipe-pack" /></animateMotion></circle>
+            <circle className="flow-particle fp-copper" r="8"><animateMotion dur="5.4s" repeatCount="indefinite"><mpath href="#pipe-deliver" /></animateMotion></circle>
+          </svg>
+          <div className="pipe-flow-core"><Factory /><strong>NESCO</strong><span>MATERIAL FLOW</span></div>
+          <div className="pipe-stage-label psl-1"><b>01</b><span>Source<small>Grade & form</small></span></div>
+          <div className="pipe-stage-label psl-2"><b>02</b><span>Inspect<small>Test & verify</small></span></div>
+          <div className="pipe-stage-label psl-3"><b>03</b><span>Pack<small>Protect & mark</small></span></div>
+          <div className="pipe-stage-label psl-4"><b>04</b><span>Deliver<small>India & export</small></span></div>
+        </div>
         <div className="standard-core">
           <i /><i /><i />
-          <div><ShieldCheck /><strong>ISO</strong><span>9001:2015</span></div>
-          <small className="core-note n1">MATERIAL</small><small className="core-note n2">PROCESS</small><small className="core-note n3">PROOF</small>
+          <span className="core-satellite cs1" /><span className="core-satellite cs2" /><span className="core-satellite cs3" />
+          <div><Globe2 /><strong>360°</strong><span>SUPPLY SUPPORT</span></div>
+          <small className="core-note n1">SOURCE</small><small className="core-note n2">VERIFY</small><small className="core-note n3">DELIVER</small>
         </div>
         <div className="standard-cards">
-          {standards.map(([number, title, copy]) => <article className="standard-card" key={number}><small>{number}</small><h3>{title}</h3><p>{copy}</p><Check /></article>)}
+          {strengths.map(([number, title, copy]) => (
+            <article className="standard-card" key={number}>
+              <small>{number}</small>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+              <CheckCircle2 />
+            </article>
+          ))}
         </div>
       </div>
-      <div className="standard-signoff"><span>Manufacturer</span><span>Supplier</span><span>Exporter</span><Link href="/quality-policy">Explore our quality policy <ArrowUpRight /></Link></div>
+      <div className="standard-signoff"><span>Stock support</span><span>Custom sizes</span><span>Export packing</span><Link href="/quality-policy">Quality policy <ArrowUpRight /></Link></div>
     </section>
   );
 }
 
-function PortalStory() {
+function AssuranceOrbit() {
   const section = useRef<HTMLElement>(null);
   const portal = useRef<HTMLDivElement>(null);
+  const steps = [
+    ["01", "Choose the family", "Start from pipes, tubes, flanges, sheets, fittings or valves so the enquiry lands in the right supply path."],
+    ["02", "Match the metal", "Select stainless steel, duplex, super duplex, nickel alloy, Monel, Inconel, Hastelloy, titanium or carbon steel."],
+    ["03", "Confirm the standard", "Share ASTM, ASME, ANSI, DIN, EN, JIS or project-specific requirements with dimensions and quantity."],
+    ["04", "Ship with proof", "Receive material documents, packing support and dispatch coordination from Mumbai for local or export orders."],
+  ];
+
   useEffect(() => {
     const mm = gsap.matchMedia();
     mm.add("(min-width: 901px)", () => {
       const panels = gsap.utils.toArray<HTMLElement>(".portal-step");
-      const tl = gsap.timeline({ scrollTrigger: { trigger: section.current, start: "top top", end: "+=3600", scrub: 1, pin: true } });
-      tl.fromTo(portal.current, { scale: .55, rotate: -12 }, { scale: 1.05, rotate: 8, duration: 1.2 });
-      panels.forEach((panel, i) => {
-        if (i > 0) tl.to(panels[i - 1], { opacity: 0, y: -70, duration: .22 }).fromTo(panel, { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: .28 });
-        tl.to(portal.current, { scale: 1.05 + i * .22, rotate: 8 + i * 14, duration: .75 }, "<");
+      const tl = gsap.timeline({ scrollTrigger: { trigger: section.current, start: "top top", end: "+=2800", scrub: 1, pin: true } });
+      tl.fromTo(portal.current, { scale: .58, rotate: -10 }, { scale: 1.03, rotate: 8, duration: 1 });
+      panels.forEach((panel, index) => {
+        if (index > 0) {
+          tl.to(panels[index - 1], { opacity: 0, y: -60, duration: .25 }).fromTo(panel, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .3 });
+        }
+        tl.to(portal.current, { scale: 1.03 + index * .18, rotate: 8 + index * 12, duration: .7 }, "<");
       });
     });
     return () => mm.revert();
   }, []);
+
   return (
-    <section className="portal-story" id="quality" ref={section}>
-      <div className="portal-visual" ref={portal}><Image src="/assets/nesco-steel-portal.png" alt="Concentric precision steel tubes forming an electric blue tunnel" fill sizes="60vw" /><div className="portal-vignette" /></div>
-      <div className="portal-title"><span>/ 02</span><b>THE ANATOMY<br />OF ASSURANCE</b></div>
-      <div className="portal-steps">{story.map((item, i) => <article className={`portal-step s${i + 1}`} key={item.n}><small>{item.n} / 04 — {item.eyebrow}</small><h2>{item.title}</h2><p>{item.body}</p></article>)}</div>
+    <section className="portal-story" id="supply-flow" ref={section}>
+      <div className="portal-visual" ref={portal}>
+        <Image src="/assets/nesco-steel-portal.png" alt="Circular stainless steel tube detail" fill sizes="60vw" />
+        <div className="portal-vignette" />
+      </div>
+      <div className="portal-title"><span>/ 02</span><b>SUPPLY<br />FLOW</b></div>
+      <div className="portal-steps">
+        {steps.map(([number, title, copy], index) => (
+          <article className={`portal-step s${index + 1}`} key={number}>
+            <small>{number} / 04 - SOURCING PATH</small>
+            <h2>{title}</h2>
+            <p>{copy}</p>
+          </article>
+        ))}
+      </div>
       <div className="scroll-meter"><span>SCROLL</span><i /></div>
     </section>
   );
 }
 
 function Products() {
-  const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 901px)", () => {
-      if (!track.current || !section.current) return;
-      gsap.to(track.current, { x: () => -(track.current!.scrollWidth - window.innerWidth), ease: "none", scrollTrigger: { trigger: section.current, start: "top top", end: () => `+=${track.current!.scrollWidth}`, scrub: 1, pin: true, invalidateOnRefresh: true } });
-    });
-    return () => mm.revert();
-  }, []);
   return (
-    <section className="products-v2" id="products" ref={section}>
-      <div className="products-track" ref={track}>
-        <article className="product-intro"><span>/ 03 — PRODUCT UNIVERSE</span><h2>TEN FAMILIES.<br /><em>ENDLESS</em><br />POSSIBILITIES.</h2><p>Scroll across our complete stainless steel range.</p><MoveRight /></article>
-        {products.map((p, i) => <Link className={`product-panel panel-${i + 1}`} href={p.href} key={p.n} aria-label={`Explore ${p.title}`}>
-          <Image className="product-panel-image" src={p.image} alt={`${p.title} by Nesco Pipe & Tubes`} fill sizes="(max-width: 900px) 100vw, 80vh" />
-          <span className="product-panel-focus" aria-hidden="true" />
-        </Link>)}
-        <article className="product-end"><p>Can’t see your exact requirement?</p><h3>We probably<br />make it.</h3><Link href="/products">See full catalogue <ArrowUpRight /></Link></article>
+    <section className="catalog-flow" id="products">
+      <div className="catalog-flow-head">
+        <span>/ 03 - PRODUCT CATALOGUE</span>
+        <div>
+          <h2>One catalogue. Every essential connection.</h2>
+          <p>Explore our core range by product form, from seamless pipe and heat exchanger tube to precision flanges, butt weld fittings, flat products, bars and fastening solutions.</p>
+        </div>
       </div>
+      <div className="range-compact-grid">
+        {productCategories.map((category, index) => (
+          <article className="range-compact-card" key={category.id}>
+            <div className="range-card-image"><Image src={category.image} alt={category.title} fill sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 25vw" /></div>
+            <small>0{index + 1} / RANGE</small>
+            <h3>{category.title}</h3>
+            <p>{category.summary}</p>
+            <div>
+              {category.items.slice(0, 4).map((item) => (
+                <Link href={`/${item.slug}`} key={item.slug}>{item.title}</Link>
+              ))}
+            </div>
+            <Link className="category-all" href={`/products#${category.id}`}>Full range <MoveRight /></Link>
+          </article>
+        ))}
+      </div>
+      <Link className="catalog-master-link" href="/products">Open complete category-wise catalogue <ArrowUpRight /></Link>
     </section>
   );
 }
 
 function Industries() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section className="industries-v2" id="industries">
-      <div className="industries-head"><span>/ 04 — WHERE IT WORKS</span><h2>BUILT FOR THE<br />SYSTEMS THAT KEEP<br /><em>INDUSTRY MOVING.</em></h2></div>
-      <div className="industries-grid">
-        {industries.map((item, i) => (
+    <section className="industries-showcase" id="industries">
+      <div className="industries-showcase-header">
+        <div className="industries-showcase-label">
+          <span>/ 03 — INDUSTRIES</span>
+          <span className="industry-system-status"><i /> 06 systems online</span>
+        </div>
+        <div className="industries-showcase-title">
+          <h2>Engineered for <em>critical environments.</em></h2>
+          <div className="industries-showcase-brief">
+            <p>From pressure-intensive process plants to hygienic production lines, NESCO coordinates the metals, forms and documentation each operating environment demands.</p>
+            <div className="industry-brief-stats" aria-label="NESCO industry capabilities">
+              <span><b>06</b> core sectors</span>
+              <span><b>360°</b> supply support</span>
+              <span><b>24/7</b> enquiry response</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="industry-showcase-grid">
+        {industries.map((item, index) => (
           <motion.article
+            className="industry-showcase-card"
             key={item.name}
-            className="industry-card"
-            initial={{ opacity: 0, y: 60, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 70, clipPath: "inset(12% 0 0 0 round 18px)" }}
+            whileInView={{ opacity: 1, y: 0, clipPath: "inset(0 0 0 0 round 18px)" }}
+            whileHover={reduceMotion ? undefined : { y: -12, scale: 1.006 }}
+            viewport={{ once: true, amount: 0.18 }}
+            transition={{ duration: reduceMotion ? 0 : 0.78, delay: reduceMotion ? 0 : index * 0.055, ease: [0.22, 1, 0.36, 1] }}
+            onPointerMove={(event) => {
+              const bounds = event.currentTarget.getBoundingClientRect();
+              event.currentTarget.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
+              event.currentTarget.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+            }}
+            onPointerLeave={(event) => {
+              event.currentTarget.style.setProperty("--spot-x", "50%");
+              event.currentTarget.style.setProperty("--spot-y", "42%");
+            }}
           >
-            <Image className="industry-card-image" src={item.image} alt={`${item.name} stainless steel systems`} fill sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" style={{ objectPosition: item.position }} />
-            <div className="industry-card-shade" aria-hidden="true" />
-            <small>0{i + 1} / SECTOR</small>
-            <h3>{item.name}</h3>
-            <p>{item.text}</p>
-            <span>{item.stat}</span>
+            <Image className="industry-showcase-image" src={item.image} alt={`${item.name} industrial application supplied by NESCO Pipe & Tubes`} fill sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw" />
+            <div className="industry-showcase-shade" aria-hidden="true" />
+            <div className="industry-card-gridlines" aria-hidden="true" />
+            <span className="industry-card-scan" aria-hidden="true" />
+            <div className="industry-card-top">
+              <small>0{index + 1} / SECTOR</small>
+              <span><i /> {item.focus}</span>
+            </div>
+            <div className="industry-card-content">
+              <h3>{item.name}</h3>
+              <p>{item.text}</p>
+              <div className="industry-card-foot"><span><Factory /> NESCO / application supply</span><i /></div>
+            </div>
           </motion.article>
         ))}
       </div>
-      <div className="industries-marquee"><div>{["PRESSURE", "HEAT", "CORROSION", "FLOW", "HYGIENE", "STRENGTH", "PRESSURE", "HEAT"].map((x, i) => <span key={`${x}-${i}`}>{x}<b>✦</b></span>)}</div></div>
     </section>
   );
 }
 
 function Reach() {
   const destinations = ["India", "UAE", "Saudi Arabia", "Qatar", "Bahrain", "Kuwait", "Singapore", "Malaysia", "Canada", "Australia"];
-  const stats = [["15+", "Countries supplied"], ["ISO", "9001:2015 certified"], ["24/7", "Customer support"]];
+  const exportDestinations = destinations.slice(1);
   return (
     <section className="reach-v3" id="reach">
-      <div className="reach-v3-head"><span>/ 05 — GLOBAL REACH</span><div><h2>One Mumbai address.<br /><em>A global supply network.</em></h2><p>Reliable stainless steel supply for industrial buyers, fabricators and project teams across India and international markets.</p></div></div>
+      <div className="reach-v3-head"><span>/ 04 - GLOBAL REACH</span><div><h2>India at the centre. Supply routes in motion.</h2><p>From Mumbai, NESCO coordinates stainless steel and alloy supply for industrial buyers, fabricators, maintenance teams and project contractors across key international markets.</p></div></div>
       <div className="reach-v3-grid">
-        <motion.div className="network-map" initial={{ opacity: 0, scale: .92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: .25 }} transition={{ duration: 1 }}>
-          <div className="network-globe"><i /><i /><i /><i /><span className="route r1"/><span className="route r2"/><span className="route r3"/><b><MapPin />Mumbai<small>Supply hub</small></b>{[1,2,3,4,5,6].map((item) => <span className={`network-pin p${item}`} key={item}/>)}</div>
-          <div className="map-caption"><Globe2 /><span>Manufactured and coordinated from Mumbai</span><small>INDIA / 18.96° N, 72.82° E</small></div>
+        <motion.div className="network-map" initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+          <div className="supply-network">
+            <i className="supply-orbit orbit-outer" /><i className="supply-orbit orbit-middle" /><i className="supply-orbit orbit-inner" />
+            <span className="flight-path flight-one"><Plane /></span><span className="flight-path flight-two"><Plane /></span><span className="flight-path flight-three"><Plane /></span>
+            <span className="supply-signal signal-one" /><span className="supply-signal signal-two" /><span className="supply-signal signal-three" /><span className="supply-signal signal-four" />
+            <div className="india-core"><Globe2 /><strong>INDIA</strong><small>Mumbai supply hub</small></div>
+            {exportDestinations.map((destination, index) => <span className={`country-node country-${index + 1}`} key={destination}><i /><b>{destination}</b></span>)}
+          </div>
+          <div className="network-flight-legend"><span><Plane /> Active export routes</span><span><i /> Supply destination</span></div>
+          <div className="map-caption"><Globe2 /><span>Stocked, documented and coordinated from India</span><small>GLOBAL EXPORT</small></div>
         </motion.div>
         <div className="network-copy">
-          <small>Active supply destinations</small>
-          <div className="destination-list">{destinations.map((destination, index) => <motion.span key={destination} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * .04 }}>{String(index + 1).padStart(2,"0")} {destination}</motion.span>)}</div>
-          <div className="network-stats">{stats.map(([number,label]) => <div key={label}><b>{number}</b><span>{label}</span></div>)}</div>
-          <Link href="/products#markets">View every supply location <ArrowUpRight /></Link>
+          <small>Supply destinations</small>
+          <div className="destination-list">{destinations.map((destination, index) => <span key={destination}>{String(index + 1).padStart(2, "0")} {destination}</span>)}</div>
+          <div className="network-stats"><div><b>15+</b><span>Countries served</span></div><div><b>243+</b><span>Happy clients</span></div><div><b>24/7</b><span>Support</span></div></div>
+          <Link href="/contact">Start an export enquiry <ArrowUpRight /></Link>
         </div>
       </div>
     </section>
@@ -202,33 +331,42 @@ function Reach() {
 
 function Contact() {
   function submit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault(); const data = new FormData(e.currentTarget);
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     location.href = `mailto:sales@shreeimpexalloys.com?subject=${encodeURIComponent(`Quote: ${data.get("product")}`)}&body=${encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nRequirement: ${data.get("message")}`)}`;
   }
   return (
     <section className="contact-v3" id="contact">
-      <div className="contact-v3-intro">
-        <span>/ 06 — START A CONVERSATION</span>
-        <h2>Bring us the specification.<br /><em>We’ll shape the supply.</em></h2>
-        <p>Share the grade, dimensions, quantity and delivery destination. Our team will respond with the right product route.</p>
+      <div className="quote-atmosphere" aria-hidden="true"><i /><i /><i /></div>
+      <motion.div className="contact-v3-intro" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.65 }}>
+        <span className="quote-eyebrow"><i /> 05 / REQUEST A QUOTE</span>
+        <h2>Your requirement, <em>engineered into supply.</em></h2>
+        <p>Give our team the essentials and we will prepare a clear, specification-led quotation for your piping or metal requirement.</p>
+        <div className="quote-essentials" aria-label="Details to include in your request">
+          <div><b>01</b><span>Product form<small>Pipe, tube, flange or fitting</small></span></div>
+          <div><b>02</b><span>Material grade<small>Alloy, standard and specification</small></span></div>
+          <div><b>03</b><span>Dimensions<small>Size, schedule, class or thickness</small></span></div>
+          <div><b>04</b><span>Order details<small>Quantity and delivery destination</small></span></div>
+        </div>
         <div className="contact-channels">
           <a href="tel:+919167963226"><Phone /><span>Call our team<small>+91 91679 63226</small></span><ArrowUpRight /></a>
           <a href="mailto:sales@shreeimpexalloys.com"><Mail /><span>Email sales<small>sales@shreeimpexalloys.com</small></span><ArrowUpRight /></a>
           <Link href="/contact"><MapPin /><span>Mumbai office<small>6th Kumbharwada, Mumbai 400004</small></span><ArrowUpRight /></Link>
         </div>
-      </div>
-      <motion.form className="contact-form-v3" onSubmit={submit} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .8 }}>
-        <div className="form-head"><Factory /><div><small>Project inquiry</small><h3>Tell us what you need.</h3></div><FileCheck2 /></div>
-        <label><span>Your name</span><input name="name" placeholder="Full name" required /></label>
-        <label><span>Work email</span><input name="email" type="email" placeholder="name@company.com" required /></label>
-        <label className="wide"><span>Product or grade</span><input name="product" placeholder="e.g. 316L seamless pipe" required /></label>
-        <label className="wide"><span>Requirement</span><textarea name="message" placeholder="Size, schedule, quantity and delivery destination" required /></label>
-        <button>Send inquiry <ArrowUpRight /></button><p>By submitting, you open an email draft with your enquiry details.</p>
+      </motion.div>
+      <motion.form className="contact-form-v3" onSubmit={submit} initial={{ opacity: 0, y: 36 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.65 }}>
+        <div className="form-head"><span className="form-head-icon"><Factory /></span><div><small>Direct sales enquiry</small><h3>Build your quotation brief.</h3></div><FileCheck2 /></div>
+        <div className="quote-form-steps" aria-hidden="true"><span className="active">Contact</span><i /><span>Specification</span><i /><span>Send</span></div>
+        <label><span>Your name <b>*</b></span><input name="name" placeholder="Full name" autoComplete="name" required /></label>
+        <label><span>Work email <b>*</b></span><input name="email" type="email" placeholder="name@company.com" autoComplete="email" required /></label>
+        <label className="wide"><span>Product or material grade <b>*</b></span><input name="product" placeholder="e.g. Duplex 2205 seamless pipes" required /></label>
+        <label className="wide"><span>Requirement details <b>*</b></span><textarea name="message" placeholder="Add size, schedule or class, quantity, applicable standard and delivery destination" required /></label>
+        <button><span>Prepare email enquiry</span><ArrowUpRight /></button><p><CheckCircle2 /> Your details stay in your email client. Submitting opens a ready-to-send draft.</p>
       </motion.form>
     </section>
   );
 }
 
 export default function Home() {
-  return <main><SmoothScroll/><Loader/><ScrollProgress/><SiteHeader home /><ScrollSequenceHero/><Manifesto/><PortalStory/><Products/><Industries/><Reach/><Contact/><SiteFooter /></main>;
+  return <main><SmoothScroll /><Loader /><ScrollProgress /><SiteHeader home /><ScrollSequenceHero /><Standard /><AssuranceOrbit /><Products /><Industries /><Reach /><Contact /><SiteFooter /></main>;
 }
