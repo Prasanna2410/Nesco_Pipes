@@ -8,8 +8,11 @@ const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
 const manrope = Manrope({ variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NESCO Pipe & Tubes | Precision Stainless Steel",
-  description: "Premium NESCO Pipe & Tubes website with animated stainless steel product stories, quality systems and full product coverage.",
+  title: "NESCO Pipe & Tubes | Stainless Steel & Alloy Products",
+  description: "NESCO Pipe & Tubes supplies pipes, tubes, sheets, plates, coils, bars, flanges, fittings, fasteners, instrumentation fittings and valves from Mumbai.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
