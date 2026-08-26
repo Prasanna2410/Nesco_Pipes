@@ -850,7 +850,7 @@ export function getProductDetailContent(category: string, title: string): Produc
         ...pipeDetails,
         ...pipeSharedContent,
         ...pipeDetail,
-        manufacturingStandards: pipeSharedContent.standardGroups.flatMap((group) => group.rows.map(([standard, scope]) => [standard, scope, group.title] as const)),
+        manufacturingStandards: pipeDetail.standardGroups.flatMap((group) => group.rows.map(([standard, scope]) => [standard, scope, group.title] as const)),
       };
     }
     return pipeDetails;

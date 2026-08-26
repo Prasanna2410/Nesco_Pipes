@@ -15,6 +15,28 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+function getPipeApplicationImage(application: string) {
+  const label = application.toLowerCase();
+
+  if (label.includes("oil") || label.includes("gas") || label.includes("petrochemical") || label.includes("refiner")) {
+    return "/assets/industry-backgrounds/01-oil-and-gas.png";
+  }
+  if (label.includes("power") || label.includes("boiler") || label.includes("steam")) {
+    return "/assets/industry-backgrounds/02-power-plants.png";
+  }
+  if (label.includes("chemical") || label.includes("fertilizer")) {
+    return "/assets/industry-backgrounds/03-chemical.png";
+  }
+  if (label.includes("food") || label.includes("pharma")) {
+    return "/assets/industry-backgrounds/04-food-and-pharma.png";
+  }
+  if (label.includes("marine") || label.includes("offshore") || label.includes("water") || label.includes("desalination")) {
+    return "/assets/industry-backgrounds/05-marine.png";
+  }
+
+  return "/assets/industry-backgrounds/06-infrastructure.png";
+}
+
 export function generateStaticParams() {
   return [
     ...Object.keys(companyPages).map((slug) => ({ slug })),
@@ -357,7 +379,7 @@ export default async function CatalogPage({ params }: Props) {
 
           <section className="product-applications-v2" id="applications">
             <div className="applications-v2-head"><small>/ 08 — APPLICATIONS & INDUSTRIES</small><h2>Engineered for demanding service environments.</h2><p>From process plants to marine systems, NESCO coordinates material, dimensions and documentation around the operating conditions of each application.</p></div>
-            <div className="applications-v2-grid">{product.applications.map((item, index) => <article key={item}><div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>)}</div>
+            <div className="applications-v2-grid">{product.applications.map((item, index) => <article className={product.category === "Pipes" ? "has-application-image" : undefined} key={item}>{product.category === "Pipes" ? <Image className="application-card-image" src={getPipeApplicationImage(item)} alt={`${item} pipe application`} fill sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw" /> : null}<div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>)}</div>
             <div className="industry-service-band"><div className="industry-band-copy"><small>Industries served</small><strong>One supply partner across critical sectors.</strong></div><div className="industry-chip-list" aria-label="Industries served" role="list">{product.industries.map((industry) => <span role="listitem" key={industry}>{industry}</span>)}</div></div>
           </section>
 
