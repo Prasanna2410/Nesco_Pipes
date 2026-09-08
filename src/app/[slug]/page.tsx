@@ -15,7 +15,9 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-function getPipeApplicationImage(application: string) {
+const categoriesWithApplicationImages = new Set(["Pipes", "Tubes", "Sheets, Plates & Coils", "Bars", "Flanges", "Butt Weld Fittings", "Fasteners"]);
+
+function getApplicationImage(application: string) {
   const label = application.toLowerCase();
 
   if (label.includes("oil") || label.includes("gas") || label.includes("petrochemical") || label.includes("refiner")) {
@@ -27,7 +29,7 @@ function getPipeApplicationImage(application: string) {
   if (label.includes("chemical") || label.includes("fertilizer")) {
     return "/assets/industry-backgrounds/03-chemical.png";
   }
-  if (label.includes("food") || label.includes("pharma")) {
+  if (label.includes("food") || label.includes("pharma") || label.includes("dairy") || label.includes("biotech")) {
     return "/assets/industry-backgrounds/04-food-and-pharma.png";
   }
   if (label.includes("marine") || label.includes("offshore") || label.includes("water") || label.includes("desalination")) {
@@ -151,6 +153,8 @@ export default async function CatalogPage({ params }: Props) {
       ? "NESCO supplies the material and bolting families shown below, subject to fastener type, grade, dimensions, thread, condition, finish and availability."
       : product?.category === "Flanges"
         ? "NESCO supplies the material families shown below in flange form, subject to flange type, grade, size, pressure class, facing, bore and availability."
+        : product?.category === "Tubes"
+          ? "Availability of specific grades is subject to the applicable product standard, dimensions, manufacturing route and project requirements."
         : product?.category === "Bars"
           ? "NESCO supplies the material families shown below in bar form, subject to the exact grade, profile, size, condition, standard and availability."
           : "Commonly requested families are shown below. Availability is confirmed against the complete specification.";
@@ -379,7 +383,10 @@ export default async function CatalogPage({ params }: Props) {
 
           <section className="product-applications-v2" id="applications">
             <div className="applications-v2-head"><small>/ 08 — APPLICATIONS & INDUSTRIES</small><h2>Engineered for demanding service environments.</h2><p>From process plants to marine systems, NESCO coordinates material, dimensions and documentation around the operating conditions of each application.</p></div>
-            <div className="applications-v2-grid">{product.applications.map((item, index) => <article className={product.category === "Pipes" ? "has-application-image" : undefined} key={item}>{product.category === "Pipes" ? <Image className="application-card-image" src={getPipeApplicationImage(item)} alt={`${item} pipe application`} fill sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw" /> : null}<div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>)}</div>
+            <div className="applications-v2-grid">{product.applications.map((item, index) => {
+              const showApplicationImage = categoriesWithApplicationImages.has(product.category);
+              return <article className={showApplicationImage ? "has-application-image" : undefined} key={item}>{showApplicationImage ? <Image className="application-card-image" src={getApplicationImage(item)} alt={`${item} application`} fill sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw" /> : null}<div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>;
+            })}</div>
             <div className="industry-service-band"><div className="industry-band-copy"><small>Industries served</small><strong>One supply partner across critical sectors.</strong></div><div className="industry-chip-list" aria-label="Industries served" role="list">{product.industries.map((industry) => <span role="listitem" key={industry}>{industry}</span>)}</div></div>
           </section>
 

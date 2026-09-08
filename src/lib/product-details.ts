@@ -53,6 +53,32 @@ const stainlessMechanical = [
   ["TP347", "515", "205", "35"],
 ] as const;
 
+const tubeMaterialGroups = [
+  ["Stainless Steel", "304, 304L, 316, 316L, 310S, 317L, 321, 347, 347H and 904L"],
+  ["Duplex Stainless Steel", "UNS S31803 and UNS S32205 (2205)"],
+  ["Super Duplex Stainless Steel", "UNS S32750 (2507) and UNS S32760"],
+  ["Nickel Alloys", "Alloy 20, Alloy 28, Alloy 200, Alloy 201, Monel 400, Inconel 600, Inconel 601, Inconel 625, Inconel 718, Incoloy 800, Incoloy 800H, Incoloy 800HT, Incoloy 825, Hastelloy C276 and Hastelloy C22"],
+  ["Titanium", "Grade 2 and Grade 5"],
+  ["Copper-Nickel", "Cu-Ni 90/10 (UNS C70600) and Cu-Ni 70/30 (UNS C71500)"],
+] as const;
+
+const tubeSurfaceFinishGuide = [
+  ["Annealed & Pickled (AP)", "Heat treated and acid cleaned to remove scale and surface oxides; a common surface condition for general process tubing."],
+  ["Bright Annealed (BA)", "Annealed in a controlled atmosphere to minimise oxidation and produce a smooth, bright surface suitable for applications requiring enhanced surface quality and cleanliness."],
+  ["Polished", "Mechanically finished to an agreed grit or surface roughness where improved appearance, cleanability or surface finish is required."],
+  ["Mill Finish", "As-produced surface condition without additional mechanical polishing; supplied where permitted by the applicable product specification and suitable for the intended application."],
+] as const;
+
+const tubeComparisonHeaders = ["Feature", "Seamless", "Welded"] as const;
+const tubeComparisonRows = [
+  ["Manufacturing route", "Produced from solid feedstock by piercing or extrusion, followed by cold working where required", "Formed from strip or coil and longitudinally welded"],
+  ["Longitudinal weld", "No longitudinal weld seam", "Longitudinal weld present and examined as required by the applicable product standard"],
+  ["Typical selection", "Often considered for pressure, temperature and demanding mechanical service, subject to the applicable specification", "Commonly specified for heat-transfer, process, hygienic, structural and mechanical applications, subject to the applicable specification"],
+  ["Dimensional / surface control", "Cold finishing can provide close OD, wall-thickness and surface control", "Controlled forming and finishing can provide consistent OD and surface characteristics"],
+  ["Commercial basis", "May have a higher cost depending on grade, size, manufacturing route and requirements", "May offer a more economical option depending on grade, size, testing, welding requirements and finish"],
+  ["Design rating", "Governed by the applicable code, material standard, dimensions and service conditions", "Governed by the applicable code, material standard, dimensions, weld quality and service conditions"],
+] as const;
+
 const pipeDetails: ProductDetailContent = {
   manufacturing: [
     "A solid billet is identified by heat and prepared for piercing.",
@@ -113,6 +139,7 @@ const pipeDetails: ProductDetailContent = {
 
 const tubeDetails: ProductDetailContent = {
   ...pipeDetails,
+  materialGroups: tubeMaterialGroups,
   overviewContent: [
     "Stainless steel tubes are manufactured for close dimensional tolerances, controlled surface finish and demanding service conditions. Depending on the application, tubes may be supplied in seamless or welded construction with annealed and pickled (AP), bright annealed (BA), polished or project-specific finishes.",
     "Tubes are specified by actual outside diameter and wall thickness and are widely used where precision, cleanliness, corrosion resistance, heat transfer or reliable small-bore routing is critical.",
@@ -163,16 +190,11 @@ const tubeDetails: ProductDetailContent = {
     ["Welded Tubes", "Produced from formed strip or coil with a controlled longitudinal weld, supporting dimensional consistency and commercial efficiency."],
     ["Heat Exchanger Tubes", "Designed for heat transfer in condensers, shell-and-tube exchangers, coolers, evaporators and process equipment."],
     ["Boiler Tubes", "Specified for elevated-temperature and pressure service in boilers, superheaters, reheaters and steam-generating equipment."],
-    ["Instrumentation Tubes", "Precision tubing with controlled OD, wall, hardness and surface for instrumentation, hydraulic and pneumatic systems."],
+    ["Instrumentation Tubes", "Precision tubing with controlled outside diameter, wall thickness, hardness and surface condition for instrumentation, hydraulic and pneumatic systems."],
     ["Hydraulic Tubes", "Precision tubing for high-pressure hydraulic-fluid transfer, subject to the approved material, dimensional and system specification."],
     ["Bright Annealed Tubes", "Tubes heat treated in a controlled atmosphere to provide a smooth, clean and bright finish for hygienic and high-cleanliness duties."],
   ],
-  surfaceFinishGuide: [
-    ["Annealed & Pickled (AP)", "Heat treated and acid cleaned; a common finish for general process tubing."],
-    ["Bright Annealed (BA)", "Controlled-atmosphere annealing produces a smooth, bright and oxide-free surface for precision or hygienic duty."],
-    ["Polished", "Mechanically finished to an agreed grit or roughness where appearance, cleanability or surface control is important."],
-    ["Mill Finish", "As-produced surface without additional pickling or polishing, used only where permitted by the product specification and application."],
-  ],
+  surfaceFinishGuide: tubeSurfaceFinishGuide,
   selectionGuide: [
     ["Heat exchanger", "ASTM A213 seamless or ASTM A249 welded, as required by the equipment specification"],
     ["Boiler / superheater", "ASTM A213 seamless or ASTM A249 welded, subject to the grade and design specification"],
@@ -181,15 +203,8 @@ const tubeDetails: ProductDetailContent = {
     ["Hydraulic", "Precision hydraulic-tube or project-specific specification matched to pressure, fluid and fitting system"],
     ["Mechanical / decorative", "ASTM A554 with the required shape, finish and dimensional tolerances"],
   ],
-  comparisonHeaders: ["Feature", "Seamless", "Welded"],
-  comparisonRows: [
-    ["Manufacturing route", "Pierced or extruded from solid feedstock", "Formed from strip or coil and longitudinally welded"],
-    ["Longitudinal weld", "None", "Present and examined as required by the ordered standard"],
-    ["Typical selection", "Frequently specified for critical pressure, thermal or mechanical duty", "Widely used for heat-transfer, process, hygienic, structural and mechanical duty"],
-    ["Dimensional / surface control", "Cold finishing can provide close OD, wall and surface control", "Continuous forming can provide consistent OD and surface finish"],
-    ["Commercial basis", "Often higher cost; depends on grade, size and route", "Often more economical; depends on grade, size, testing and finish"],
-    ["Design rating", "Governed by the applicable code, material standard, dimensions and service conditions", "Governed by the applicable code, material standard, dimensions, weld quality and service conditions"],
-  ],
+  comparisonHeaders: tubeComparisonHeaders,
+  comparisonRows: tubeComparisonRows,
   packaging: [
     "Heat-wise bundles with durable material and purchase-order identification",
     "Plain or prepared ends protected with plastic end caps where applicable",
@@ -245,6 +260,15 @@ const professionalWhyNesco = [
   ["Export-ready packing", "Identification, surface protection and packing are planned around product geometry and the final transport route."],
   ["Responsive RFQ review", "Technical and commercial inputs are consolidated early so queries are resolved before quotation and production."],
   ["One accountable supply desk", "NESCO provides a single contact for material, processing, documentation, packing and delivery coordination."],
+] as const;
+
+const corrosionResistantMaterialGroups = [
+  ["Stainless Steel", "304, 304L, 316, 316L, 310S, 317L, 321, 347, 347H and 904L"],
+  ["Duplex Stainless Steel", "UNS S31803 and UNS S32205 (2205)"],
+  ["Super Duplex Stainless Steel", "UNS S32750 (2507) and UNS S32760"],
+  ["Nickel Alloys", "Alloy 20, Alloy 28, Alloy 200, Alloy 201, Monel 400, Inconel 600, Inconel 601, Inconel 625, Inconel 718, Incoloy 800, Incoloy 800H, Incoloy 800HT, Incoloy 825, Hastelloy C276 and Hastelloy C22"],
+  ["Titanium", "Grade 2, Grade 5 and other applicable grades"],
+  ["Cupro Nickel", "Cu-Ni 90/10 (C70600) and Cu-Ni 70/30 (C71500)"],
 ] as const;
 
 const fastenerWhyNesco = [
@@ -490,94 +514,125 @@ const subtypeFaqs: Record<string, ReadonlyArray<readonly [string, string]>> = {
 
 const tubePageEnhancements: Record<string, Partial<ProductDetailContent>> = {
   "Seamless Tubes": {
+    displayTitle: "Stainless Steel & High Nickel Alloy Seamless Tubes",
     overviewContent: [
       "Seamless tubing offers a continuous wall and is selected for pressure, heat-transfer, mechanical and specification-defined critical service. It may be cold drawn or pilgered to achieve closer dimensional control and surface quality.",
       ...(tubeDetails.overviewContent ?? []),
     ],
     productSpecifications: [
-      ["Product standard", "ASTM A213 / A269 as applicable; OD, wall and tolerances to the ordered tube standard or approved project drawing"],
+      ["Product standard", "ASTM A213 / A269 as applicable; OD, wall thickness and tolerances as per the applicable tube standard or approved project drawing"],
       ["Manufacturing type", "Seamless — pierced or extruded, then cold drawn or pilgered where required"],
-      ["Typical NESCO enquiry range", "1/8 in. OD to 4 in. OD; other dimensions reviewed against grade and standard"],
-      ["Wall thickness", "Nominal or minimum wall, explicitly stated on the purchase order"],
-      ["Length", "Straight, fixed cut length or U-bend where applicable"],
-      ["Ends", "Square cut and deburred; capped or specially prepared on request"],
-      ["Surface finish", "Annealed and pickled; bright annealed or polished when specified and available"],
-      ["Marking", "Standard mill marking or agreed customer-specific identification"],
+      ["Typical NESCO enquiry range", "1/8 in. OD to 4 in. OD; other dimensions reviewed based on grade, standard and manufacturing feasibility"],
+      ["Wall thickness", "Nominal or minimum wall thickness, as specified in the applicable standard and purchase order"],
+      ["Length", "Straight lengths, fixed cut lengths or U-bend configurations where applicable"],
+      ["Ends", "Square cut and deburred; capped or specially prepared ends available where specified"],
+      ["Surface finish", "Annealed and pickled; bright annealed or polished finish where specified and available"],
+      ["Marking", "Standard mill marking"],
       ["Packaging", "Sleeved or bundled, end protected, boxed or export packed as required"],
     ],
+    standardGroups: [
+      { title: "Stainless and duplex tube standards", rows: [["ASTM A213/A213M", "Seamless ferritic and austenitic alloy-steel boiler, superheater and heat-exchanger tubes"], ["ASTM A269/A269M", "Seamless and welded austenitic stainless steel tubing for general service"], ["ASTM A789/A789M", "Seamless and welded ferritic/austenitic stainless steel tubing for general service"], ["ASTM A270/A270M", "Seamless and welded stainless steel sanitary tubing for hygienic service"]] },
+      { title: "Nickel-alloy tube standards", rows: [["ASTM B163", "Seamless nickel and nickel-alloy condenser and heat-exchanger tubes"], ["ASTM B407", "Nickel-iron-chromium alloy seamless pipe and tube"], ["ASTM B444", "Nickel-chromium-molybdenum-niobium and related alloy seamless pipe and tube"], ["ASTM B622", "Seamless nickel and nickel-cobalt alloy pipe and tube"]] },
+    ],
+    selectionGuide: [["Heat exchanger", "ASTM A213 for seamless tubes, as required by the equipment specification"], ["Boiler / superheater", "ASTM A213 for seamless tubes, subject to the applicable grade and design specification"], ["Instrumentation / general service", "ASTM A269/A269M or the approved project tubing specification"], ["Sanitary / hygienic", "ASTM A270/A270M for seamless sanitary tubing, with the required internal and external surface finish"], ["Hydraulic", "Applicable precision hydraulic-tube or project-specific specification matched to pressure, fluid and fitting requirements"], ["Nickel-alloy heat exchanger / process service", "Applicable ASTM B-series specification based on the nickel-alloy grade, product form and service requirements"]],
   },
   "Welded Tubes": {
+    keyFeatures: ["Versatile welded construction", "Consistent OD, wall thickness and surface finish", "Weld-bead treatment where required and permitted", "Eddy-current, hydrostatic or other applicable testing as required"],
+    specificationReferences: ["ASTM A269/A269M for general-service austenitic stainless steel tubing", "ASTM A249/A249M for welded austenitic stainless steel boiler, superheater, heat-exchanger and condenser tubes", "ASTM A789/A789M for welded ferritic/austenitic stainless steel tubing, including duplex grades where applicable", "Applicable material-specific standards"],
     overviewContent: [
       "Welded tubing provides a versatile and economical format for heat-transfer, process, structural and hygienic duties. Weld condition, bead treatment, heat treatment and inspection should be selected for the intended application.",
       ...(tubeDetails.overviewContent ?? []),
     ],
     productSpecifications: [
       ["Product standard", "ASTM A249 / A269 as applicable; dimensional tolerances to the ordered standard or approved project drawing"],
-      ["Manufacturing type", "Strip or coil formed and longitudinally welded under a controlled procedure"],
-      ["Typical NESCO enquiry range", "1/4 in. OD to 6 in. OD; larger or alternative dimensions reviewed against grade and standard"],
-      ["Wall thickness", "As specified; weld bead worked or removed where required and permitted"],
+      ["Manufacturing type", "Strip or coil formed and longitudinally welded under a controlled welding procedure"],
+      ["Typical NESCO enquiry range", "1/4 in. OD to 6 in. OD; larger or alternative dimensions reviewed based on grade, standard and manufacturing feasibility"],
+      ["Wall thickness", "As specified; weld bead worked or removed where required and permitted by the applicable specification"],
       ["Length", "Straight or fixed cut length"],
-      ["Ends", "Square cut and deburred; capped or specially prepared on request"],
-      ["Surface finish", "Pickled and passivated, bright annealed or polished as specified"],
-      ["Marking", "Standard mill marking or agreed customer-specific identification"],
+      ["Ends", "Square cut and deburred; capped or specially prepared where specified"],
+      ["Surface finish", "Pickled and passivated, bright annealed or polished, as specified"],
+      ["Marking", "Standard mill marking"],
       ["Packaging", "Sleeved or bundled, end protected, boxed or export packed as required"],
     ],
+    standardGroups: [
+      { title: "Stainless and duplex tube standards", rows: [["ASTM A249/A249M", "Welded austenitic stainless steel boiler, superheater, heat-exchanger and condenser tubes"], ["ASTM A269/A269M", "Seamless and welded austenitic stainless steel tubing for general service"], ["ASTM A789/A789M", "Seamless and welded ferritic/austenitic stainless steel tubing for general service"], ["ASTM A270/A270M", "Seamless and welded stainless steel sanitary tubing for hygienic service"], ["ASTM A554", "Welded stainless steel mechanical tubing for ornamental, structural, exhaust and other mechanical applications"], ["EN 10217-7", "Welded stainless steel tubes for pressure purposes"]] },
+      { title: "Nickel-alloy tube standards", rows: [["ASTM B468/B468M", "Welded nickel-iron-chromium-molybdenum-copper alloy pipe, including Alloy 20-type materials"], ["ASTM B514", "Welded nickel-iron-chromium alloy tube"], ["ASTM B516", "Welded nickel-chromium-iron alloy tube, including UNS N06600"], ["ASTM B619/B619M", "Welded Hastelloy C276 and C22 tube"], ["ASTM B704", "Welded nickel alloys UNS N06625 and UNS N08825"], ["ASTM B730", "Welded nickel tube 200/201 and Monel-type materials"]] },
+    ],
+    selectionGuide: [["Heat exchanger", "ASTM A249/A249M for welded tubes, as required by the equipment specification"], ["Boiler / superheater", "ASTM A249/A249M for welded tubes, subject to the applicable grade and design specification"], ["Instrumentation / general service", "ASTM A269/A269M or the approved project tubing specification"], ["Sanitary / hygienic", "ASTM A270/A270M with the required internal and external surface finish"], ["Hydraulic", "Applicable precision hydraulic-tube or project-specific specification matched to pressure, fluid and fitting requirements"], ["Mechanical / decorative", "ASTM A554 for welded stainless steel mechanical tubing, with the required shape, finish and dimensional tolerances"]],
   },
   "Heat Exchanger Tubes": {
+    keyFeatures: ["Straight or U-bend configurations", "Controlled OD, wall thickness and ovality", "Cleanliness and surface condition suited to heat-transfer service", "Eddy-current, hydrostatic or other specified inspection and testing options"],
+    specificationReferences: ["ASTM A213/A213M for seamless stainless and alloy-steel heat-exchanger tubes", "ASTM A249/A249M for welded austenitic stainless-steel heat-exchanger tubes", "ASTM A789/A789M for duplex and ferritic/austenitic stainless-steel tubing, where applicable", "Applicable ASTM B-series standards for nickel and copper-nickel alloys", "Project-specific U-bend, dimensional, heat-treatment and testing requirements"],
     overviewContent: [
       "Heat exchanger tubes transfer heat between fluids in shell-and-tube condensers, coolers, evaporators and process exchangers. Material selection should consider fluid chemistry, chloride exposure, velocity, temperature, fouling and cleaning method.",
       ...(tubeDetails.overviewContent ?? []),
     ],
     productSpecifications: [
-      ["Product standard", "ASTM A213 / A249 for stainless, ASTM A789 for duplex, or the applicable material-specific standard"],
-      ["Manufacturing type", "Seamless or welded, commonly cold finished for controlled OD, wall, ovality and surface"],
+      ["Product standard", "ASTM A213/A213M or ASTM A249/A249M for applicable stainless-steel tubes; ASTM A789/A789M for applicable duplex/ferritic-austenitic stainless tubing; or the applicable material-specific standard"],
+      ["Manufacturing type", "Seamless or welded, with cold finishing where required for controlled OD, wall thickness, ovality and surface condition"],
       ["Typical NESCO enquiry range", "3/8 in. OD to 2 in. OD; project-specific dimensions reviewed on enquiry"],
-      ["Wall thickness", "Specified in mm or BWG and coordinated with the tube-sheet and exchanger design"],
-      ["Length", "Straight cut length or U-bend to approved radius and developed geometry"],
+      ["Wall thickness", "Specified in mm or BWG, as applicable, and coordinated with the tube-sheet and exchanger design"],
+      ["Length", "Straight cut length or U-bend to the approved bend radius and developed geometry"],
       ["Ends", "Square cut and deburred; capped where cleanliness protection is required"],
-      ["Surface finish", "Annealed and pickled or bright annealed, according to the material and cleanliness requirement"],
-      ["Marking", "Standard mill marking or agreed customer-specific identification"],
+      ["Surface finish", "Annealed and pickled or bright annealed, according to the material, applicable standard and cleanliness requirements"],
+      ["Marking", "Standard mill marking"],
       ["Packaging", "Capped and boxed with cleanliness and export protection as required"],
     ],
+    standardGroups: [
+      { title: "Stainless and duplex tube standards", rows: [["ASTM A213/A213M", "Seamless ferritic and austenitic alloy-steel boiler, superheater and heat-exchanger tubes"], ["ASTM A249/A249M", "Welded austenitic stainless-steel boiler, superheater, heat-exchanger and condenser tubes"], ["ASTM A789/A789M", "Seamless and welded ferritic/austenitic stainless-steel tubing for general service"], ["EN 10216-5", "Seamless stainless-steel tubes for pressure purposes"], ["EN 10217-7", "Welded stainless-steel tubes for pressure purposes"]] },
+      { title: "Nickel-alloy tube standards", rows: [["ASTM B163", "Seamless nickel and nickel-alloy condenser and heat-exchanger tubes"], ["ASTM B407", "Nickel-iron-chromium alloy seamless tube"], ["ASTM B444", "Nickel-chromium-molybdenum-niobium and related alloy seamless tube"], ["ASTM B622", "Seamless nickel and nickel-cobalt alloy tube"]] },
+    ],
+    selectionGuide: [["Shell-and-tube heat exchanger", "ASTM A213/A213M for seamless tubes or ASTM A249/A249M for welded tubes, as required by the equipment specification"], ["Condenser / cooler", "Applicable stainless-steel or nickel-alloy tube standard selected according to fluid chemistry, temperature and corrosion requirements"], ["Boiler / superheater", "ASTM A213/A213M for applicable seamless alloy-steel tubes, subject to the grade and design specification"], ["Duplex / super duplex service", "ASTM A789/A789M or applicable project/material specification, based on grade and service conditions"], ["Nickel-alloy heat-transfer service", "Applicable ASTM B-series specification based on the alloy grade, tube form and service requirements"], ["U-bend heat exchanger", "Applicable tube standard with specified bend radius, developed length, dimensional requirements and heat-treatment requirements"]],
   },
   "Boiler Tubes": {
+    keyFeatures: ["Designed for elevated-temperature and pressure service", "Seamless or welded routes depending on the applicable specification", "Cut lengths and end preparation for fabrication and installation", "Mechanical, flattening, flaring and NDT requirements as specified by the applicable standard"],
+    specificationReferences: ["ASTM A213/A213M for seamless ferritic and austenitic alloy-steel boiler, superheater and heat-exchanger tubes", "ASTM A249/A249M for welded austenitic stainless-steel boiler, superheater and heat-exchanger tubes", "ASME Section II material requirements where contractually or project-specifically required", "Project- or OEM-specific supplementary requirements"],
     overviewContent: [
       "Boiler tubes are used in water walls, economisers, superheaters, reheaters and steam-generating equipment. They require careful control of material condition, dimensions, heat treatment and test documentation.",
       ...(tubeDetails.overviewContent ?? []),
     ],
     productSpecifications: [
-      ["Product standard", "ASTM A213 seamless or ASTM A249 welded; ASME Section II requirements where contractually specified"],
+      ["Product standard", "ASTM A213/A213M for applicable seamless tubes or ASTM A249/A249M for applicable welded tubes; ASME Section II requirements where contractually specified"],
       ["Manufacturing type", "Seamless or welded with hot working, cold finishing and heat treatment as required by the ordered standard"],
       ["Typical NESCO enquiry range", "1/2 in. OD to 4 in. OD; other dimensions reviewed against the grade and equipment specification"],
       ["Wall thickness", "Nominal or minimum wall, explicitly stated on the purchase order"],
       ["Length", "Fixed cut length coordinated with the fabrication or boiler drawing"],
       ["Ends", "Square cut and deburred; prepared for expansion or welding where specified"],
       ["Surface finish", "Annealed and pickled or the condition required by the ordered material standard"],
-      ["Marking", "Standard mill marking or agreed customer-specific identification"],
+      ["Marking", "Standard mill marking"],
       ["Packaging", "Bundled, end protected, boxed or export packed as required"],
     ],
+    selectionGuide: [["Boiler / steam generation", "ASTM A213/A213M for applicable seamless alloy-steel tubes, subject to the grade and design specification"], ["Superheater / reheater", "ASTM A213/A213M for applicable seamless ferritic or austenitic alloy-steel tubes, subject to the applicable grade and design requirements"], ["Heat-transfer service", "Applicable boiler or heat-exchanger tube standard selected according to material grade, temperature, pressure and service conditions"], ["Duplex / super duplex service", "ASTM A789/A789M or applicable project/material specification, where permitted"], ["Welded boiler tubes", "ASTM A249/A249M for applicable welded austenitic stainless-steel tubes"], ["Special-alloy service", "Applicable ASTM B-series or other material-specific specification based on the alloy grade and service requirements"]],
   },
   "Instrumentation Tubes": {
+    keyFeatures: ["Precision outside diameter and wall-thickness control", "Bright annealed or solution-annealed finishes where required", "Straight lengths or coils", "High-cleanliness, capped ends and protective packing options"],
+    specificationReferences: ["ASTM A269/A269M and applicable material-specific standards", "Seamless or welded, with cold-drawn or cold-worked condition as specified", "Hardness, surface finish and dimensional requirements matched to the applicable tubing and fitting specification", "Hydrostatic, pneumatic or another leak test as specified or agreed"],
     overviewContent: [
       "Instrumentation tubing is used for impulse lines, analyser systems, hydraulic and pneumatic control, sampling, dosing and small-bore process connections. Reliable sealing depends on accurate OD, controlled hardness, smooth surfaces and compatible tube fittings.",
       ...(tubeDetails.overviewContent ?? []),
     ],
     productSpecifications: [
-      ["Product standard", "ASTM A269 or the approved material and project tubing specification"],
-      ["Manufacturing type", "Seamless or welded/cold-worked and cold drawn for precision OD, wall, hardness and surface control"],
+      ["Product standard", "ASTM A269/A269M or the approved material and project tubing specification"],
+      ["Manufacturing type", "Seamless or welded; cold working or cold drawing as required for precision OD, wall thickness, hardness and surface control"],
       ["Typical NESCO enquiry range", "1/16 in. OD to 1 in. OD; project-specific dimensions reviewed on enquiry"],
-      ["Wall thickness", "Precision wall matched to the approved fitting or compression system"],
-      ["Length", "Straight lengths or coils according to grade, size and cleanliness requirement"],
+      ["Wall thickness", "Precision wall thickness matched to the approved fitting or compression system"],
+      ["Length", "Straight lengths or coils according to grade, size and cleanliness requirements"],
       ["Ends", "Square cut, deburred and capped to protect the bore and sealing surfaces"],
-      ["Surface finish", "Bright annealed or solution annealed according to the material and fitting requirement"],
+      ["Surface finish", "Bright annealed or solution annealed according to the material, applicable specification and fitting requirements"],
       ["Marking", "Standard mill marking or agreed customer-specific identification"],
       ["Packaging", "Clean, capped and protected for straight-length or coil supply"],
     ],
+    standardGroups: [
+      { title: "Stainless and duplex tube standards", rows: [["ASTM A269/A269M", "Seamless and welded austenitic stainless-steel tubing for general service"], ["ASTM A789/A789M", "Seamless and welded ferritic/austenitic stainless-steel tubing for general service"], ["EN 10216-5", "Seamless stainless-steel tubes for pressure purposes"], ["EN 10217-7", "Welded stainless-steel tubes for pressure purposes"]] },
+      { title: "Nickel-alloy tube standards", rows: [["Applicable ASTM B-series standards", "Nickel-alloy tubing selected according to the applicable alloy grade, product form, dimensions and service requirements"]] },
+    ],
+    selectionGuide: [["Instrumentation / impulse lines", "ASTM A269/A269M or the approved project tubing specification, selected according to material, pressure and service conditions"], ["Hydraulic / pneumatic systems", "Applicable precision tubing specification matched to system pressure, fluid compatibility and fitting requirements"], ["Control & process instrumentation", "Stainless-steel or nickel-alloy tubing selected according to fluid chemistry, pressure, temperature and project requirements"], ["Compression fittings", "Precision OD and wall thickness matched to the approved tube and fitting system"], ["High-cleanliness service", "Bright annealed or specified surface condition with clean, capped and protected tube supply"]],
   },
 };
 
 const flatProductDetails: ProductDetailContent = {
   ...generalDetails,
+  materialGroups: corrosionResistantMaterialGroups,
   grades: [
     ["Austenitic stainless", "304/304L, 316/316L, 321, 347, 317L, 904L", "Fabrication, vessels, food, pharmaceutical and chemical equipment"],
     ["Duplex / super duplex", "S32205, S32750, S32760, S32304", "Higher strength and chloride-bearing process or marine service"],
@@ -604,6 +659,7 @@ const flatProductDetails: ProductDetailContent = {
 
 const barDetails: ProductDetailContent = {
   ...generalDetails,
+  materialGroups: corrosionResistantMaterialGroups,
   grades: [["Stainless steel", "304/304L, 316/316L, 321, 347, 410, 420, 431", "Machining, shafts, food, chemical and general engineering"], ["Duplex / super duplex", "UNS S31803 / S32205, UNS S32750 / S32760", "High-strength, chloride-resistant machined components"], ["Nickel alloys", "UNS N08020, UNS N08028, UNS N04400, UNS N06600, UNS N06625, UNS N07718, UNS N08825, UNS N06022, UNS N10276", "Corrosion, temperature and high-performance components"], ["Copper-nickel", "UNS C70600 (90/10 Cu-Ni), UNS C71500 (70/30 Cu-Ni)", "Marine, seawater and condenser components"], ["Titanium", "Grades 2, 5 and 7", "Lightweight, corrosion-resistant and high-strength components"]],
   manufacturingStandards: [["ASTM A276/A276M", "Stainless steel bars and shapes", "General bar material"], ["ASTM A479/A479M", "Stainless steel bars and shapes for use in boilers and other pressure vessels", "Pressure equipment"], ["ASTM A484/A484M", "General requirements for stainless bars, billets, shapes and forgings", "Tolerance / quality"], ["Applicable ASTM B-series specifications", "Nickel alloys, titanium alloys and copper-nickel/copper alloys, depending on grade and product form", "Special alloys"], ["EN 10088-3", "Technical delivery conditions for stainless semi-finished products, bars, rods, wire, sections and bright products for general purposes", "European reference"], ["Drawing / tolerance class", "Profile dimensions, straightness, finish and cut length", "Order-specific"]],
   inspection: ["Heat-number and MTC review", "Profile size and dimensional tolerance", "Straightness, twist and length inspection", "Surface examination and finish comparison", "PMI and hardness when specified", "Ultrasonic testing for critical bar", "Cut-list and piece-mark verification"],
@@ -627,20 +683,20 @@ const flangeDetails: ProductDetailContent = {
     "Other flange configurations available on request include Lap Joint, Orifice and project-specific flanges.",
   ],
   grades: [
-    ["Stainless steel", "ASTM A182 F304, F304L, F316, F316L, F321, F347, F347H and F904L (UNS N08904)", "General pressure piping, process and elevated-temperature service"],
-    ["Duplex stainless steel", "ASTM A182 F51 (UNS S31803) and F60 (UNS S32205 / 2205)", "Higher-strength and chloride-bearing service"],
-    ["Super duplex stainless steel", "ASTM A182 F53 (UNS S32750 / 2507) and F55 (UNS S32760)", "High-strength seawater and severe chloride service"],
-    ["Nickel alloys", "ASTM B564 UNS N04400, N06600, N06625, N08825 and N10276", "Severe corrosion and elevated-temperature duties"],
-    ["Titanium", "ASTM B381 Grade 2 and Grade 5", "Seawater and selected chemical systems"],
-    ["Copper-nickel", "UNS C70600 (Cu-Ni 90/10) and UNS C71500 (Cu-Ni 70/30)", "Marine, condenser and seawater systems"],
+    ["Stainless Steel", "304, 304L, 316, 316L, 310S, 317L, 321, 347, 347H and 904L", "General process piping, chemical service, pressure and elevated-temperature applications"],
+    ["Duplex Stainless Steel", "UNS S31803, UNS S32205 (2205), UNS S32750 (2507) and UNS S32760", "High-strength applications and chloride-bearing environments"],
+    ["Nickel Alloys", "Alloy 20, Alloy 28, Alloy 200, Alloy 201, Monel 400, Inconel 600, Inconel 601, Inconel 625, Inconel 718, Incoloy 800, Incoloy 800H, Incoloy 800HT, Incoloy 825, Hastelloy C276 and Hastelloy C22", "Severe corrosion, high-temperature and demanding chemical/process service"],
+    ["Titanium", "Grade 2, Grade 5 and other applicable grades", "Seawater, chemical processing and lightweight corrosion-resistant applications"],
+    ["Cupro Nickel", "Cu-Ni 90/10 (C70600) and Cu-Ni 70/30 (C71500)", "Marine, seawater, condenser and heat-exchanger systems"],
   ],
   manufacturingStandards: [
-    ["ASME B16.5", "Pipe flanges and flanged fittings, generally NPS 1/2 through NPS 24", "Dimensions / ratings"],
-    ["ASME B16.47", "Large-diameter steel flanges", "Large-bore dimensions"],
-    ["ASTM A182/A182M", "Forged or rolled alloy and stainless piping components", "Material specification"],
-    ["ASTM B564 / ASTM B381", "Material specifications for nickel-alloy and titanium forgings, respectively, as applicable to the supplied product", "Special-alloy material"],
-    ["EN 1092-1", "Circular steel flanges under European PN designation", "European dimensions"],
-    ["Project drawing", "Non-standard bore, facing, drilling and tolerance", "Custom requirement"],
+    ["ASME B16.5", "Pipe flanges and flanged fittings, NPS 1/2 through NPS 24", "Dimensions, pressure-temperature ratings, tolerances, marking and testing"],
+    ["ASME B16.47", "Large-diameter steel flanges, NPS 26 through NPS 60", "Large-diameter flange dimensions, ratings and drilling"],
+    ["ASTM A182/A182M", "Forged or rolled alloy and stainless-steel pipe flanges, fittings, valves and related pressure-system components", "Material specification"],
+    ["ASTM B564", "Nickel-alloy forgings, including applicable nickel, Ni-Cu and nickel-alloy grades", "Nickel-alloy material specification"],
+    ["ASTM B381", "Titanium and titanium-alloy forgings", "Titanium material specification"],
+    ["EN 1092-1", "Circular steel flanges with PN designation", "European dimensional and pressure-rating basis"],
+    ["Project specification / drawing", "Non-standard dimensions, bore, facing, drilling, tolerances, inspection or other project requirements", "Order-specific requirements"],
   ],
   inspection: ["MTC and forging heat traceability", "NPS, class, OD, thickness and bolt-circle checks", "Bore and hub dimensions", "Facing type and surface-finish verification", "PMI and hardness when specified", "UT or liquid-penetrant examination where ordered", "Marking and face-protection verification", "Testing and inspection arranged to the purchase order, approved ITP or project requirements"],
   industries: ["Refineries", "Petrochemicals", "Oil & gas", "Power generation", "Chemical processing", "Marine", "Water & desalination", "Pressure equipment"],
@@ -648,9 +704,100 @@ const flangeDetails: ProductDetailContent = {
   whyNesco: professionalWhyNesco,
   faqs: [["Which flange details are essential for quotation?", "State type, material grade, dimensional standard, NPS, pressure class, bore or schedule, facing, finish, quantity and inspection."], ["What is the difference between Class and PN ratings?", "Class and PN belong to different flange standard systems and are not direct dimensional substitutes. Use the complete selected standard and rating."], ["Why must facing finish be specified?", "Gasket performance depends on facing type, groove geometry and surface finish. The piping specification should define the required gasket seating surface."], ["Can custom flanges be manufactured to drawings?", "Yes, subject to approved material, design responsibility, machining drawing, tolerances, testing and quantity."]],
   dimensionHeaders: ["Design input", "Typical options", "Required RFQ detail", "Why it matters"],
-  dimensionsNote: "Flange size alone is insufficient. The dimensional standard, pressure class or PN, facing and bore must be specified together.",
-  dimensions: [["Nominal size", "NPS / DN", "Matching pipe or nozzle size", "Controls flange envelope and drilling"], ["Rating", "Class 150-2500 or applicable PN", "Standard plus class / PN", "Controls pressure-temperature basis"], ["Facing", "RF, FF, RTJ or special", "Facing and finish", "Must match gasket and mating flange"], ["Bore", "Standard bore or pipe-schedule bore", "Matching wall / schedule", "Supports alignment and weld transition"]],
-  selectionGuide: [["Weld Neck", "High-pressure, high-temperature and critical service"], ["Slip-On", "General, utility and process piping where economical installation is suitable"], ["Blind", "Closing pipe ends, nozzles and future connections"], ["Socket Weld", "Small-bore pressure piping"], ["Threaded", "Selected services where welding is restricted"], ["Lap Joint", "Systems requiring frequent dismantling or alignment flexibility"], ["Orifice", "Flow measurement assemblies"]],
+  dimensionsNote: "Flange size alone is insufficient. The dimensional standard, pressure class, facing, bore and pipe outside diameter should be specified together.",
+  dimensions: [["Nominal size", "NPS / DN", "Nominal pipe size and applicable standard", "Establishes the flange size and dimensional basis"], ["Standard", "ASME B16.5, ASME B16.47, EN 1092-1 or project standard", "Applicable flange standard", "Determines dimensions, drilling, tolerances and rating basis"], ["Pressure rating", "Class 150, 300, 400, 600, 900, 1500, 2500 or applicable PN rating", "Class / PN rating and applicable standard", "Establishes the pressure-temperature rating basis"], ["Facing", "RF, FF, RTJ or other specified facing", "Facing type and required facing finish", "Must be compatible with the mating flange and gasket arrangement"], ["Bore / pipe schedule", "Standard bore, bore matched to pipe schedule or specified bore", "Pipe OD, wall thickness / schedule and required bore", "Controls weld transition, alignment and internal flow passage"], ["Dimensions / drilling", "Standard dimensional pattern or project-specific", "OD, thickness, bolt circle/PCD, bolt-hole size and number where required", "Ensures mating compatibility and correct installation"], ["Material / grade", "Stainless, duplex, super duplex, nickel alloy, titanium or Cu-Ni", "Grade and applicable material specification", "Determines mechanical, corrosion and temperature suitability"]],
+};
+
+const productPageEnhancements: Record<string, Partial<ProductDetailContent>> = {
+  ...tubePageEnhancements,
+  "Round Bars": {
+    displayTitle: "Stainless Steels & Nickel Alloys Round Bars",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel round bars, supporting standard and project-specific requirements.", "Round bars are widely used for machining, shafts, valves, fasteners, structural components, supports, tooling and fabricated assemblies. They are selected based on grade, diameter, length, condition, dimensional tolerances, surface finish and applicable inspection requirements.", "Availability may include ex-stock, mill production or made-to-order supply, depending on the material, dimensions and quantity required."],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensionsNote: "Round-bar dimensions are specified by diameter, length, manufacturing condition and tolerance. Confirm straightness, surface finish and end preparation where critical.",
+    dimensions: [["Diameter", "Standard or non-standard", "Nominal diameter and tolerance", "Dimensional accuracy"], ["Length", "Random, fixed or cut-to-size", "Finished length and tolerance", "Cut-length accuracy"], ["Condition", "Hot rolled, forged, cold drawn, peeled, ground or polished", "Required condition", "Mechanical and surface condition"], ["Surface", "Black, pickled, bright, ground, polished or machined", "Required finish", "Surface quality"], ["Straightness", "Standard or precision", "Permitted deviation", "Straightness over length"], ["Ends", "Mill cut, saw cut, machined or chamfered", "End preparation", "Squareness and burr control"]],
+  },
+  "Bright Bars": {
+    displayTitle: "Stainless Steel & Nickel Alloy Bright Bars",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel bright bars, supporting standard, maintenance and project-specific requirements.", "Bright bars are precision-finished bar products used for machining, shafts, valves, fasteners, precision components, tooling and fabricated assemblies. They are selected based on grade, profile, size, length, manufacturing condition, dimensional tolerances and surface finish.", "Bright bars may be supplied in cold-drawn, peeled, centreless-ground or polished conditions, depending on the material, size and specified requirements."],
+  },
+  "Hex Bars": {
+    displayTitle: "Stainless Steel & Nickel Alloy Hex Bars",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel hex bars, supporting standard, maintenance and project-specific requirements.", "Hex bars provide a six-sided profile suited to machining, fasteners, valves, fittings, shafts, precision components and fabricated assemblies. Selection should define the grade, across-flats dimension, length, condition, dimensional tolerance, surface finish and applicable inspection requirements.", "Hex bars may be supplied in cold-drawn, hot-finished, peeled, ground or polished conditions, depending on the material, size and specified requirements."],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensionsNote: "Hex-bar dimensions are specified by across-flats size, length, manufacturing condition and tolerance. Confirm corner geometry, straightness and cut-length tolerance where critical.",
+    dimensions: [["Across flats", "Standard or non-standard sizes", "Nominal AF dimension and tolerance", "Across-flats accuracy"], ["Length", "Random, fixed or cut-to-size", "Finished length and tolerance", "Cut-length accuracy"], ["Condition", "Hot finished, cold drawn, peeled, ground or polished", "Required manufacturing condition", "Dimensional and mechanical condition"], ["Corner geometry", "Standard or specified radius", "Corner radius / geometry where critical", "Corner consistency"], ["Straightness", "Standard or precision", "Maximum permitted deviation", "Straightness over length"], ["Surface finish", "Black, pickled, bright, ground or polished", "Required surface condition", "Surface quality"]],
+  },
+  "Square Bars": {
+    displayTitle: "Stainless Steel & Nickel Alloy Square Bars",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel square bars, supporting standard, maintenance and project-specific requirements.", "Square bars provide a four-sided profile suited to machining, shafts, fasteners, supports, structural components, tooling and fabricated assemblies. Selection should define the grade, side dimension, length, condition, dimensional tolerance, corner geometry, surface finish and applicable inspection requirements.", "Square bars may be supplied in hot-finished, cold-finished, peeled, ground or polished conditions, depending on the material, size and specified requirements."],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensionsNote: "Square-bar dimensions are specified by side dimension, length, manufacturing condition and tolerance. Confirm squareness, corner geometry, straightness and cut-length tolerance where critical.",
+    dimensions: [["Side dimension", "Standard or non-standard sizes", "Nominal side dimension and tolerance", "Dimensional accuracy"], ["Length", "Random, fixed or cut-to-size", "Finished length and tolerance", "Cut-length accuracy"], ["Condition", "Hot finished, cold drawn, peeled, ground or polished", "Required manufacturing condition", "Dimensional and mechanical condition"], ["Corner geometry", "Standard or specified radius", "Corner radius / geometry where critical", "Corner consistency"], ["Squareness", "Standard or precision", "Permitted deviation from square", "Section geometry"], ["Straightness", "Standard or precision", "Maximum permitted deviation", "Straightness over length"]],
+  },
+  "Flat Bars": {
+    displayTitle: "Stainless Steel & Nickel Alloy Flat Bars",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel flat bars, supporting standard, maintenance and project-specific requirements.", "Flat bars provide a rectangular section suited to fabrication, supports, brackets, frames, structural components, machining, base plates and general engineering applications. Selection should define the grade, width, thickness, length, manufacturing condition, dimensional tolerance, edge condition, flatness, surface finish and applicable inspection requirements.", "Flat bars may be supplied as rolled or approved plate/strip-derived products, depending on the material, dimensions and applicable product standard."],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensionsNote: "Flat-bar dimensions are specified by width, thickness, length, manufacturing route and tolerance. Confirm flatness, straightness, edge condition and cut-length tolerance where critical.",
+    dimensions: [["Width", "Standard or non-standard sizes", "Nominal width and tolerance", "Width accuracy"], ["Thickness", "Standard or specified gauges", "Nominal thickness and tolerance", "Thickness uniformity"], ["Length", "Random, fixed or cut-to-size", "Finished length and tolerance", "Cut-length accuracy"], ["Condition", "Hot finished, cold finished, rolled, ground or polished", "Required manufacturing condition", "Material and dimensional condition"], ["Edges", "Mill, sheared, slit, deburred, machined or ground", "Required edge condition", "Edge quality"], ["Flatness / straightness", "Standard or precision", "Permitted deviation", "Flatness and straightness"]],
+  },
+  "Weld Neck Flanges": { overviewContent: ["Flanges create detachable, bolted connections between pipes, valves, vessels and equipment. Weld Neck Flanges are selected according to the material grade, flange standard, nominal size, pressure class, facing, bore, wall schedule, dimensions and applicable testing requirements.", "NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of industrial flanges in stainless steel, duplex, super duplex, nickel alloys, titanium and copper-nickel.", "Weld Neck Flanges feature a tapered hub and butt-weld connection and are commonly selected for high-pressure, high-temperature, cyclic and critical process applications."] },
+  "Slip-On Flanges": { overviewContent: ["Slip-On Flanges provide detachable, bolted connections and are designed to fit over the pipe before being welded in position. Selection should coordinate the material grade, dimensional standard, nominal size, pressure class, facing, bore and inspection requirements.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel Slip-On Flanges for general process, utility and industrial piping.", "Availability is confirmed against the complete material, size, class, facing, bore and quantity requirement."] },
+  "Blind Flanges": { overviewContent: ["Blind Flanges are solid flanges used to close piping systems, valves, vessel nozzles and equipment connections. Selection should coordinate the material grade, dimensional standard, nominal size, pressure class, facing, drilling and inspection requirements.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel Blind Flanges for isolation, inspection access and future line extension.", "The flange must be selected for the complete design pressure, temperature and bolting load under the approved piping specification."] },
+  "Socket Weld Flanges": { overviewContent: ["Socket Weld Flanges create compact bolted connections for small-bore piping, with the pipe inserted into a machined socket and joined by a fillet weld. Selection should coordinate the grade, standard, size, pressure class, facing, socket dimensions and pipe wall.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel Socket Weld Flanges for applicable pressure, utility and process-piping systems.", "Socket geometry, installation gap and welding practice remain subject to the approved piping class and procedure."] },
+  "Threaded Flanges": { overviewContent: ["Threaded Flanges provide detachable connections where the pipe engages internal threads rather than a circumferential weld. Selection should coordinate the material grade, flange standard, nominal size, pressure class, facing, thread designation, bore and service conditions.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel Threaded Flanges for selected piping applications where welding is restricted or impractical.", "Suitability for pressure, temperature, vibration, cyclic loading and hazardous service must be confirmed by the responsible piping engineer."] },
+  Elbows: { overviewContent: ["Butt weld elbows change pipeline direction while maintaining a continuous welded flow path. Common configurations include 45°, 90° and 180° returns in long-radius or short-radius patterns.", "NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel elbows for process piping, pressure systems and fabrication packages.", "Selection should define the material grade, fitting class, dimensional standard, angle, radius, NPS, wall or schedule, end preparation and inspection scope."] },
+  Tees: { overviewContent: ["Butt weld tees create a 90-degree branch from a main piping run. Equal tees retain the run diameter, while reducing tees connect a smaller branch.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel tees for process, pressure, marine and industrial piping.", "Run and branch sizes, wall requirements, manufacturing route, fitting class and examination scope must be specified together."] },
+  Reducers: { overviewContent: ["Butt weld reducers provide controlled transitions between different pipe sizes. Concentric reducers align connected pipe centrelines, while eccentric reducers maintain an offset where layout, drainage or vapour management requires it.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel reducers for process piping and fabrication packages.", "Both end sizes and walls, overall length, concentric or eccentric configuration, orientation and inspection requirements should be stated together."] },
+  "Stub Ends": { overviewContent: ["Stub Ends are used with lap-joint backing flanges to create rotatable, demountable piping connections. They support alignment flexibility and can reduce the use of high-alloy material in the loose backing flange.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel Stub Ends in applicable patterns and lengths.", "The pipe size, wall, pattern, lap dimensions, facing and backing-flange compatibility must be coordinated as one requirement."] },
+  "End Caps": { overviewContent: ["Butt weld End Caps provide a permanent welded closure at the end of a piping run. Their formed geometry creates a smooth pressure boundary for construction, isolation and final line termination.", "NESCO Pipe & Tubes supplies stainless steel, duplex, super duplex, nickel-alloy, titanium and copper-nickel End Caps for process and pressure piping.", "Material grade, NPS, wall or schedule, construction route, weld-end preparation and examination requirements should be specified together."] },
+  Sheets: {
+    displayTitle: "Stainless Steel & Nickel Alloy Sheets",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel sheets, supporting standard, maintenance and project-specific requirements.", "Sheets are flat-rolled products used for fabrication, equipment, liners, enclosures, process components and architectural applications. Selection should define the grade, thickness, width, length, finish, edge condition, flatness, testing and protective packing.", "Availability may include ex-stock, mill production or cut-to-size supply, depending on the material, dimensions, finish and quantity required."],
+    productSpecifications: [["Product form", "Sheet, plate, strip or cut blank, as required"], ["Thickness", "Nominal or minimum thickness and applicable tolerance"], ["Dimensions", "Width × length, as applicable"], ["Surface finish", "No. 1, 2B, BA, No. 4, hairline, mirror or other project-specific finish"], ["Edges", "Mill, slit, sheared, deburred or machined, as specified"], ["Processing", "Cut-to-size, slitting, levelling, bending, drilling or profiling, where required"], ["Protection & packing", "Paper interleave, PVC film, oiling or moisture-barrier/export packing, as required"]],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensions: [["Thickness", "Sheet, plate or precision shim gauge", "Nominal or minimum thickness and applicable tolerance", "Uniformity and permitted variation"], ["Width / length", "Mill size or cut size", "Finished dimensions and squareness", "Edge and diagonal tolerance"], ["Finish", "No. 1, 2B, BA, No. 4, hairline or polished", "Finish designation and protective film", "Surface reference or sample if critical"]],
+  },
+  Plates: {
+    displayTitle: "Stainless Steel & Nickel Alloy Plates",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel plates, supporting standard and project-specific requirements.", "Plates are used for pressure equipment, tanks, process vessels, structural fabrication, cladding, formed components, heat shields and general engineering applications. Selection should define the grade, thickness, dimensions, finish, edge condition, flatness, testing and protective packing.", "Availability may include ex-stock, mill production or cut-to-drawing supply, depending on the material, dimensions and quantity required."],
+    productSpecifications: [["Product form", "Plate, cut plate, blank or profile, as required"], ["Thickness", "Nominal or minimum thickness and applicable tolerance"], ["Dimensions", "Width × length, as applicable"], ["Surface finish", "Hot-rolled, descaled, pickled, blasted, ground or other specified finish"], ["Edges", "Mill, sheared, gas-cut, machined or deburred, as specified"], ["Processing", "Cut-to-size, levelling, bending, drilling, profiling or other approved processing"], ["Protection & packing", "Paper interleave, protective film, moisture-barrier or export packing, as required"]],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensions: [["Thickness", "Plate thickness or precision plate/shim gauge", "Nominal or minimum thickness and tolerance", "Uniformity and permitted variation"], ["Width / length", "Mill size or cut size", "Finished dimensions and squareness", "Edge and diagonal tolerance"], ["Finish / surface condition", "Hot-rolled, descaled, pickled, blasted or ground", "Surface condition and any specified finish", "Surface quality / reference sample if critical"], ["Flatness", "Standard or project-specific flatness requirement", "Permitted flatness tolerance", "Overall flatness and local deviation"]],
+  },
+  Coils: {
+    displayTitle: "Stainless Steel & Nickel Alloy Coils",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, duplex, super duplex, nickel alloy, titanium and copper-nickel coils, supporting standard and project-specific requirements.", "Coils are supplied for fabrication, forming, process equipment, heat exchangers, cladding, strip processing and general engineering applications. Selection should define the grade, thickness, width, coil ID and OD, coil weight, surface finish, edge condition, testing and protective packing.", "Availability may include master coils, slit coils and processed supply, depending on the material, dimensions, finish and quantity required."],
+    productSpecifications: [["Product form", "Master coil or slit coil"], ["Thickness", "Nominal or minimum thickness and applicable tolerance"], ["Width", "Coil width and applicable width tolerance"], ["Coil geometry", "Coil ID, OD and maximum coil weight"], ["Surface finish", "No. 1, 2B, BA, No. 4, hairline, mirror or other specified finish"], ["Edges", "Mill, slit, sheared, deburred or machined, as specified"], ["Processing", "Slitting, levelling, cut-to-length or other approved processing"], ["Protection & packing", "Paper interleave, PVC film, oiling, moisture-barrier wrapping and specified eye-to-sky or eye-to-wall packing"]],
+    dimensionsNote: "Coil availability depends on the combined grade, thickness, width, coil geometry, finish, edge condition and applicable tolerances. State whether dimensions are nominal or minimum.",
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensions: [["Thickness", "Coil gauge", "Nominal or minimum thickness and applicable tolerance", "Uniformity and permitted variation"], ["Width", "Master or slit-coil width", "Finished width and applicable tolerance", "Width consistency and edge condition"], ["Coil geometry", "ID, OD and maximum coil weight", "Required ID, maximum OD and coil weight", "Telescoping, coil stability and winding condition"], ["Edge condition", "Mill, slit, sheared or deburred", "Required edge condition", "Burrs, edge quality and consistency"], ["Surface finish", "No. 1, 2B, BA, No. 4, hairline, mirror or other specified finish", "Finish designation and protective film where required", "Surface quality / reference sample if critical"]],
+  },
+  "Shim Sheets": {
+    displayTitle: "Stainless Steel & Nickel Alloy Shim Sheets",
+    overviewContent: ["NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of stainless steel, nickel alloy, titanium and copper-nickel shim sheets, supporting standard and project-specific requirements.", "Shim sheets are precision flat products used for alignment, spacing, levelling, gap adjustment, packing, calibration and general engineering applications. Selection should define the grade, thickness, dimensions, tolerance, flatness, surface finish, edge condition, testing and protective packing.", "Availability may include sheets, strips and cut-to-size shims, depending on the material, gauge, tolerance and quantity required."],
+    productSpecifications: [["Product form", "Shim sheet, strip or cut-to-size shim"], ["Thickness", "Nominal thickness and applicable tolerance"], ["Dimensions", "Width × length or required shim dimensions"], ["Surface finish", "As-rolled, annealed, polished or other specified finish"], ["Edges", "Sheared, slit, deburred or machined, as specified"], ["Processing", "Cutting, shearing, slitting, punching, drilling or profiling, where required"], ["Protection & packing", "Paper interleave, protective film, moisture-barrier or rigid protective packing"]],
+    dimensionHeaders: ["Ordering parameter", "Typical options", "What to state", "Acceptance focus"],
+    dimensions: [["Thickness", "Precision shim gauge", "Nominal thickness and applicable tolerance", "Uniformity and permitted variation"], ["Width / length", "Standard cut size or custom shim dimensions", "Finished dimensions and dimensional tolerance", "Size accuracy and squareness"], ["Flatness", "Standard or project-specific requirement", "Permitted flatness tolerance", "Overall flatness and local deviation"], ["Surface finish", "As-rolled, annealed, polished or specified finish", "Finish designation and surface requirements", "Surface quality / reference sample if critical"], ["Edge condition", "Sheared, slit, deburred or machined", "Required edge condition", "Burr control and edge quality"]],
+  },
+  Bolts: {
+    overviewContent: ["Bolts are used to secure flanged joints, valves, equipment, structural connections and fabricated assemblies. Correct selection requires the product type, material or strength grade, dimensional standard, nominal diameter, thread specification, length, finish and compatibility with the mating nut and washer to be defined together.", "NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of industrial bolts, stud bolts, nuts and washers for pressure piping, petrochemical, power, marine, heat-exchanger, structural and maintenance applications.", "Heat or lot traceability, Mill Test Certificates, mechanical and hardness testing, PMI, dimensional and thread-gauge inspection, finish or coating verification, matched-set identification and export documentation can be coordinated where specified."],
+    grades: [["Stainless Steel Fasteners", "ASTM F593; 304/304L, 316/316L and other applicable stainless grades", "Corrosion-resistant piping, equipment and general industrial assemblies"], ["Pressure-Service Alloy & Stainless Bolting", "ASTM A193 Grade B8, B8M, B16 and other applicable grades", "Flanges, valves, pressure equipment and elevated-temperature service"], ["Low-Temperature Bolting", "ASTM A320 applicable grades, including L7, B8 and B8M where specified", "Low-temperature pressure and piping applications"], ["Nickel-Alloy Bolting", "UNS N06625, N07718, N08825, N10276 and other project-specific grades", "Corrosive, high-strength and elevated-temperature applications"], ["Project-Specific Bolting", "Material grade, strength class, coating and dimensions as specified", "OEM, structural and specialised assemblies"]],
+  },
+  Nuts: {
+    overviewContent: ["Industrial nuts are internally threaded components used with bolts and studs to secure flanged joints, valves, equipment, structures and fabricated assemblies. Correct selection requires the nut type, material or strength grade, dimensional standard, thread form, nominal diameter, pitch, thickness and compatibility with the mating bolt or stud.", "NESCO Pipe & Tubes is a supplier, stockist, importer and exporter of industrial nuts for pressure piping, petrochemical, power, marine, heat-exchanger, structural and maintenance applications.", "Heat or lot traceability, Mill Test Certificates, mechanical and hardness testing, PMI, dimensional and thread inspection, finish or coating verification, matched-set identification and export documentation can be coordinated where specified."],
+    grades: [["Austenitic Stainless Steel", "304, 304L, 316, 316L, 321, 347, 310S and 904L", "Corrosion-resistant piping, equipment and general industrial assemblies"], ["Alloy Steel", "Grade 2, 2H, 7, 7M, B16 and other applicable grades", "Pressure, high-temperature and specialised bolting applications"], ["Pressure-Service Stainless Steel", "Grade 8, 8A, 8C, 8M and other applicable grades", "Flanges, valves, pressure equipment and elevated-temperature service"], ["Nickel Alloys", "Alloy 625, Alloy 718, Alloy 825, Hastelloy C276 and other project-specified grades", "Severe corrosion, high-strength and elevated-temperature applications"], ["Project-Specific Materials", "Material grade, strength class and coating as specified", "OEM, structural and specialised assemblies"]],
+    manufacturingStandards: [["ASTM A194/A194M", "Carbon steel, alloy steel and stainless steel nuts for bolts used in high-pressure or high-temperature service, or both", "Pressure & high-temperature nuts"], ["ASTM F594", "Stainless steel nuts for general corrosion-resistant service", "General stainless steel nuts"], ["ASTM A453/A453M", "High-temperature bolting materials, including nuts, with expansion coefficients comparable to austenitic stainless steels", "Special high-temperature nuts"], ["ASTM A320/A320M", "Alloy-steel and stainless-steel bolting for low-temperature service; includes requirements for nuts used with the bolting", "Low-temperature bolting assemblies"], ["ASME B18.2.2", "Dimensions for inch-series hex, square, hex-flange and coupling nuts and other covered nut types", "Nut dimensions"], ["Applicable ISO / DIN standards", "Nut dimensions, thread and product requirements where specified", "Metric / project requirements"], ["ASTM A962/A962M", "Common requirements for bolting intended for service from cryogenic to creep-range temperatures", "General bolting requirements"], ["Project / OEM specification", "Coating, lubrication, supplementary testing, marking and other joint-specific requirements", "Project-specific requirements"]],
+  },
+  "Stud Bolts": {
+    overviewContent: ["Industrial stud bolts are threaded fasteners used with two compatible nuts to secure flanged joints, valves, pressure equipment and other bolted assemblies. A complete specification defines the material or strength grade, dimensional and product standards, thread form, nominal diameter, pitch, stud length, thread configuration, condition, finish and compatible nuts.", "NESCO Pipe & Tubes supplies stud bolts for pressure piping, petrochemical, power, marine, heat-exchanger, pressure-equipment and maintenance applications, individually or as complete stud-and-nut assemblies.", "Heat or lot traceability, Mill Test Certificates, mechanical and hardness testing, PMI, dimensional and thread inspection, finish verification, matched-set identification and export documentation can be coordinated where specified."],
+    grades: [["Alloy Steel", "ASTM A193 Grade B7 and B16", "Flanged joints, valves, pressure equipment and elevated-temperature service"], ["Stainless Steel", "ASTM A193 Grade B8 and B8M", "Corrosion-resistant flanged joints, valves and equipment"], ["Low-Temperature Alloy Steel", "ASTM A320 Grade L7", "Low-temperature pressure piping and equipment"], ["Special High-Temperature Bolting", "ASTM A453 applicable grades", "Special high-temperature applications requiring controlled thermal expansion characteristics"], ["Nickel-Alloy Stud Bolts", "Selected grades such as UNS N06625, N07718, N08825 and N10276, where specified", "Severe-corrosion, high-strength and elevated-temperature applications"]],
+    manufacturingStandards: [["ASTM A193/A193M", "Alloy-steel and stainless-steel bolting for high-temperature or high-pressure service and other special-purpose applications, including studs and stud bolts", "Pressure, high-temperature and special-purpose stud bolts"], ["ASTM A320/A320M", "Alloy-steel and stainless-steel bolting for low-temperature service, including studs and stud bolts", "Low-temperature stud bolts"], ["ASTM A453/A453M", "High-temperature bolting materials with expansion coefficients comparable to austenitic stainless steels, including studs and stud bolts", "Special high-temperature service"], ["ASTM F593", "Stainless-steel bolts, hex cap screws and studs for applications requiring general corrosion resistance", "General stainless-steel stud bolts"], ["ASME B18.31.2", "Dimensions and general data for continuous-thread studs, double-end studs and flange bolting studs", "Stud dimensions"], ["Applicable nut specification", "Requirements for nuts compatible with the specified stud-bolt grade and service", "Mating nuts"], ["ASTM A962/A962M", "Common requirements for bolting components used with applicable ASTM bolting specifications", "General bolting requirements"], ["Project / OEM specification", "Coating, lubrication, supplementary testing, marking and other joint-specific requirements", "Project-specific requirements"]],
+    dimensionHeaders: ["Ordering item", "Examples", "Required detail", "Acceptance / control"],
+    dimensionsNote: "A complete stud-bolt description combines the material grade, applicable dimensional standard, nominal diameter, length and specified thread designation.",
+    dimensions: [["Thread", "Metric, UNC, UNF, 8UN or specified thread form", "Nominal diameter, pitch/series, thread class and thread length", "Thread gauge and dimensional verification"], ["Diameter", "Specified nominal diameter", "Nominal diameter and applicable tolerance", "Diameter measurement"], ["Length", "Overall stud length", "Length convention and specified tolerance", "Length measurement"], ["Thread configuration", "Continuous thread, double-end or flange bolting stud", "Threaded length, unthreaded portion and thread run-out where applicable", "Dimensional and visual verification"], ["Finish", "Plain, coated, plated or lubricated where specified", "Finish/coating system and applicable requirements", "Visual and finish/coating verification"]],
+  },
 };
 
 const fittingDetails: ProductDetailContent = {
@@ -688,7 +835,6 @@ const fittingDetails: ProductDetailContent = {
   dimensionHeaders: ["Parameter", "Typical definition", "RFQ input", "Inspection focus"],
   dimensionsNote: "Butt-weld fitting dimensions must be coordinated with both connected pipe ends. State every run, branch or reducer end size and wall.",
   dimensions: [["Configuration", "Elbow angle, tee type, reducer type or closure", "Exact type / drawing", "Geometry and orientation"], ["End size", "NPS / OD at each connection", "Run, branch, large and small ends", "Fit with connecting pipe"], ["Wall", "Schedule or nominal/minimum wall", "Each end wall requirement", "Forming thinning and weld preparation"], ["End preparation", "Standard bevel or special weld detail", "Angle, land and root detail", "Field fit-up"]],
-  selectionGuide: [["Elbows", "Change line direction using the specified angle and long- or short-radius pattern"], ["Tees", "Create equal or reducing 90-degree branch connections"], ["Reducers", "Connect different pipe sizes using concentric or eccentric transitions"], ["Stub Ends", "Pair with lap-joint backing flanges for rotatable, demountable connections"], ["End Caps", "Provide permanent welded closure at a pipe end"]],
 };
 
 const fastenerDetails: ProductDetailContent = {
@@ -723,7 +869,6 @@ const fastenerDetails: ProductDetailContent = {
   dimensionHeaders: ["Ordering item", "Examples", "Required detail", "Acceptance control"],
   dimensionsNote: "A complete fastener description combines material grade with a separate dimensional standard and thread designation.",
   dimensions: [["Thread", "Metric, UNC, UNF, 8UN or special", "Diameter, pitch/series and class", "GO/NO-GO gauging"], ["Length", "Under-head or overall by product type", "Measurement convention and tolerance", "Assembly grip / engagement"], ["Head / nut", "Hex, heavy hex, socket or drawing-specific", "Dimensional standard", "Across-flats and bearing face"], ["Finish", "Plain, passivated, coated or lubricated", "Coating system and thickness", "Friction and corrosion compatibility"]],
-  selectionGuide: [["Bolts", "Headed fasteners for equipment, structures and assemblies requiring a defined grip length"], ["Nuts", "Internally threaded components selected to match bolt or stud material, strength, thread and service"], ["Stud Bolts", "Fully threaded or double-ended bolting commonly supplied with compatible nuts for flanged pressure joints"]],
 };
 
 const categoryDetails: Record<string, ProductDetailContent> = {
@@ -832,7 +977,7 @@ function gradeDetails(material: string, title: string): ProductDetailContent {
 }
 
 function enrichCategoryProduct(base: ProductDetailContent, title: string, category: string): ProductDetailContent {
-  const enhancement = category === "Tubes" ? tubePageEnhancements[title] : undefined;
+  const enhancement = productPageEnhancements[title];
   return {
     ...base,
     ...enhancement,
