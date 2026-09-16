@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalDocumentPage, type LegalSection } from "@/components/LegalDocumentPage";
+import { companyContact } from "@/lib/company-contact";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions | NESCO Pipe & Tubes",
@@ -114,7 +115,7 @@ const sections: readonly LegalSection[] = [
     title: "Governing law and contact",
     paragraphs: [
       "These website terms are governed by the laws of India. Subject to any mandatory legal requirement and any different dispute clause in an accepted transaction document, courts with jurisdiction in Mumbai, Maharashtra will have jurisdiction over disputes concerning website use.",
-      "Questions about these terms may be sent to sales@shreeimpexalloys.com or addressed to NESCO Pipe & Tubes, Shop No. 4/124, T. P. Street, 6th Kumbharwada, Mumbai 400004, Maharashtra, India.",
+      `Questions about these terms may be sent to ${companyContact.salesEmail} or ${companyContact.exportsEmail}, or addressed to NESCO Pipe & Tubes, ${companyContact.address}.`,
     ],
   },
 ];

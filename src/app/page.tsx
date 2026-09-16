@@ -11,6 +11,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import ScrollSequenceHero from "@/components/ScrollSequenceHero";
 import { productCategories } from "@/lib/catalog";
+import { companyContact } from "@/lib/company-contact";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -333,7 +334,7 @@ function Contact() {
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    location.href = `mailto:sales@shreeimpexalloys.com?subject=${encodeURIComponent(`Quote: ${data.get("product")}`)}&body=${encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nRequirement: ${data.get("message")}`)}`;
+    location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`Quote: ${data.get("product")}`)}&body=${encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nRequirement: ${data.get("message")}`)}`;
   }
   return (
     <section className="contact-v3" id="contact">
@@ -349,9 +350,9 @@ function Contact() {
           <div><b>04</b><span>Order details<small>Quantity and delivery destination</small></span></div>
         </div>
         <div className="contact-channels">
-          <a href="tel:+919167963226"><Phone /><span>Call our team<small>+91 91679 63226</small></span><ArrowUpRight /></a>
-          <a href="mailto:sales@shreeimpexalloys.com"><Mail /><span>Email sales<small>sales@shreeimpexalloys.com</small></span><ArrowUpRight /></a>
-          <Link href="/contact"><MapPin /><span>Mumbai office<small>6th Kumbharwada, Mumbai 400004</small></span><ArrowUpRight /></Link>
+          <a href={companyContact.primaryPhoneHref}><Phone /><span>Call our team<small>{companyContact.primaryPhone} / {companyContact.secondaryPhone}</small></span><ArrowUpRight /></a>
+          <a href={companyContact.salesMailto}><Mail /><span>Email sales &amp; exports<small>{companyContact.salesEmail} / {companyContact.exportsEmail}</small></span><ArrowUpRight /></a>
+          <Link href="/contact"><MapPin /><span>Mumbai office<small>{companyContact.address}</small></span><ArrowUpRight /></Link>
         </div>
       </motion.div>
       <motion.form className="contact-form-v3" onSubmit={submit} initial={{ opacity: 0, y: 36 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.65 }}>

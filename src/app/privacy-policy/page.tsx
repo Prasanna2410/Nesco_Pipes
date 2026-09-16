@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalDocumentPage, type LegalSection } from "@/components/LegalDocumentPage";
+import { companyContact } from "@/lib/company-contact";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | NESCO Pipe & Tubes",
@@ -88,7 +89,7 @@ const sections: readonly LegalSection[] = [
     title: "Your choices and privacy rights",
     paragraphs: ["Subject to applicable law and verification of the request, you may ask NESCO to provide information about relevant personal data, correct inaccurate or incomplete data, erase data that is no longer required, withdraw consent where processing depends on consent, or address a privacy grievance. Applicable law may also provide rights relating to nomination or other remedies."],
     bullets: [
-      "Send requests to sales@shreeimpexalloys.com with the subject line \"Privacy Request\".",
+      `Send requests to ${companyContact.salesEmail} with the subject line "Privacy Request".`,
       "Describe the information or communication concerned and the action requested.",
       "We may request reasonable information to verify identity, authority and the scope of the request.",
       "Certain records may need to be retained where required for legal, contractual, tax, traceability, security or dispute purposes.",
@@ -107,7 +108,7 @@ const sections: readonly LegalSection[] = [
     title: "Policy updates and contact",
     paragraphs: [
       "We may update this Privacy Policy to reflect changes in the website, business practices, service providers or applicable requirements. The revised version will be published on this page with an updated date.",
-      "For privacy questions or requests, email sales@shreeimpexalloys.com, call +91 91679 63226, or write to NESCO Pipe & Tubes, Shop No. 4/124, T. P. Street, 6th Kumbharwada, Mumbai 400004, Maharashtra, India.",
+      `For privacy questions or requests, email ${companyContact.salesEmail}, call ${companyContact.primaryPhone} or ${companyContact.secondaryPhone}, or write to NESCO Pipe & Tubes, ${companyContact.address}.`,
     ],
   },
 ];

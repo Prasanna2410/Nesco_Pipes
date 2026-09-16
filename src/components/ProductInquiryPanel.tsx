@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, FileCheck2, Mail, Send, ShieldCheck, X } from "lucide-react";
+import { companyContact } from "@/lib/company-contact";
 
 type ProductInquiryPanelProps = {
   productTitle: string;
@@ -53,7 +54,7 @@ export function ProductInquiryPanel({ productTitle, category, cta }: ProductInqu
       value("message"),
     ].join("\n");
 
-    window.location.href = `mailto:sales@shreeimpexalloys.com?subject=${encodeURIComponent(`NESCO product enquiry: ${productTitle}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`NESCO product enquiry: ${productTitle}`)}&body=${encodeURIComponent(body)}`;
   }
 
   return (

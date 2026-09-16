@@ -21,6 +21,7 @@ import {
   Send,
   ShieldCheck,
 } from "lucide-react";
+import { companyContact } from "@/lib/company-contact";
 
 const enquirySteps = [
   {
@@ -85,7 +86,7 @@ export function ContactExperience() {
       value("message"),
     ].join("\n");
 
-    window.location.href = `mailto:sales@shreeimpexalloys.com?subject=${encodeURIComponent(`NESCO quotation enquiry: ${product}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`NESCO quotation enquiry: ${product}`)}&body=${encodeURIComponent(body)}`;
   }
 
   return (
@@ -107,7 +108,7 @@ export function ContactExperience() {
           <p className="contact-hero-lead">Share the material, dimensions, quantity and destination. Our Mumbai team will turn the requirement into a clearer, project-ready quotation.</p>
           <div className="contact-hero-actions">
             <a className="contact-hero-primary" href="#contact-request">Build your enquiry <ArrowDown /></a>
-            <a className="contact-hero-secondary" href="tel:+919167963226"><Phone /> +91 91679 63226</a>
+            <a className="contact-hero-secondary" href={companyContact.primaryPhoneHref}><Phone /> {companyContact.primaryPhone}</a>
           </div>
           <div className="contact-hero-facts">
             <div><strong>01</strong><span>Direct sales coordination</span></div>
@@ -188,9 +189,9 @@ export function ContactExperience() {
               <p className="contact-direct-copy">Speak directly with the team coordinating product, documentation, packing and delivery requirements.</p>
             </div>
             <div className="contact-direct-links">
-              <a className="contact-direct-link" href="tel:+919167963226"><Phone /><div><span>Call our team</span><strong>+91 91679 63226</strong></div><ArrowUpRight /></a>
-              <a className="contact-direct-link" href="mailto:sales@shreeimpexalloys.com"><Mail /><div><span>Email sales</span><strong>sales@shreeimpexalloys.com</strong></div><ArrowUpRight /></a>
-              <a className="contact-direct-link" href="https://maps.google.com/?q=Shop+No+4+124+T+P+Street+6th+Kumbharwada+Mumbai+400004" target="_blank" rel="noreferrer"><MapPin /><div><span>Visit the office</span><strong>6th Kumbharwada, Mumbai 400004</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.primaryPhoneHref}><Phone /><div><span>Call our team</span><strong>{companyContact.primaryPhone}<br />{companyContact.secondaryPhone}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.salesMailto}><Mail /><div><span>Email sales &amp; exports</span><strong>{companyContact.salesEmail}<br />{companyContact.exportsEmail}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.mapUrl} target="_blank" rel="noreferrer"><MapPin /><div><span>Visit the office</span><strong>{companyContact.address}</strong></div><ArrowUpRight /></a>
             </div>
             <div className="contact-availability">
               <Clock3 />

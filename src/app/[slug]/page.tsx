@@ -10,6 +10,7 @@ import { ProductPageNav } from "@/components/ProductPageNav";
 import { ProductCategorySidebar } from "@/components/ProductCategorySidebar";
 import { ProductInquiryPanel } from "@/components/ProductInquiryPanel";
 import { allProducts, companyPages, getCategoryForProduct, getImageForProduct, getProductBySlug } from "@/lib/catalog";
+import { companyContact } from "@/lib/company-contact";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -76,7 +77,7 @@ function CompanyContent({ slug }: { slug: keyof typeof companyPages }) {
     contact: [
       "Send your product name, grade, standard, size, schedule or class, quantity and delivery destination for a faster quotation.",
       "Our Mumbai team handles stainless steel pipes, tubes, sheets, plates, coils, flanges, fittings, fasteners, valves and special alloy requirements.",
-      "Phone: +91 91679 63226. Email: sales@shreeimpexalloys.com. Address: Shop No-4/124 T P Street, 6th Kumbharwada, Mumbai - 400004.",
+      `Phone: ${companyContact.primaryPhone} / ${companyContact.secondaryPhone}. Email: ${companyContact.salesEmail} / ${companyContact.exportsEmail}. Address: ${companyContact.address}.`,
     ],
     "privacy-policy": [
       "Enquiry information is used to respond to quotations, technical questions and business communication.",
@@ -428,8 +429,8 @@ export default async function CatalogPage({ params }: Props) {
         </div>
         <div className="contact-banner-links">
           <Link href="/contact">Open contact page <ArrowRight /></Link>
-          <a href="mailto:sales@shreeimpexalloys.com">sales@shreeimpexalloys.com</a>
-          <a href="tel:+919167963226">+91 91679 63226</a>
+          <a href={companyContact.salesMailto}>{companyContact.salesEmail}</a>
+          <a href={companyContact.primaryPhoneHref}>{companyContact.primaryPhone} / {companyContact.secondaryPhone}</a>
         </div>
       </section> : null}
 

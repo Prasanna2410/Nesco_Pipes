@@ -7,6 +7,7 @@ import { ArrowRight, ArrowUpRight, ChevronDown, Mail, MapPin, Menu, Phone, X } f
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { alloyCategories, productCategories } from "@/lib/catalog";
+import { companyContact } from "@/lib/company-contact";
 
 function BrandLogo() {
   return <span className="brand-crop"><Image src="/assets/nesco-logo-provided.png" width={1600} height={900} alt="NESCO Pipe & Tubes" priority /></span>;
@@ -119,7 +120,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           </div>
           <div className="mobile-menu-products"><small>Popular product pages</small>{productGroups.flatMap((group) => group.links.slice(0, 2)).map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}</Link>)}</div>
           <div className="mobile-menu-products mobile-menu-alloys"><small>Popular alloy grades</small>{alloyGroups.flatMap((group) => group.links.slice(0, 1)).map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}</Link>)}</div>
-          <div className="mobile-menu-contact"><a href="tel:+919167963226">+91 91679 63226</a><span>Mumbai, India</span></div>
+          <div className="mobile-menu-contact"><a href={companyContact.primaryPhoneHref}>{companyContact.primaryPhone} / {companyContact.secondaryPhone}</a><span>Mumbai, India</span></div>
         </motion.nav> : null}
       </AnimatePresence>
     </header>
@@ -168,9 +169,9 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-v3-contact">
-        <a href="tel:+919167963226"><Phone /><span><small>Call the supply desk</small><b>+91 91679 63226</b></span><ArrowUpRight /></a>
-        <a href="mailto:sales@shreeimpexalloys.com"><Mail /><span><small>Send your enquiry</small><b>sales@shreeimpexalloys.com</b></span><ArrowUpRight /></a>
-        <a href="https://maps.google.com/?q=Shop+No+4+124+T+P+Street+6th+Kumbharwada+Mumbai+400004" target="_blank" rel="noreferrer"><MapPin /><span><small>Mumbai supply office</small><b>6th Kumbharwada, Mumbai 400004</b></span><ArrowUpRight /></a>
+        <a href={companyContact.primaryPhoneHref}><Phone /><span><small>Call the supply desk</small><b>{companyContact.primaryPhone}<br />{companyContact.secondaryPhone}</b></span><ArrowUpRight /></a>
+        <a href={companyContact.salesMailto}><Mail /><span><small>Send your enquiry</small><b>{companyContact.salesEmail}<br />{companyContact.exportsEmail}</b></span><ArrowUpRight /></a>
+        <a href={companyContact.mapUrl} target="_blank" rel="noreferrer"><MapPin /><span><small>Mumbai supply office</small><b>{companyContact.address}</b></span><ArrowUpRight /></a>
       </div>
 
       <div className="footer-v3-bottom">

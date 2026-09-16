@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Clock3, FileText, Mail, MapPin, Scale, ShieldCheck } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { companyContact } from "@/lib/company-contact";
 
 export type LegalSection = {
   id: string;
@@ -50,7 +51,7 @@ export function LegalDocumentPage({ documentCode, eyebrow, title, introduction, 
           <nav aria-label={`${title} contents`}>
             {sections.map((section, index) => <a href={`#${section.id}`} key={section.id}><b>{String(index + 1).padStart(2, "0")}</b><span>{section.title}</span></a>)}
           </nav>
-          <div><ShieldCheck /><span><b>Questions about this document?</b><a href="mailto:sales@shreeimpexalloys.com">Email the NESCO team <ArrowUpRight /></a></span></div>
+          <div><ShieldCheck /><span><b>Questions about this document?</b><a href={companyContact.salesMailto}>Email the NESCO team <ArrowUpRight /></a></span></div>
         </aside>
 
         <article className="legal-v2-document">
@@ -69,8 +70,8 @@ export function LegalDocumentPage({ documentCode, eyebrow, title, introduction, 
       <section className="legal-v2-contact">
         <div><small>NESCO / POLICY CONTACT</small><h2>Need clarification?</h2><p>Contact our Mumbai office with the document name and a clear description of your question or request.</p></div>
         <div>
-          <a href="mailto:sales@shreeimpexalloys.com"><Mail /><span><small>Email</small><b>sales@shreeimpexalloys.com</b></span><ArrowUpRight /></a>
-          <a href="https://maps.google.com/?q=Shop+No+4+124+T+P+Street+6th+Kumbharwada+Mumbai+400004" target="_blank" rel="noreferrer"><MapPin /><span><small>Office</small><b>6th Kumbharwada, Mumbai 400004</b></span><ArrowUpRight /></a>
+          <a href={companyContact.salesMailto}><Mail /><span><small>Email</small><b>{companyContact.salesEmail}<br />{companyContact.exportsEmail}</b></span><ArrowUpRight /></a>
+          <a href={companyContact.mapUrl} target="_blank" rel="noreferrer"><MapPin /><span><small>Office</small><b>{companyContact.address}</b></span><ArrowUpRight /></a>
         </div>
       </section>
 
