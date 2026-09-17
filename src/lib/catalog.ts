@@ -174,11 +174,11 @@ function gradeProduct(title: string, material: string): ProductPage {
   return {
     ...gradeDetail,
     slug: `${slugify(title)}-supplier-exporter`,
-    title,
+    title: gradeDetail.displayTitle ?? title,
     category: `${material} Grades`,
     material,
     description: positioning,
-    overview: [
+    overview: gradeDetail.overviewContent ? [...gradeDetail.overviewContent] : [
       family?.intro ?? `${material} products for industrial service.`,
       positioning,
       materialSelectionNote,
@@ -193,7 +193,7 @@ function gradeProduct(title: string, material: string): ProductPage {
     pageKind: "grade",
     features: gradeDetail.keyFeatures ? [...gradeDetail.keyFeatures] : [],
     standards: gradeDetail.specificationReferences ? [...gradeDetail.specificationReferences] : [],
-    supplyOptions: [["Available forms", availableForms], ["Product standard", "State the material specification for the selected pipe, tube, flat product, bar, flange or fitting form"], ["Supply condition", "Solution annealed, age hardened, cold worked, hot finished, pickled, polished or as specified"], ["Dimensions", "Product-form dimensions, tolerances, cut lengths and end/edge preparation"], ["Testing", "PMI, mechanical, corrosion, NDT or supplementary testing as required"], ["Documentation", "Material test certificates and inspection reports on request"], ["Enquiry basis", "Grade / UNS, product form, standard, dimensions, quantity and delivery destination"]],
+    supplyOptions: gradeDetail.productSpecifications ? [...gradeDetail.productSpecifications] : [["Available forms", availableForms], ["Product standard", "State the material specification for the selected pipe, tube, flat product, bar, flange or fitting form"], ["Supply condition", "Solution annealed, age hardened, cold worked, hot finished, pickled, polished or as specified"], ["Dimensions", "Product-form dimensions, tolerances, cut lengths and end/edge preparation"], ["Testing", "PMI, mechanical, corrosion, NDT or supplementary testing as required"], ["Documentation", "Material test certificates and inspection reports on request"], ["Enquiry basis", "Grade / UNS, product form, standard, dimensions, quantity and delivery destination"]],
     rfqRequirements: ["Exact grade / UNS designation", "Required product form", "Applicable material and dimensional standard", "Size, thickness or schedule", "Quantity", "Testing and certification", "Delivery location and required date"],
     technicalNote: materialSelectionNote,
     cta: family?.cta ?? `Request ${title} by product form, standard and size.`,

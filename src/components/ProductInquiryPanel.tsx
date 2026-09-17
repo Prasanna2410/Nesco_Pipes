@@ -8,9 +8,10 @@ type ProductInquiryPanelProps = {
   productTitle: string;
   category: string;
   cta: string;
+  sectionNumber?: string;
 };
 
-export function ProductInquiryPanel({ productTitle, category, cta }: ProductInquiryPanelProps) {
+export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber = "11" }: ProductInquiryPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const standardPlaceholder = category === "Tubes"
@@ -63,7 +64,7 @@ export function ProductInquiryPanel({ productTitle, category, cta }: ProductInqu
 
       <div className="product-rfq-intro">
         <div className="product-rfq-intro-top">
-          <small>/ 11 — REQUEST FOR QUOTATION</small>
+          <small>/ {sectionNumber} — REQUEST FOR QUOTATION</small>
           <span className="product-rfq-status"><i /> Nesco direct sales desk</span>
         </div>
         <div className="product-rfq-copy-layout">

@@ -1,4 +1,5 @@
 import { pipePageContent, pipeSharedContent } from "@/lib/pipe-content";
+import { stainlessGradeContent, stainlessSharedContent } from "@/lib/stainless-content";
 
 export type ProductDetailContent = {
   manufacturing: readonly string[];
@@ -18,6 +19,9 @@ export type ProductDetailContent = {
   specificationReferences?: readonly string[];
   productSpecifications?: ReadonlyArray<readonly [string, string]>;
   materialGroups?: ReadonlyArray<readonly [string, string]>;
+  materialIdentity?: ReadonlyArray<readonly [string, string]>;
+  inspectionNote?: string;
+  packagingNote?: string;
   dimensionHeaders?: readonly string[];
   dimensionsNote?: string;
   dimensions?: ReadonlyArray<readonly string[]>;
@@ -973,6 +977,7 @@ function gradeDetails(material: string, title: string): ProductDetailContent {
     dimensionHeaders: ["Product form", "Ordering dimensions", "Condition / finish", "Standard basis"],
     dimensionsNote: "Dimensions must be specified for the selected product form; a grade designation alone does not define size, tolerance or condition.",
     dimensions: [["Pipe", "NPS/OD, schedule or wall, length and ends", "Seamless/welded, heat treated and finished", "Material standard plus ASME dimensions"], ["Tube", "OD, wall, length/coil/U-bend geometry", "Seamless/welded, annealed and surface finish", "Product-specific ASTM/EN standard"], ["Flat product", "Thickness, width, length or coil geometry", "Hot/cold rolled, annealed, pickled or polished", "Flat-product material standard"], ["Bar / forging", "Profile size, tolerance and cut length", "Hot finished, forged, cold finished or machined", "Bar/forging material standard"]],
+    ...(material === "Stainless Steel" ? { ...stainlessSharedContent, ...stainlessGradeContent[title] } : {}),
   };
 }
 

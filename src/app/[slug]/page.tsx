@@ -135,6 +135,7 @@ export default async function CatalogPage({ params }: Props) {
   const productImage = product ? getImageForProduct(product.slug) : undefined;
   const title = product?.title ?? company.title;
   const description = product?.description ?? company.description;
+  const isStainlessGrade = product?.material === "Stainless Steel" && product?.pageKind === "grade";
   const showMaterialData = product?.pageKind === "grade" || product?.category === "Pipes" || product?.category === "Tubes";
   const chemistryHeaders = product?.chemicalHeaders ?? ["Grade", "C", "Cr", "Ni", "Other"];
   const mechanicalHeaders = product?.mechanicalHeaders ?? ["Grade", "Tensile MPa", "Yield MPa", "Elongation %"];
@@ -222,7 +223,7 @@ export default async function CatalogPage({ params }: Props) {
           <ProductPageNav items={[
             { id: "overview", label: "Overview" },
             ...(product.productTypeGuide?.length ? [{ id: "tube-range", label: "Tube range" }] : []),
-            { id: "grades", label: "Grades" },
+            { id: "grades", label: product.materialIdentity ? "Grade identity" : "Grades" },
             { id: "specifications", label: "Specifications" },
             ...(product.dimensions?.length ? [{ id: "dimensions", label: "Dimensions" }] : []),
             { id: "standards", label: "Standards" },
@@ -260,7 +261,7 @@ export default async function CatalogPage({ params }: Props) {
 
           {product.features.length || product.standards.length ? (
             <section className="product-technical-v2" id="technical">
-              <div className="technical-v2-head"><small>/ 02 — PRODUCT DETAIL</small><h2>Built around the specification.</h2><p>{["Flanges", "Butt Weld Fittings", "Fasteners"].includes(product.category) ? product.description : "Key characteristics and commonly referenced standards from the supplied technical content master."}</p></div>
+              <div className="technical-v2-head"><small>/ 02 — PRODUCT DETAIL</small><h2>Built around the specification.</h2><p>{isStainlessGrade ? `Key characteristics and commonly referenced standards for ${product.displayTitle ?? product.title}.` : ["Flanges", "Butt Weld Fittings", "Fasteners"].includes(product.category) ? product.description : "Key characteristics and commonly referenced standards from the supplied technical content master."}</p></div>
               <div className="technical-v2-columns">
                 <div className="technical-feature-list"><small>Key features</small>{product.features.map((item, index) => <article key={item}><b>{String(index + 1).padStart(2, "0")}</b><p>{item}</p></article>)}</div>
                 <div className="technical-standard-list"><small>Common specification references</small>{product.standards.map((item) => <div key={item}><span>STD</span><p>{item}</p></div>)}</div>
@@ -287,8 +288,11 @@ export default async function CatalogPage({ params }: Props) {
           ) : null}
 
           <section className="product-data-section" id="grades">
-            <div className="product-section-heading"><small>{usesAvailableGradeHeading ? "/ 03 — AVAILABLE GRADES" : "/ 03 — MATERIAL RANGE"}</small><h2>{usesAvailableGradeHeading ? "Available Material Grades" : "Grades matched to the service."}</h2><p>{gradeIntroduction}</p></div>
-            {product.materialGroups ? <div className="responsive-data-table material-groups-table" role="region" aria-label="Available material groups" tabIndex={0}>
+            <div className="product-section-heading"><small>{product.materialIdentity ? "/ 03 — GRADE & MATERIAL IDENTITY" : usesAvailableGradeHeading ? "/ 03 — AVAILABLE GRADES" : "/ 03 — MATERIAL RANGE"}</small><h2>{usesAvailableGradeHeading ? "Available Material Grades" : "Grades matched to the service."}</h2><p>{product.materialIdentity ? "The specified material is reviewed against the complete grade, product form, governing standard, condition and service requirements." : gradeIntroduction}</p></div>
+            {product.materialIdentity ? <div className="responsive-data-table material-groups-table" role="region" aria-label="Grade and material identity" tabIndex={0}>
+              <div className="data-table-row data-table-head"><span>Parameter</span><span>Details</span></div>
+              {product.materialIdentity.map(([parameter, detail]) => <div className="data-table-row" key={parameter}><b data-label="Parameter">{parameter}</b><span data-label="Details">{detail}</span></div>)}
+            </div> : product.materialGroups ? <div className="responsive-data-table material-groups-table" role="region" aria-label="Available material groups" tabIndex={0}>
               <div className="data-table-row data-table-head"><span>Material family</span><span>Available materials and grades</span></div>
               {product.materialGroups.map(([family, grades]) => <div className="data-table-row" key={family}><b data-label="Material family">{family}</b><span data-label="Available materials and grades">{grades}</span></div>)}
             </div> : <div className="responsive-data-table" role="region" aria-label="Available material grades" tabIndex={0}>
@@ -300,7 +304,7 @@ export default async function CatalogPage({ params }: Props) {
           <section className="product-supply-v2" id="specifications">
             <div className="supply-v2-head"><small>/ 04 — SUPPLY & CUSTOMISATION</small><h2>{product.pageKind === "grade" ? "Available forms and enquiry basis." : "Define the supply condition."}</h2><p>{product.availableForms ?? "Final availability depends on the complete combination of material, dimensions, standard, condition, testing and quantity."}</p></div>
             <div className="supply-v2-table">
-              <div className="supply-table-row supply-table-header"><span>Parameter</span><span>Typical information to specify</span></div>
+              <div className="supply-table-row supply-table-header"><span>Parameter</span><span>{isStainlessGrade ? "Typical Options" : "Typical information to specify"}</span></div>
               {product.supplyOptions.map(([label, value], index) => <div className="supply-table-row" key={label}><small>{String(index + 1).padStart(2, "0")}</small><b>{label}</b><p>{value}</p></div>)}
             </div>
           </section>
@@ -360,7 +364,7 @@ export default async function CatalogPage({ params }: Props) {
           ) : null}
 
           {showMaterialData ? <section className="material-data-section" id="material-data">
-            <div className="product-section-heading light-heading"><small>/ 06 — REFERENCE MATERIAL DATA</small><h2>{product.materialDataTitle ?? "Reference material data."}</h2><p>{product.materialDataDescription ?? "Representative values for frequently requested stainless grades. Values are percentages by mass or minimum mechanical requirements unless shown otherwise; always verify the ordered material standard, product form and edition."}</p></div>
+            <div className="product-section-heading light-heading"><small>{isStainlessGrade ? "/ 07 — REFERENCE MATERIAL DATA" : "/ 06 — REFERENCE MATERIAL DATA"}</small><h2>{product.materialDataTitle ?? "Reference material data."}</h2><p>{product.materialDataDescription ?? "Representative values for frequently requested stainless grades. Values are percentages by mass or minimum mechanical requirements unless shown otherwise; always verify the ordered material standard, product form and edition."}</p></div>
             <div className="material-table-block">
               <div className="material-table-title"><span>{product.chemicalTableTitle ?? "Chemical composition"}</span><small>{product.chemicalTableNote ?? "Selected principal elements · % max or range"}</small></div>
               <div className="responsive-data-table dark-data-table dynamic-material-table" role="region" aria-label={product.chemicalTableTitle ?? "Chemical composition"} tabIndex={0}>
@@ -378,12 +382,12 @@ export default async function CatalogPage({ params }: Props) {
           </section> : null}
 
           <section className="quality-packaging-section" id="quality">
-            <div className="quality-column"><div className="product-section-heading"><small>/ 07 — INSPECTION & TESTING</small><h2>Evidence before dispatch.</h2></div>{product.inspectionDetails ? <div className="inspection-detail-list">{product.inspectionDetails.map(([test, explanation], index) => <article key={test}><b>{String(index + 1).padStart(2, "0")}</b><div><strong>{test}</strong><p>{explanation}</p></div></article>)}</div> : <div className="numbered-checks">{product.inspection.map((item, index) => <div key={item}><b>{String(index + 1).padStart(2, "0")}</b><span>{item}</span></div>)}</div>}</div>
-            <div className="quality-column packaging-column"><div className="product-section-heading"><small>PACKAGING & MARKING</small><h2>Protected and traceable.</h2></div><div className="numbered-checks">{product.packaging.map((item, index) => <div key={item}><b>{String(index + 1).padStart(2, "0")}</b><span>{item}</span></div>)}</div></div>
+            <div className="quality-column"><div className="product-section-heading"><small>{isStainlessGrade ? "/ 08 — INSPECTION & TESTING" : "/ 07 — INSPECTION & TESTING"}</small><h2>Evidence before dispatch.</h2></div>{product.inspectionDetails ? <div className="inspection-detail-list">{product.inspectionDetails.map(([test, explanation], index) => <article key={test}><b>{String(index + 1).padStart(2, "0")}</b><div><strong>{test}</strong><p>{explanation}</p></div></article>)}</div> : <div className="numbered-checks">{product.inspection.map((item, index) => <div key={item}><b>{String(index + 1).padStart(2, "0")}</b><span>{item}</span></div>)}</div>}{product.inspectionNote ? <p className="product-quality-note">{product.inspectionNote}</p> : null}</div>
+            <div className="quality-column packaging-column"><div className="product-section-heading"><small>{isStainlessGrade ? "/ 09 — PACKAGING & MARKING" : "PACKAGING & MARKING"}</small><h2>Protected and traceable.</h2></div><div className="numbered-checks">{product.packaging.map((item, index) => <div key={item}><b>{String(index + 1).padStart(2, "0")}</b><span>{item}</span></div>)}</div>{product.packagingNote ? <p className="product-quality-note">{product.packagingNote}</p> : null}</div>
           </section>
 
           <section className="product-applications-v2" id="applications">
-            <div className="applications-v2-head"><small>/ 08 — APPLICATIONS & INDUSTRIES</small><h2>Engineered for demanding service environments.</h2><p>From process plants to marine systems, NESCO coordinates material, dimensions and documentation around the operating conditions of each application.</p></div>
+            <div className="applications-v2-head"><small>{isStainlessGrade ? "/ 10 — APPLICATIONS & INDUSTRIES" : "/ 08 — APPLICATIONS & INDUSTRIES"}</small><h2>Engineered for demanding service environments.</h2><p>From process plants to marine systems, NESCO coordinates material, dimensions and documentation around the operating conditions of each application.</p></div>
             <div className="applications-v2-grid">{product.applications.map((item, index) => {
               const showApplicationImage = categoriesWithApplicationImages.has(product.category);
               return <article className={showApplicationImage ? "has-application-image" : undefined} key={item}>{showApplicationImage ? <Image className="application-card-image" src={getApplicationImage(item)} alt={`${item} application`} fill sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw" /> : null}<div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>;
@@ -392,16 +396,16 @@ export default async function CatalogPage({ params }: Props) {
           </section>
 
           <section className="why-nesco-section" id="why-nesco">
-            <div className="product-section-heading"><small>/ 09 — WHY NESCO PIPE & TUBES</small><h2>Built for buyers who cannot leave details to chance.</h2><p>From specification review to export documentation, NESCO coordinates the technical and commercial details as one complete supply requirement.</p></div>
+            <div className="product-section-heading"><small>{isStainlessGrade ? "/ 11 — WHY NESCO PIPE & TUBES" : "/ 09 — WHY NESCO PIPE & TUBES"}</small><h2>Built for buyers who cannot leave details to chance.</h2><p>From specification review to export documentation, NESCO coordinates the technical and commercial details as one complete supply requirement.</p></div>
             <div className="why-nesco-grid">{product.whyNesco.map(([title, copy], index) => <article key={title}><div className="why-nesco-card-top"><b>{String(index + 1).padStart(2, "0")}</b><ArrowUpRight /></div><h3>{title}</h3><p>{copy}</p></article>)}</div>
           </section>
 
           <section className="product-faq-section" id="faqs">
-            <div className="product-section-heading"><small>/ 10 — FREQUENTLY ASKED QUESTIONS</small><h2>Clear answers before you specify.</h2><p>Quick guidance on product selection, standards, dimensions, inspection and documentation. For project-specific requirements, NESCO will review the complete enquiry with your team.</p></div>
+            <div className="product-section-heading"><small>{isStainlessGrade ? "/ 12 — FREQUENTLY ASKED QUESTIONS" : "/ 10 — FREQUENTLY ASKED QUESTIONS"}</small><h2>Clear answers before you specify.</h2><p>Quick guidance on product selection, standards, dimensions, inspection and documentation. For project-specific requirements, NESCO will review the complete enquiry with your team.</p></div>
             <div className="product-faq-list">{product.faqs.map(([question, answer], index) => <details key={question}><summary><b>{String(index + 1).padStart(2, "0")}</b><span>{question}</span><i aria-hidden="true" /></summary><p>{answer}</p></details>)}</div>
           </section>
 
-          <ProductInquiryPanel productTitle={product.displayTitle ?? product.title} category={product.category} cta={product.cta} />
+          <ProductInquiryPanel productTitle={product.displayTitle ?? product.title} category={product.category} cta={product.cta} sectionNumber={isStainlessGrade ? "13" : "11"} />
 
           <aside className="product-technical-note"><b>Technical publishing note</b><p>{product.technicalNote}</p></aside>
 
