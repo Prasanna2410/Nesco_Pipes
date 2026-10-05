@@ -164,6 +164,19 @@ export const productCategories: ProductCategory[] = [
   },
 ];
 
+const stainlessGradeIdentity: Record<string, string> = {
+  "Stainless Steel 304 / 304L": "Stainless Steel 304 / 304L (UNS S30400 / S30403)",
+  "Stainless Steel 316 / 316L": "Stainless Steel 316 / 316L (UNS S31600 / S31603)",
+  "Stainless Steel 321 / 321H": "Stainless Steel 321 / 321H (UNS S32100 / S32109)",
+  "Stainless Steel 347 / 347H": "Stainless Steel 347 / 347H (UNS S34700 / S34709)",
+  "Stainless Steel 309S": "Stainless Steel 309S (UNS S30908)",
+  "Stainless Steel 310 / 310S": "Stainless Steel 310 / 310S (UNS S31000 / S31008)",
+  "Stainless Steel 317L": "Stainless Steel 317L (UNS S31703)",
+  "Stainless Steel 904L": "Stainless Steel 904L (UNS N08904)",
+  "Stainless Steel 316Ti": "Stainless Steel 316Ti (UNS S31635)",
+  "Stainless Steel 400": "Stainless Steel 400 Series grades including 409 (UNS S40900), 410 (UNS S41000), 420 (UNS S42000) and 430 (UNS S43000)",
+};
+
 function gradeProduct(title: string, material: string): ProductPage {
   const family = gradeFamilyContent[material];
   const positioning = gradeDescriptions[title] ?? `${title} supplied for industrial requirements.`;
@@ -171,6 +184,10 @@ function gradeProduct(title: string, material: string): ProductPage {
   const standardForms = "Pipes, tubes, flanges, butt weld fittings, sheets and plates, coils and round bars.";
   const rareCoilForms = "Pipes, tubes, flanges, butt weld fittings, sheets and plates, and round bars. Coil enquiries are rare and reviewed only against a complete specification.";
   const availableForms = material === "Cupro Nickel" || material === "Titanium" ? rareCoilForms : standardForms;
+  const stainlessIdentity = stainlessGradeIdentity[title];
+  const stainlessSupplyOverview = stainlessIdentity
+    ? `Nesco Pipe & Tubes is a manufacturer, supplier, stockist and exporter of ${stainlessIdentity}, offering pipes, tubes, flanges, butt weld fittings, sheets, plates, coils and round bars in specified dimensions, finishes, conditions and testing requirements for industrial and project applications. Availability and applicable standards are confirmed against the customer’s purchase specification.`
+    : undefined;
   return {
     ...gradeDetail,
     slug: `${slugify(title)}-supplier-exporter`,
@@ -178,7 +195,7 @@ function gradeProduct(title: string, material: string): ProductPage {
     category: `${material} Grades`,
     material,
     description: positioning,
-    overview: gradeDetail.overviewContent ? [...gradeDetail.overviewContent] : [
+    overview: gradeDetail.overviewContent ? [...(stainlessSupplyOverview ? [stainlessSupplyOverview] : []), ...gradeDetail.overviewContent] : [
       family?.intro ?? `${material} products for industrial service.`,
       positioning,
       materialSelectionNote,
