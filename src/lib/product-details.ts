@@ -2,6 +2,7 @@ import { pipePageContent, pipeSharedContent } from "@/lib/pipe-content";
 import { stainlessGradeContent, stainlessSharedContent } from "@/lib/stainless-content";
 import { nickelGradeContent, nickelSharedContent } from "@/lib/nickel-content";
 import { duplexGradeContent } from "@/lib/duplex-content";
+import { cuproNickelGradeContent, cuproNickelSharedContent } from "@/lib/cupro-nickel-content";
 
 export type ProductDetailContent = {
   manufacturing: readonly string[];
@@ -982,6 +983,7 @@ function gradeDetails(material: string, title: string): ProductDetailContent {
     ...(material === "Stainless Steel" ? { ...stainlessSharedContent, ...stainlessGradeContent[title] } : {}),
     ...(material === "Nickel Alloy" ? { ...nickelSharedContent, ...nickelGradeContent[title] } : {}),
     ...(material === "Duplex & Super Duplex" ? { ...duplexGradeContent[title] } : {}),
+    ...(material === "Cupro Nickel" ? { ...cuproNickelSharedContent, ...cuproNickelGradeContent[title] } : {}),
   };
 }
 

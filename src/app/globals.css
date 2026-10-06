@@ -34,13 +34,32 @@ main { overflow: clip; }
 
 .page-progress { position: fixed; inset: 0 0 auto auto; z-index: 500; width: 3px; height: 100vh; transform-origin: top; background: linear-gradient(var(--electric), #fff); box-shadow: 0 0 16px var(--electric); }
 
-/* Loader */
-.loader { position: fixed; inset: 0; z-index: 1000; display: grid; place-content: center; gap: 24px; background: var(--navy); color: #fff; }
-.loader-mark { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: clamp(2.8rem, 7vw, 7rem); font-weight: 800; letter-spacing: -.08em; }
-.loader-mark i { width: clamp(60px, 13vw, 180px); height: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--blue), var(--electric)); box-shadow: 0 0 24px var(--blue); }
-.loader-line { width: min(72vw, 560px); height: 1px; background: rgba(255,255,255,.16); }
-.loader-line i { display: block; width: 100%; height: 100%; transform-origin: left; background: var(--electric); }
-.loader p { margin: 0; text-align: center; color: #91bde8; font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; }
+/* Global brand loader */
+html.site-loading,
+html.site-loading body { overflow: hidden; }
+.site-loader { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden; color: #fff; background: #020d1e; isolation: isolate; }
+.site-loader::before { content: ""; position: absolute; inset: 0; z-index: -2; opacity: .28; background-image: linear-gradient(rgba(111,181,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(111,181,255,.07) 1px, transparent 1px); background-size: clamp(54px, 6vw, 92px) clamp(54px, 6vw, 92px); mask-image: radial-gradient(circle at center, #000 5%, transparent 72%); }
+.site-loader-ambient { position: absolute; inset: -20%; z-index: -1; background: radial-gradient(circle at 50% 42%, rgba(30,111,211,.28), transparent 34%), radial-gradient(circle at 18% 78%, rgba(53,162,255,.12), transparent 28%); filter: blur(24px); }
+.site-loader-shell { position: absolute; inset: 0; }
+.site-loader-meta { position: absolute; z-index: 3; inset: clamp(22px, 3vw, 46px) clamp(22px, 4vw, 64px) auto; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; color: #d8ecff; text-shadow: 0 2px 16px rgba(0,10,28,.72); }
+.site-loader-meta span { display: flex; align-items: center; gap: 10px; }
+.site-loader-meta span i { width: 6px; height: 6px; border-radius: 50%; background: var(--electric); box-shadow: 0 0 0 6px rgba(53,162,255,.14), 0 0 20px var(--electric); }
+.site-loader-meta button { padding: 8px 0; border: 0; color: #9dc8ef; background: transparent; font-family: inherit; font-size: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; transition: color .2s ease; }
+.site-loader-meta button:hover,.site-loader-meta button:focus-visible { color: #fff; }
+.site-loader-meta button:focus-visible { outline: 2px solid var(--electric); outline-offset: 5px; }
+.site-loader-stage { position: absolute; inset: 0; overflow: hidden; background: #9ca2a7 url("/assets/nesco-logo-provided.png") center / min(58%, 680px) auto no-repeat; }
+.site-loader-stage video { width: 100%; height: 100%; display: block; object-fit: cover; }
+.site-loader-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 120px rgba(0,13,32,.28); background: linear-gradient(180deg, rgba(2,13,31,.32), transparent 28%, transparent 68%, rgba(2,13,31,.52)); }
+.site-loader-status { position: absolute; z-index: 3; inset: auto clamp(22px, 4vw, 64px) clamp(22px, 3vw, 46px); display: grid; grid-template-columns: max-content minmax(120px, 1fr) max-content; align-items: center; gap: 18px; color: #c4def6; font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; text-shadow: 0 2px 16px rgba(0,10,28,.72); }
+.site-loader-status span { color: #e5f2ff; }
+.site-loader-status small { font: inherit; }
+.site-loader-progress { height: 1px; overflow: hidden; background: rgba(157,200,239,.2); }
+.site-loader-progress i { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--blue), #8bcaff); box-shadow: 0 0 16px var(--electric); animation: site-loader-progress 2.35s linear forwards; }
+.site-loader.is-leaving { pointer-events: none; animation: site-loader-exit .76s cubic-bezier(.76,0,.24,1) forwards; }
+.site-loader.is-leaving .site-loader-shell { animation: site-loader-content-exit .55s cubic-bezier(.4,0,1,1) forwards; }
+@keyframes site-loader-progress { to { transform: scaleX(1); } }
+@keyframes site-loader-content-exit { to { opacity: 0; transform: translateY(-16px) scale(.985); } }
+@keyframes site-loader-exit { 65% { opacity: 1; } to { opacity: 0; visibility: hidden; clip-path: inset(0 0 100% 0); } }
 
 /* Shared header */
 header { position: fixed; inset: 0 0 auto; z-index: 100; height: 92px; padding: 0 5vw; display: grid; grid-template-columns: 230px 1fr 230px; align-items: center; color: white; border-bottom: 1px solid var(--white-line); transition: .35s ease; }
@@ -373,6 +392,11 @@ header.scrolled, .inner-header { height: 76px; background: rgba(3, 20, 46, .9); 
 }
 
 @media (max-width: 520px) {
+  .site-loader-meta { inset: 20px 18px auto; }
+  .site-loader-status { inset: auto 18px 20px; grid-template-columns: 1fr max-content; gap: 10px 16px; }
+  .site-loader-progress { grid-column: 1 / -1; grid-row: 1; }
+  .site-loader-status span { grid-column: 1; grid-row: 2; }
+  .site-loader-status small { grid-column: 2; grid-row: 2; }
   .hero-copy h1 { font-size: 15.5vw; }
   .hero-kicker span { display: none; }
   .manifesto-foot { font-size: 7px; }
@@ -384,7 +408,7 @@ header.scrolled, .inner-header { height: 76px; background: rgba(3, 20, 46, .9); 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .loader { display: none; }
+  .site-loader { display: none; }
   .manifesto-word { opacity: 1 !important; }
 }
 
@@ -884,8 +908,6 @@ p,h1,h2,h3,a,span { overflow-wrap:break-word; }
 }
 
 /* 2026 catalogue refresh */
-.loader-mark { letter-spacing: 0; }
-.loader-mark span { letter-spacing: -.055em; }
 .sequence-chapters h1,
 .standard-heading h2,
 .catalog-flow-head h2,

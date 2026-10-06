@@ -38,21 +38,6 @@ const aboutSlides = [
   { image: "/assets/about-slider/04-product-range.png", title: "Complete product range", detail: "One coordinated source for industrial metal supply" },
 ];
 
-function Loader() {
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    const timer = window.setTimeout(() => setDone(true), 900);
-    return () => window.clearTimeout(timer);
-  }, []);
-  return (
-    <motion.div className="loader" initial={false} animate={{ y: done ? "-100%" : 0 }} transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }} aria-hidden="true">
-      <div className="loader-mark"><span>NE</span><i /><span>SCO</span></div>
-      <div className="loader-line"><motion.i initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.85, ease: "easeInOut" }} /></div>
-      <p>Pipe & Tubes</p>
-    </motion.div>
-  );
-}
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return <motion.div className="page-progress" style={{ scaleY: scrollYProgress }} />;
@@ -369,5 +354,5 @@ function Contact() {
 }
 
 export default function Home() {
-  return <main><SmoothScroll /><Loader /><ScrollProgress /><SiteHeader home /><ScrollSequenceHero /><Standard /><AssuranceOrbit /><Products /><Industries /><Reach /><Contact /><SiteFooter /></main>;
+  return <main><SmoothScroll /><ScrollProgress /><SiteHeader home /><ScrollSequenceHero /><Standard /><AssuranceOrbit /><Products /><Industries /><Reach /><Contact /><SiteFooter /></main>;
 }

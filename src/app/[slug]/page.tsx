@@ -135,7 +135,7 @@ export default async function CatalogPage({ params }: Props) {
   const productImage = product ? getImageForProduct(product.slug) : undefined;
   const title = product?.title ?? company.title;
   const description = product?.description ?? company.description;
-  const isDetailedGradePage = product?.pageKind === "grade" && ["Stainless Steel", "Nickel Alloy", "Duplex & Super Duplex"].includes(product.material);
+  const isDetailedGradePage = product?.pageKind === "grade" && ["Stainless Steel", "Nickel Alloy", "Duplex & Super Duplex", "Cupro Nickel"].includes(product.material);
   const showMaterialData = product?.pageKind === "grade" || product?.category === "Pipes" || product?.category === "Tubes";
   const chemistryHeaders = product?.chemicalHeaders ?? ["Grade", "C", "Cr", "Ni", "Other"];
   const mechanicalHeaders = product?.mechanicalHeaders ?? ["Grade", "Tensile MPa", "Yield MPa", "Elongation %"];

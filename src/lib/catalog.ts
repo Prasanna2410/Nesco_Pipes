@@ -321,5 +321,12 @@ export function getImageForProduct(slug: string) {
   if (!category) return undefined;
 
   const productItem = category.items.find((item) => item.slug === slug);
-  return productItem ? `/assets/product-content/${slugify(productItem.title)}.png` : category.image;
+  if (!productItem) return category.image;
+
+  // Grade display titles may add a UNS designation that is intentionally not
+  // part of the stable route or existing asset filename.
+  const imageName = productItem.pageKind === "grade"
+    ? productItem.slug.replace(/-supplier-exporter$/, "")
+    : slugify(productItem.title);
+  return `/assets/product-content/${imageName}.png`;
 }
