@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import SiteLoader from "@/components/SiteLoader";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 
@@ -9,6 +10,7 @@ const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
 const manrope = Manrope({ variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "NESCO Pipe & Tubes | Stainless Steel & Alloy Products",
   description: "NESCO Pipe & Tubes supplies pipes, tubes, sheets, plates, coils, bars, flanges, fittings, fasteners, instrumentation fittings and valves from Mumbai.",
   icons: {
