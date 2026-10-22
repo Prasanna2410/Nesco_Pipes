@@ -177,7 +177,7 @@ export function SiteFooter() {
       <div className="footer-v3-bottom">
         <span>© 2026 NESCO Pipe &amp; Tubes. All rights reserved.</span>
         <p>Specification-led supply · India &amp; export markets</p>
-        <nav aria-label="Legal navigation"><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms-condition">Terms &amp; Conditions</Link></nav>
+        <nav aria-label="Legal and website navigation"><Link href="/sitemap">Sitemap</Link><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms-condition">Terms &amp; Conditions</Link></nav>
       </div>
     </div>
   </footer>;
