@@ -77,7 +77,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
         <div className="nav-products">
           <Link className={`nav-products-trigger ${productsActive ? "active" : ""}`} href="/products" onClick={closeMenus}>Products <ChevronDown /></Link>
           <div className="mega-menu">
-            <div className="mega-intro"><small>Core product line</small><h2>Find the right industrial product by form.</h2><p>Pipes, tubes, fittings and engineered metal products arranged for faster sourcing.</p><Link href="/products" onClick={closeMenus}>View complete catalogue <ArrowRight /></Link></div>
+            <div className="mega-intro"><small>Core product line</small><h2>The right product form for your requirement.</h2><p>Pipes, tubes, fittings and engineered metal products arranged for faster sourcing.</p><Link href="/products" onClick={closeMenus}>View complete catalogue <ArrowRight /></Link></div>
             <div className="mega-catalog">
               {productGroups.map((group, index) => <div className="mega-column" key={group.title}>
                 <Link className="mega-category" href={`/products#${group.id}`} onClick={closeMenus}><b>{String(index + 1).padStart(2, "0")}</b><span>{group.title}</span><ArrowUpRight /></Link>
@@ -89,7 +89,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
         <div className="nav-products nav-alloys">
           <Link className={`nav-products-trigger ${alloysActive ? "active" : ""}`} href="/alloys" onClick={closeMenus}>Alloy <ChevronDown /></Link>
           <div className="mega-menu mega-menu-alloys">
-            <div className="mega-intro mega-intro-alloys"><small>Material & alloy range</small><h2>Start with the material your service demands.</h2><p>Stainless steel, nickel alloys, duplex, cupro nickel and titanium grades arranged for specification-led sourcing.</p><Link href="/alloys" onClick={closeMenus}>View complete alloy directory <ArrowRight /></Link></div>
+            <div className="mega-intro mega-intro-alloys"><small>Material & alloy range</small><h2>Material selection guided by service requirements.</h2><p>Stainless steel, nickel alloys, duplex, cupro nickel and titanium grades arranged for specification-led sourcing.</p><Link href="/alloys" onClick={closeMenus}>View complete alloy directory <ArrowRight /></Link></div>
             <div className="mega-catalog mega-catalog-alloys">
               {alloyGroups.map((group, index) => <div className="mega-column" key={group.title}>
                 <Link className="mega-category" href={`/alloys#${group.id}`} onClick={closeMenus}><b>{String(index + 1).padStart(2, "0")}</b><span>{group.title}</span><ArrowUpRight /></Link>

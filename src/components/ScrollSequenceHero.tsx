@@ -11,28 +11,28 @@ const framePath = (index: number) =>
 
 const chapters = [
   {
-    eyebrow: "01 / NESCO PIPE & TUBES",
+    eyebrow: "01 · PRODUCT RANGE",
     label: "Product range",
-    title: <>Stainless steel and alloy products, organized for <em>industry.</em></>,
-    copy: "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, fasteners and valves from one Mumbai supply team.",
+    title: <>Your source for <em>industrial metal products.</em></>,
+    copy: "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, fasteners and valves from one Mumbai-based supply team.",
   },
   {
-    eyebrow: "02 / MATERIAL RANGE",
+    eyebrow: "02 · MATERIAL RANGE",
     label: "Material grades",
-    title: <>From stainless to nickel alloys, grade comes <em>first.</em></>,
-    copy: "Stainless steel, duplex, super duplex, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminum and SMO 254 options.",
+    title: <>From stainless steel to <em>speciality alloys.</em></>,
+    copy: "Stainless steel, duplex, super duplex, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminium and SMO 254 options for diverse industrial requirements.",
   },
   {
-    eyebrow: "03 / QUALITY SYSTEM",
-    label: "Quality system",
-    title: <>Specifications, certificates and inspection support in <em>flow.</em></>,
-    copy: "Orders can be supported with MTCs, dimensional checks, third-party inspection and export-ready packing.",
+    eyebrow: "03 · QUALITY & INSPECTION",
+    label: "Quality & inspection",
+    title: <>Supporting your quality and <em>inspection requirements.</em></>,
+    copy: "Orders can be supported with material test certificates (MTCs), dimensional checks, third-party inspection and export-ready packing, as specified.",
   },
   {
-    eyebrow: "04 / READY FOR SUPPLY",
-    label: "Supply network",
-    title: <>Made in Mumbai.<br /><em>Ready to move.</em></>,
-    copy: "Fast quotation and dispatch support for industrial buyers across India, the Middle East, Asia and global markets.",
+    eyebrow: "04 · SUPPLY REACH",
+    label: "Supply reach",
+    title: <>Your supply partner across India and <em>international markets.</em></>,
+    copy: "Responsive quotations and coordinated dispatch support for industrial buyers across India, the Middle East, Asia and other international markets.",
   },
 ];
 

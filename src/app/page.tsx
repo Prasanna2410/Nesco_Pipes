@@ -16,10 +16,10 @@ import { companyContact } from "@/lib/company-contact";
 gsap.registerPlugin(ScrollTrigger);
 
 const strengths = [
-  ["01", "Complete product range", "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, fasteners, instrumentation fittings and valves."],
-  ["02", "Materials and grades", "Stainless steel, duplex, super duplex, nickel alloys, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminum and SMO 254."],
-  ["03", "Quality documentation", "Material test certificates, dimensional checks, inspection support and export packing can be arranged for project orders."],
-  ["04", "Mumbai supply hub", "Responsive dispatch support for India, the Middle East, Asia, Europe and other export destinations."],
+  ["01", "Complete product range", "Pipes, tubes, sheets, plates, coils, bars, rods, wires, flanges, fittings, instrumentation fittings, fasteners and valves."],
+  ["02", "Materials and grades", "Stainless steel, duplex, super duplex, nickel alloys, Monel, Inconel, Hastelloy, carbon steel, titanium, aluminium and SMO 254."],
+  ["03", "Quality and documentation", "Material test certificates (MTCs), dimensional checks, third-party inspection and export packing can be arranged as specified."],
+  ["04", "Mumbai-based supply hub", "Responsive quotation and dispatch coordination for customers across India, the Middle East, Asia, Europe and other international markets."],
 ];
 
 const industries = [
@@ -150,10 +150,10 @@ function AssuranceOrbit() {
   const section = useRef<HTMLElement>(null);
   const portal = useRef<HTMLDivElement>(null);
   const steps = [
-    ["01", "Choose the family", "Start from pipes, tubes, flanges, sheets, fittings or valves so the enquiry lands in the right supply path."],
-    ["02", "Match the metal", "Select stainless steel, duplex, super duplex, nickel alloy, Monel, Inconel, Hastelloy, titanium or carbon steel."],
-    ["03", "Confirm the standard", "Share ASTM, ASME, ANSI, DIN, EN, JIS or project-specific requirements with dimensions and quantity."],
-    ["04", "Ship with proof", "Receive material documents, packing support and dispatch coordination from Mumbai for local or export orders."],
+    ["01", "Choose the product form", "Start with pipes, tubes, flanges, sheets, fittings or valves to direct your enquiry to the appropriate supply category."],
+    ["02", "Select the material", "Explore stainless steel, duplex, super duplex, nickel alloys, Monel, Inconel, Hastelloy, titanium and carbon steel options."],
+    ["03", "Specify the requirements", "Share the applicable ASTM, ASME, ANSI, DIN, EN, JIS or project-specific standards, along with dimensions, grade and quantity."],
+    ["04", "Coordinate dispatch and documentation", "Arrange applicable material documentation, packing and dispatch coordination from Mumbai for domestic and export orders."],
   ];
 
   useEffect(() => {
@@ -199,7 +199,7 @@ function Products() {
       <div className="catalog-flow-head">
         <span>/ 03 - PRODUCT CATALOGUE</span>
         <div>
-          <h2>One catalogue. Every essential connection.</h2>
+          <h2>One catalogue. A complete range of industrial metals.</h2>
           <p>Explore our core range by product form, from seamless pipe and heat exchanger tube to precision flanges, butt weld fittings, flat products, bars and fastening solutions.</p>
         </div>
       </div>
@@ -237,7 +237,7 @@ function Industries() {
         <div className="industries-showcase-title">
           <h2>Engineered for <em>critical environments.</em></h2>
           <div className="industries-showcase-brief">
-            <p>From pressure-intensive process plants to hygienic production lines, NESCO coordinates the metals, forms and documentation each operating environment demands.</p>
+            <p>From demanding process plants to hygienic production lines, NESCO sources the materials, product forms and documentation to meet diverse industrial requirements.</p>
             <div className="industry-brief-stats" aria-label="NESCO industry capabilities">
               <span><b>06</b> core sectors</span>
               <span><b>360°</b> supply support</span>
@@ -287,11 +287,16 @@ function Industries() {
 }
 
 function Reach() {
-  const destinations = ["India", "UAE", "Saudi Arabia", "Qatar", "Bahrain", "Kuwait", "Singapore", "Malaysia", "Canada", "Australia"];
-  const exportDestinations = destinations.slice(1);
+  const destinations = [
+    "India", "UAE", "Saudi Arabia", "Qatar", "Bahrain", "Kuwait", "Oman", "Singapore", "Malaysia", "Canada",
+    "Australia", "United States", "Mexico", "Germany", "Netherlands", "United Kingdom", "Poland", "Italy", "France", "Spain",
+    "Norway", "Belgium", "Czech Republic", "Turkey", "Iraq", "Jordan", "Israel", "Indonesia", "Vietnam", "Thailand",
+    "Philippines", "Taiwan", "South Africa", "Egypt", "Morocco", "Nigeria", "New Zealand", "Brazil", "Chile",
+  ];
+  const exportDestinations = destinations.slice(1, 10);
   return (
     <section className="reach-v3" id="reach">
-      <div className="reach-v3-head"><span>/ 04 - GLOBAL REACH</span><div><h2>India at the centre. Supply routes in motion.</h2><p>From Mumbai, NESCO coordinates stainless steel and alloy supply for industrial buyers, fabricators, maintenance teams and project contractors across key international markets.</p></div></div>
+      <div className="reach-v3-head"><span>/ 04 - GLOBAL REACH</span><div><h2>Mumbai-based. Connected to global markets.</h2><p>From Mumbai, NESCO coordinates the supply of stainless steel and alloy products for industrial buyers, fabricators, maintenance teams and project contractors across India and international markets.</p></div></div>
       <div className="reach-v3-grid">
         <motion.div className="network-map" initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
           <div className="supply-network">
@@ -307,7 +312,7 @@ function Reach() {
         <div className="network-copy">
           <small>Supply destinations</small>
           <div className="destination-list">{destinations.map((destination, index) => <span key={destination}>{String(index + 1).padStart(2, "0")} {destination}</span>)}</div>
-          <div className="network-stats"><div><b>15+</b><span>Countries served</span></div><div><b>243+</b><span>Happy clients</span></div><div><b>24/7</b><span>Support</span></div></div>
+          <div className="network-stats"><div><b>39</b><span>Listed markets</span></div><div><b>243+</b><span>Happy clients</span></div><div><b>24/7</b><span>Support</span></div></div>
           <Link href="/contact">Start an export enquiry <ArrowUpRight /></Link>
         </div>
       </div>
@@ -326,8 +331,8 @@ function Contact() {
       <div className="quote-atmosphere" aria-hidden="true"><i /><i /><i /></div>
       <motion.div className="contact-v3-intro" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.65 }}>
         <span className="quote-eyebrow"><i /> 05 / REQUEST A QUOTE</span>
-        <h2>Your requirement, <em>engineered into supply.</em></h2>
-        <p>Give our team the essentials and we will prepare a clear, specification-led quotation for your piping or metal requirement.</p>
+        <h2>Your requirements. <em>Our supply expertise.</em></h2>
+        <p>Share the key details of your requirement, and our team will prepare a clear quotation based on the specified material, grade, dimensions, applicable standards and quantity.</p>
         <div className="quote-essentials" aria-label="Details to include in your request">
           <div><b>01</b><span>Product form<small>Pipe, tube, flange or fitting</small></span></div>
           <div><b>02</b><span>Material grade<small>Alloy, standard and specification</small></span></div>
