@@ -53,9 +53,8 @@ export default function CertificatePage() {
 
       <section className="certification-intro" id="certificates">
         <div className="certification-section-kicker"><span>01</span><i /><small>Our credentials</small></div>
-        <div className="certification-intro-copy">
-          <h2><span>Standards you can inspect.</span><em>Confidence you can carry forward.</em></h2>
-          <p>Each certificate is presented in its original form. Open any credential for a clear, full-size view of its scope, certificate number, issue date and validity information.</p>
+        <div className="certification-intro-copy certification-intro-copy-single">
+          <h2><span>Standards you can verify.</span><em>Documentation you can trust.</em></h2>
         </div>
         <CertificateGallery />
       </section>

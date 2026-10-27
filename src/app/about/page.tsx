@@ -58,7 +58,7 @@ export default function AboutPage() {
         <div className="about-nx-hero-inner">
           <div className="about-nx-hero-copy">
             <div className="about-nx-eyebrow"><span>01</span><i /> NESCO Pipe &amp; Tubes · Mumbai</div>
-            <h1>Metal supply,<em>engineered around certainty.</em></h1>
+            <h1>Industrial metal supply,<em>built around your requirements.</em></h1>
             <p>NESCO brings industrial product range, alloy knowledge, quality documentation and delivery coordination together through one accountable supply desk.</p>
             <div className="about-nx-hero-actions">
               <a href="#company-story">Meet NESCO <ArrowDown /></a>
@@ -131,40 +131,10 @@ export default function AboutPage() {
         <div className="about-nx-system-foot"><span>Technical review</span><i /><span>Commercial alignment</span><i /><span>Quality release</span><i /><span>Dispatch coordination</span><Link href="/quality-policy">Explore quality assurance <ArrowUpRight /></Link></div>
       </section>
 
-      <section className="about-nx-products">
-        <div className="about-nx-section-heading">
-          <div className="about-nx-section-mark"><span>03</span><small>Product capability</small></div>
-          <div><h2>A complete industrial product architecture.</h2><p>Source individual items or coordinate multiple product forms through one enquiry, inspection and documentation channel.</p></div>
-        </div>
-        <div className="about-nx-product-grid">
-          {productCategories.map((category, index) => <Link href={`/products#${category.id}`} key={category.id} className={index === 0 || index === 5 ? "wide" : ""}>
-            <Image src={category.image} alt={`${category.title} supplied by NESCO`} fill sizes="(max-width: 700px) 100vw, 34vw" />
-            <div className="about-nx-product-shade" />
-            <small>{String(index + 1).padStart(2, "0")}</small>
-            <span><h3>{category.title}</h3><p>{category.summary}</p></span>
-            <ArrowUpRight />
-          </Link>)}
-        </div>
-        <Link className="about-nx-directory-link" href="/products"><span>Explore the complete Product Directory</span><ArrowUpRight /></Link>
-      </section>
-
-      <section className="about-nx-materials">
-        <div className="about-nx-materials-head">
-          <div><small>/ 04 · MATERIAL INTELLIGENCE</small><h2>Start with the alloy the service demands.</h2></div>
-          <p>NESCO coordinates product-form availability across corrosion-resistant and high-performance material families, with the exact grade and product specification treated as separate order inputs.</p>
-        </div>
-        <div className="about-nx-material-grid">
-          {alloyCategories.map((category, index) => <Link href={`/alloys#${category.id}`} key={category.id}>
-            <Image src={category.image} alt={category.title} fill sizes="(max-width: 700px) 100vw, 20vw" />
-            <div><small>{String(index + 1).padStart(2, "0")} / {String(alloyCategories.length).padStart(2, "0")}</small><h3>{category.title}</h3><p>{category.summary}</p><span>View grades <ArrowUpRight /></span></div>
-          </Link>)}
-        </div>
-      </section>
-
       <section className="about-nx-assurance">
         <div className="about-nx-assurance-copy">
-          <div className="about-nx-section-mark light"><span>05</span><small>Quality evidence</small></div>
-          <h2>Confidence backed by documents, checks and coordination.</h2>
+          <div className="about-nx-section-mark light"><span>03</span><small>Quality evidence</small></div>
+          <h2>Quality and documentation, aligned with your requirements.</h2>
           <p>NESCO supports ordered material through specification review, material traceability, dimensional and visual checks, inspection coordination and export-ready identification and packing.</p>
           <div className="about-nx-assurance-tags"><span>MTC support</span><span>PMI coordination</span><span>NDT reports</span><span>Third-party inspection</span></div>
           <Link href="/quality-policy">See how quality is managed <ArrowUpRight /></Link>
@@ -178,7 +148,7 @@ export default function AboutPage() {
 
       <section className="about-nx-advantages">
         <div className="about-nx-section-heading compact">
-          <div className="about-nx-section-mark"><span>06</span><small>Why NESCO</small></div>
+          <div className="about-nx-section-mark"><span>04</span><small>Why NESCO</small></div>
           <div><h2>Practical support at every critical stage.</h2><p>Professional supply is created by connected decisions—not one isolated promise.</p></div>
         </div>
         <div className="about-nx-advantage-grid">
@@ -187,8 +157,32 @@ export default function AboutPage() {
       </section>
 
       <section className="about-nx-direction">
-        <article><div><Target /><span>Mission</span></div><h2>Make technically correct metal supply easier to buy.</h2><p>Combine dependable material, responsive service, clear documentation and delivery discipline so customers can progress with confidence.</p></article>
-        <article><div><Globe2 /><span>Vision</span></div><h2>Be a trusted global source for industrial metal products.</h2><p>Build long-term recognition through broader capability, responsible operations, consistent quality and commitments that are carried through.</p></article>
+        <div className="about-nx-direction-shell">
+          <div className="about-nx-direction-head">
+            <div className="about-nx-section-mark"><span>05</span><small>Purpose &amp; ambition</small></div>
+            <div>
+              <small>NESCO / DIRECTION</small>
+              <h2>What guides us today.<em>Where we are building next.</em></h2>
+              <p>A clear purpose keeps sourcing, documentation and delivery decisions aligned. A clear ambition keeps that standard moving forward.</p>
+            </div>
+          </div>
+
+          <div className="about-nx-direction-grid">
+            <article className="about-nx-direction-card mission">
+              <div className="about-nx-direction-card-top"><span><Target /><b>Mission</b></span><small>01 / PURPOSE</small></div>
+              <div className="about-nx-direction-card-body"><span>01</span><h3>Make industrial metal procurement simpler and more dependable.</h3><p>Bring together reliable material sourcing, responsive service, clear documentation and disciplined delivery coordination so customers can procure with confidence.</p></div>
+              <div className="about-nx-direction-card-foot"><span>Reliable sourcing</span><span>Responsive service</span><span>Clear documentation</span></div>
+              <b className="about-nx-direction-monogram" aria-hidden="true">M</b>
+            </article>
+
+            <article className="about-nx-direction-card vision">
+              <div className="about-nx-direction-card-top"><span><Globe2 /><b>Vision</b></span><small>02 / AMBITION</small></div>
+              <div className="about-nx-direction-card-body"><span>02</span><h3>Be a trusted global source for industrial metal products.</h3><p>Build long-term recognition through broader capability, responsible operations, consistent quality and commitments that are carried through.</p></div>
+              <div className="about-nx-direction-card-foot"><span>Global reach</span><span>Responsible operations</span><span>Long-term trust</span></div>
+              <b className="about-nx-direction-monogram" aria-hidden="true">V</b>
+            </article>
+          </div>
+        </div>
       </section>
 
       <section className="about-nx-cta">

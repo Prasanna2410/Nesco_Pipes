@@ -160,8 +160,8 @@ export default function QualityPolicyPage() {
 
       <section className="quality-v2-commitments">
         <div className="quality-v2-section-head">
-          <div><small>/ 02 — QUALITY COMMITMENTS</small><h2>Control where it matters.<em>Evidence where it counts.</em></h2></div>
-          <p>Every order has its own technical basis. The controls below are applied in proportion to the product standard, service risk and approved purchase requirements.</p>
+          <div><small>/ 02 — QUALITY COMMITMENTS</small><h2>Precision where it matters.<em>Evidence where it counts.</em></h2></div>
+          <p>Every order has its own technical requirements. Quality checks, inspection and documentation are coordinated according to the applicable product standard, service requirements and agreed purchase specifications.</p>
         </div>
         <div className="quality-v2-commitment-grid">
           {qualityCommitments.map(({ icon: Icon, title, copy }, index) => (
@@ -196,8 +196,8 @@ export default function QualityPolicyPage() {
       <section className="quality-v2-inspection">
         <div className="quality-v2-kicker"><span>04</span><i /><small>Inspection & testing framework</small></div>
         <div className="quality-v2-inspection-heading">
-          <h2>From identity to final release.</h2>
-          <p>The exact inspection plan depends on the product form, material specification, manufacturing class and purchase order. NESCO coordinates the applicable checks and evidence rather than treating every product as identical.</p>
+          <h2>From material identification to final release.</h2>
+          <p>The inspection plan for each order depends on the product form, material specification, applicable manufacturing standard and purchase requirements. NESCO coordinates the relevant inspections, checks and documentation in line with the agreed requirements.</p>
         </div>
         <div className="quality-v2-inspection-table" role="region" aria-label="Quality inspection framework" tabIndex={0}>
           <div className="quality-v2-inspection-row quality-v2-inspection-head"><span>Control area</span><span>What is reviewed</span><span>Typical evidence</span></div>
@@ -276,7 +276,7 @@ export default function QualityPolicyPage() {
         <div className="quality-v2-cta-grid" aria-hidden="true" />
         <div className="quality-v2-cta-copy">
           <small><ShieldCheck aria-hidden="true" /> Project quality support</small>
-          <h2>Define the requirement.<em>We’ll coordinate the evidence.</em></h2>
+          <h2>Define the requirement.<em>We’ll coordinate the details.</em></h2>
           <p>Share the product, grade, standard, dimensions, inspection scope, documentation requirements and delivery destination for a structured review.</p>
           <div className="quality-v2-cta-tags" aria-label="Project quality support services">
             <span><CheckCircle2 aria-hidden="true" /> Specification review</span>
