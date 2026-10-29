@@ -18,11 +18,11 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { alloyCategories, productCategories } from "@/lib/catalog";
+import { alloyCategories } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "About NESCO Pipe & Tubes",
-  description: "Meet NESCO Pipe & Tubes, a Mumbai-based manufacturer, stockist, supplier and exporter of industrial metal products for India and international markets.",
+  description: "Established in 1985, NESCO Pipe & Tubes brings 30+ years of experience to industrial metal supply across India and international markets.",
 };
 
 const workflow = [
@@ -58,8 +58,8 @@ export default function AboutPage() {
         <div className="about-nx-hero-inner">
           <div className="about-nx-hero-copy">
             <div className="about-nx-eyebrow"><span>01</span><i /> NESCO Pipe &amp; Tubes · Mumbai</div>
-            <h1>Industrial metal supply,<em>built around your requirements.</em></h1>
-            <p>NESCO brings industrial product range, alloy knowledge, quality documentation and delivery coordination together through one accountable supply desk.</p>
+            <h1>Industrial metal supply,<em>built on experience and trust.</em></h1>
+            <p>Established in 1985, NESCO brings 30+ years of industry experience to dependable industrial metal supply across domestic and international markets.</p>
             <div className="about-nx-hero-actions">
               <a href="#company-story">Meet NESCO <ArrowDown /></a>
               <Link href="/contact">Discuss a requirement <ArrowUpRight /></Link>
@@ -79,8 +79,8 @@ export default function AboutPage() {
         </div>
 
         <div className="about-nx-hero-metrics">
-          <div><small>Product architecture</small><b>{String(productCategories.length).padStart(2, "0")}</b><span>Core product families</span></div>
-          <div><small>Material capability</small><b>{String(alloyCategories.length).padStart(2, "0")}</b><span>Alloy families</span></div>
+          <div><small>Established</small><b>1985</b><span>Mumbai, India</span></div>
+          <div><small>Industry experience</small><b>30+</b><span>Years of supply knowledge</span></div>
           <div><small>Published range</small><b>{String(gradeCount).padStart(2, "0")}</b><span>Listed alloy grades</span></div>
           <div><small>Supply reach</small><b>IN+</b><span>India and export markets</span></div>
         </div>
@@ -91,35 +91,67 @@ export default function AboutPage() {
       </div>
 
       <section className="about-nx-story" id="company-story">
-        <div className="about-nx-section-mark"><span>01</span><small>Company profile</small></div>
-        <div className="about-nx-story-layout">
-          <div className="about-nx-story-title">
-            <small>More than one product. More than one material.</small>
-            <h2>One coordinated source for demanding industrial supply.</h2>
+        <div className="about-nx-story-shell">
+          <div className="about-nx-section-mark"><span>01</span><small>Company profile</small></div>
+          <div className="about-nx-story-layout">
+            <div className="about-nx-story-title">
+              <small>Established in 1985 &middot; Mumbai, India</small>
+              <h2>Experience-led industrial supply, built around your requirements.</h2>
+              <div className="about-nx-story-facts" aria-label="Company profile highlights">
+                <span><b>1985</b><small>Established</small></span>
+                <span><b>30+</b><small>Years of experience</small></span>
+                <span><b>India + Export</b><small>Market coverage</small></span>
+              </div>
+            </div>
+            <div className="about-nx-story-copy">
+              <p className="lead">Established in 1985, NESCO Pipe &amp; Tubes brings 30+ years of industry experience to the supply of industrial metal products. Based in Mumbai, India, we serve process plants, EPC contractors, fabricators, maintenance teams and industrial distributors across domestic and international markets.</p>
+              <p>Built on the principles of quality, integrity and customer commitment, NESCO focuses on understanding the specific needs of every customer and coordinating suitable supply solutions for diverse industrial applications. Our approach combines material knowledge, sourcing capabilities and responsive service to support requirements from routine procurement to specialised project needs.</p>
+              <p>Our comprehensive product portfolio includes seamless, welded and EFW pipes, process and heat-transfer tubes, flanges, butt weld fittings, sheets, plates, coils, round bars, rods and industrial fasteners. We coordinate supply across stainless steel, nickel alloys, duplex and super duplex stainless steels, cupro nickel and titanium, subject to the specified standards, grades, dimensions and availability.</p>
+              <p>At NESCO, we believe dependable supply goes beyond the product itself. We emphasise clear communication, specification review, material traceability and coordination of inspection, documentation, packing and delivery requirements as agreed for each order.</p>
+            </div>
           </div>
-          <div className="about-nx-story-copy">
-            <p className="lead">NESCO Pipe &amp; Tubes is a Mumbai-based manufacturer, stockist, supplier and exporter serving process plants, EPC contractors, fabricators, maintenance teams and industrial distributors.</p>
-            <p>Our scope extends beyond stainless steel pipe. NESCO supports seamless, welded and EFW pipes; process and heat-transfer tubes; sheets, plates and coils; bars; flanges; butt weld fittings; and industrial fasteners.</p>
-            <p>Requirements can be coordinated across stainless steel, nickel alloys, duplex and super duplex, cupro nickel and titanium—subject to the exact product standard, grade, dimensions and availability.</p>
+          <div className="about-nx-story-bottom">
+            <div className="about-nx-story-image">
+              <Image src="/assets/about-slider/01-pipes-tubes.png" alt="Pipes and tubes supplied by NESCO" fill sizes="(max-width: 800px) 100vw, 58vw" />
+              <span><small>NESCO supply philosophy</small><b>Right material. Right document. Right delivery.</b></span>
+            </div>
+            <aside className="about-nx-story-note">
+              <span>How we support supply</span>
+              <h3>More than material. A coordinated supply response.</h3>
+              <p>Every enquiry is reviewed around the grade, standard, dimensions, supply condition, testing, documentation, packing and destination&mdash;not simply a product name.</p>
+              <ul><li><Check /> Specification-led review</li><li><Check /> One accountable contact</li><li><Check /> India and export coordination</li></ul>
+            </aside>
           </div>
         </div>
-        <div className="about-nx-story-bottom">
-          <div className="about-nx-story-image">
-            <Image src="/assets/about-slider/01-pipes-tubes.png" alt="Pipes and tubes supplied by NESCO" fill sizes="(max-width: 800px) 100vw, 58vw" />
-            <span><small>NESCO supply philosophy</small><b>Right material. Right document. Right delivery.</b></span>
+      </section>
+
+      <section className="about-nx-direction">
+        <div className="about-nx-direction-shell">
+          <div className="about-nx-section-mark light"><span>02</span><small>Mission &amp; vision</small></div>
+          <div className="about-nx-direction-head">
+            <div><small>Purpose and direction</small><h2>Dependable today.<em>Trusted for the long term.</em></h2></div>
+            <p>Our mission defines how we support customers now. Our vision sets the standard for the relationships, capabilities and responsible growth we continue to build.</p>
           </div>
-          <aside className="about-nx-story-note">
-            <span>Our role</span>
-            <h3>Turn a technical requirement into a supply-ready order.</h3>
-            <p>Every enquiry is reviewed around the grade, standard, dimensions, supply condition, testing, documentation, packing and destination—not simply a product name.</p>
-            <ul><li><Check /> Specification-led review</li><li><Check /> One accountable contact</li><li><Check /> India and export coordination</li></ul>
-          </aside>
+          <div className="about-nx-direction-grid">
+            <article className="about-nx-direction-card mission">
+              <div className="about-nx-direction-card-top"><span><Target /><b>Our mission</b></span><small>01</small></div>
+              <h3>Make industrial metal procurement simpler and more dependable.</h3>
+              <p>Bring together reliable material sourcing, responsive service, clear documentation and disciplined delivery coordination so customers can procure with confidence.</p>
+              <div className="about-nx-direction-card-foot"><span>Reliable sourcing</span><span>Responsive service</span><span>Clear documentation</span></div>
+            </article>
+            <article className="about-nx-direction-card vision">
+              <div className="about-nx-direction-card-top"><span><Globe2 /><b>Our vision</b></span><small>02</small></div>
+              <h3>Be a trusted global source for industrial metal products.</h3>
+              <p>Build long-term recognition through broader capability, responsible operations, consistent quality and commitments that are carried through.</p>
+              <div className="about-nx-direction-card-foot"><span>Global reach</span><span>Responsible operations</span><span>Long-term trust</span></div>
+            </article>
+          </div>
         </div>
       </section>
 
       <section className="about-nx-system">
         <div className="about-nx-system-head">
-          <div className="about-nx-section-mark light"><span>02</span><small>Operating model</small></div>
+          <div className="about-nx-section-mark light"><span>03</span><small>Operating model</small></div>
           <div><h2>From enquiry to dispatch,<em>clarity stays in the loop.</em></h2><p>A disciplined order path reduces ambiguity before material enters production, inspection, packing or transport.</p></div>
         </div>
         <ol className="about-nx-workflow">
@@ -133,7 +165,7 @@ export default function AboutPage() {
 
       <section className="about-nx-assurance">
         <div className="about-nx-assurance-copy">
-          <div className="about-nx-section-mark light"><span>03</span><small>Quality evidence</small></div>
+          <div className="about-nx-section-mark light"><span>04</span><small>Quality evidence</small></div>
           <h2>Quality and documentation, aligned with your requirements.</h2>
           <p>NESCO supports ordered material through specification review, material traceability, dimensional and visual checks, inspection coordination and export-ready identification and packing.</p>
           <div className="about-nx-assurance-tags"><span>MTC support</span><span>PMI coordination</span><span>NDT reports</span><span>Third-party inspection</span></div>
@@ -148,7 +180,7 @@ export default function AboutPage() {
 
       <section className="about-nx-advantages">
         <div className="about-nx-section-heading compact">
-          <div className="about-nx-section-mark"><span>04</span><small>Why NESCO</small></div>
+          <div className="about-nx-section-mark"><span>05</span><small>Why NESCO</small></div>
           <div><h2>Practical support at every critical stage.</h2><p>Professional supply is created by connected decisions—not one isolated promise.</p></div>
         </div>
         <div className="about-nx-advantage-grid">
@@ -156,39 +188,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-nx-direction">
-        <div className="about-nx-direction-shell">
-          <div className="about-nx-direction-head">
-            <div className="about-nx-section-mark"><span>05</span><small>Purpose &amp; ambition</small></div>
-            <div>
-              <small>NESCO / DIRECTION</small>
-              <h2>What guides us today.<em>Where we are building next.</em></h2>
-              <p>A clear purpose keeps sourcing, documentation and delivery decisions aligned. A clear ambition keeps that standard moving forward.</p>
-            </div>
-          </div>
-
-          <div className="about-nx-direction-grid">
-            <article className="about-nx-direction-card mission">
-              <div className="about-nx-direction-card-top"><span><Target /><b>Mission</b></span><small>01 / PURPOSE</small></div>
-              <div className="about-nx-direction-card-body"><span>01</span><h3>Make industrial metal procurement simpler and more dependable.</h3><p>Bring together reliable material sourcing, responsive service, clear documentation and disciplined delivery coordination so customers can procure with confidence.</p></div>
-              <div className="about-nx-direction-card-foot"><span>Reliable sourcing</span><span>Responsive service</span><span>Clear documentation</span></div>
-              <b className="about-nx-direction-monogram" aria-hidden="true">M</b>
-            </article>
-
-            <article className="about-nx-direction-card vision">
-              <div className="about-nx-direction-card-top"><span><Globe2 /><b>Vision</b></span><small>02 / AMBITION</small></div>
-              <div className="about-nx-direction-card-body"><span>02</span><h3>Be a trusted global source for industrial metal products.</h3><p>Build long-term recognition through broader capability, responsible operations, consistent quality and commitments that are carried through.</p></div>
-              <div className="about-nx-direction-card-foot"><span>Global reach</span><span>Responsible operations</span><span>Long-term trust</span></div>
-              <b className="about-nx-direction-monogram" aria-hidden="true">V</b>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section className="about-nx-cta">
         <div className="about-nx-grid" aria-hidden="true" />
-        <div><small>NESCO / MUMBAI / INDIA &amp; EXPORT</small><h2>Bring the specification.<em>We’ll coordinate the supply.</em></h2><p>Share the product, grade, standard, dimensions, quantity, testing scope and destination for a structured response.</p></div>
-        <Link href="/contact"><span>Start a product enquiry</span><ArrowUpRight /></Link>
+        <div className="about-nx-cta-copy"><small>Discuss your requirement</small><h2>Bring the specification.<em>We will coordinate the supply.</em></h2><p>Share the product, grade, standard, dimensions, quantity, testing scope and destination for a structured response.</p></div>
+        <div className="about-nx-cta-action"><span>Based in Mumbai, serving India and international markets.</span><Link href="/contact"><span>Start a product enquiry</span><ArrowUpRight /></Link></div>
       </section>
 
       <SiteFooter />
