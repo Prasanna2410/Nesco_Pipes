@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, Boxes, CircleDot } from "lucide-react";
 import { useState } from "react";
 import { alloyCategories, productCategories } from "@/lib/catalog";
+import { MATERIALS_PATH, productHref } from "@/lib/product-routes";
 
 export function ProductCategorySidebar({ currentSlug }: { currentSlug: string }) {
   const currentPageIsAlloy = alloyCategories.some((category) => category.items.some((item) => item.slug === currentSlug));
@@ -11,12 +12,12 @@ export function ProductCategorySidebar({ currentSlug }: { currentSlug: string })
   const browsingAlloys = browseMode === "alloys";
   const categories = browsingAlloys ? alloyCategories : productCategories;
   const itemCount = categories.reduce((total, category) => total + category.items.length, 0);
-  const directoryHref = browsingAlloys ? "/alloys" : "/products";
+  const directoryHref = browsingAlloys ? MATERIALS_PATH : "/products";
 
   return (
-    <aside className={`product-category-sidebar ${browsingAlloys ? "alloy-category-sidebar" : ""}`} aria-label={browsingAlloys ? "Browse alloy families" : "Browse product categories"}>
+    <aside className={`product-category-sidebar ${browsingAlloys ? "alloy-category-sidebar" : ""}`} aria-label={browsingAlloys ? "Browse material families" : "Browse product categories"}>
       <div className="product-sidebar-heading">
-        <small>{browsingAlloys ? "Alloy explorer" : "Product explorer"}</small>
+        <small>{browsingAlloys ? "Materials explorer" : "Product explorer"}</small>
         <strong>{browsingAlloys ? "Browse materials and grades" : "Browse the complete range"}</strong>
         <div className="product-sidebar-switch" role="group" aria-label="Choose sidebar catalogue">
           <button type="button" aria-pressed={!browsingAlloys} onClick={() => setBrowseMode("products")}>
@@ -25,7 +26,7 @@ export function ProductCategorySidebar({ currentSlug }: { currentSlug: string })
           </button>
           <button type="button" aria-pressed={browsingAlloys} onClick={() => setBrowseMode("alloys")}>
             <CircleDot aria-hidden="true" />
-            <span>By alloys</span>
+            <span>By materials</span>
           </button>
         </div>
         <div className="product-sidebar-meta">
@@ -48,7 +49,7 @@ export function ProductCategorySidebar({ currentSlug }: { currentSlug: string })
                 </summary>
                 <div>
                   {category.items.map((item) => (
-                    <Link className={item.slug === currentSlug ? "is-current" : undefined} href={`/${item.slug}`} key={item.slug} aria-current={item.slug === currentSlug ? "page" : undefined}>
+                    <Link className={item.slug === currentSlug ? "is-current" : undefined} href={productHref(item.slug)} key={item.slug} aria-current={item.slug === currentSlug ? "page" : undefined}>
                       <span>{item.title}</span>
                       <ArrowUpRight />
                     </Link>

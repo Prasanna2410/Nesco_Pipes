@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { alloyCategories, productCategories } from "@/lib/catalog";
 import { companyContact } from "@/lib/company-contact";
+import { MATERIALS_PATH, productHref } from "@/lib/product-routes";
 
 function BrandLogo() {
   return <span className="brand-crop"><Image src="/assets/nesco-logo-provided.png" width={1600} height={900} alt="NESCO Pipe & Tubes" priority /></span>;
@@ -18,13 +19,13 @@ type ProductGroup = { id: string; title: string; links: ReadonlyArray<readonly [
 const productGroups: ProductGroup[] = productCategories.map((category) => ({
   id: category.id,
   title: category.title,
-  links: category.items.slice(0, 5).map((item) => [item.title, `/${item.slug}`] as const),
+  links: category.items.slice(0, 5).map((item) => [item.title, productHref(item.slug)] as const),
 }));
 
 const alloyGroups: ProductGroup[] = alloyCategories.map((category) => ({
   id: category.id,
   title: category.title,
-  links: category.items.slice(0, 5).map((item) => [item.title, `/${item.slug}`] as const),
+  links: category.items.slice(0, 5).map((item) => [item.title, productHref(item.slug)] as const),
 }));
 
 export function SiteHeader({ home = false }: { home?: boolean }) {
@@ -49,10 +50,10 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     setMobileOpen(false);
     setMobileAboutOpen(false);
   };
-  const currentSlug = pathname.replace(/^\//, "");
+  const currentSlug = pathname.split("/").filter(Boolean).at(-1) ?? "";
   const aboutActive = ["/about", "/quality-policy", "/certificate"].includes(pathname);
   const productsActive = pathname === "/products" || productCategories.some((category) => category.items.some((item) => item.slug === currentSlug));
-  const alloysActive = pathname === "/alloys" || alloyCategories.some((category) => category.items.some((item) => item.slug === currentSlug));
+  const materialsActive = pathname === MATERIALS_PATH || alloyCategories.some((category) => category.items.some((item) => item.slug === currentSlug));
 
   return (
     <header className={`site-header ${scrolled ? "scrolled" : ""} ${!home ? "inner-header" : ""}`}>
@@ -87,12 +88,12 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           </div>
         </div>
         <div className="nav-products nav-alloys">
-          <Link className={`nav-products-trigger ${alloysActive ? "active" : ""}`} href="/alloys" onClick={closeMenus}>Alloy <ChevronDown /></Link>
+          <Link className={`nav-products-trigger ${materialsActive ? "active" : ""}`} href={MATERIALS_PATH} onClick={closeMenus}>Materials <ChevronDown /></Link>
           <div className="mega-menu mega-menu-alloys">
-            <div className="mega-intro mega-intro-alloys"><small>Material & alloy range</small><h2>Material selection guided by service requirements.</h2><p>Stainless steel, nickel alloys, duplex, cupro nickel and titanium grades arranged for specification-led sourcing.</p><Link href="/alloys" onClick={closeMenus}>View complete alloy directory <ArrowRight /></Link></div>
+            <div className="mega-intro mega-intro-alloys"><small>Materials and grades</small><h2>Material selection guided by service requirements.</h2><p>Stainless steel, nickel alloys, duplex, cupro nickel and titanium grades arranged for specification-led sourcing.</p><Link href={MATERIALS_PATH} onClick={closeMenus}>View complete materials directory <ArrowRight /></Link></div>
             <div className="mega-catalog mega-catalog-alloys">
               {alloyGroups.map((group, index) => <div className="mega-column" key={group.title}>
-                <Link className="mega-category" href={`/alloys#${group.id}`} onClick={closeMenus}><b>{String(index + 1).padStart(2, "0")}</b><span>{group.title}</span><ArrowUpRight /></Link>
+                <Link className="mega-category" href={`${MATERIALS_PATH}#${group.id}`} onClick={closeMenus}><b>{String(index + 1).padStart(2, "0")}</b><span>{group.title}</span><ArrowUpRight /></Link>
                 <div>{group.links.map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}<ArrowUpRight /></Link>)}</div>
               </div>)}
             </div>
@@ -115,11 +116,11 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
               </div>
             </div>
             <Link href="/products" onClick={closeMenus}>Products <ArrowUpRight /></Link>
-            <Link href="/alloys" onClick={closeMenus}>Alloy <ArrowUpRight /></Link>
+            <Link href={MATERIALS_PATH} onClick={closeMenus}>Materials <ArrowUpRight /></Link>
             <Link href="/contact" onClick={closeMenus}>Contact <ArrowUpRight /></Link>
           </div>
           <div className="mobile-menu-products"><small>Popular product pages</small>{productGroups.flatMap((group) => group.links.slice(0, 2)).map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}</Link>)}</div>
-          <div className="mobile-menu-products mobile-menu-alloys"><small>Popular alloy grades</small>{alloyGroups.flatMap((group) => group.links.slice(0, 1)).map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}</Link>)}</div>
+          <div className="mobile-menu-products mobile-menu-alloys"><small>Popular material grades</small>{alloyGroups.flatMap((group) => group.links.slice(0, 1)).map(([label, href]) => <Link href={href} key={href} onClick={closeMenus}>{label}</Link>)}</div>
           <div className="mobile-menu-contact"><a href={companyContact.primaryPhoneHref}>{companyContact.primaryPhone} / {companyContact.secondaryPhone}</a><span>Mumbai, India</span></div>
         </motion.nav> : null}
       </AnimatePresence>
@@ -140,23 +141,23 @@ export function SiteFooter() {
         <nav className="footer-v3-column" aria-label="Footer product navigation">
           <small>Product range</small>
           <Link href="/products">Product Directory</Link>
-          <Link href="/seamless-pipes-supplier-exporter">Pipes</Link>
-          <Link href="/seamless-tubes-supplier-exporter">Tubes</Link>
-          <Link href="/sheets-supplier-exporter">Sheets, Plates &amp; Coils</Link>
-          <Link href="/round-bars-supplier-exporter">Bars</Link>
-          <Link href="/weld-neck-flanges-supplier-exporter">Flanges</Link>
-          <Link href="/elbows-supplier-exporter">Butt Weld Fittings</Link>
-          <Link href="/stud-bolts-supplier-exporter">Fasteners</Link>
+          <Link href={productHref("seamless-pipes-supplier-exporter")}>Pipes</Link>
+          <Link href={productHref("seamless-tubes-supplier-exporter")}>Tubes</Link>
+          <Link href={productHref("sheets-supplier-exporter")}>Sheets, Plates &amp; Coils</Link>
+          <Link href={productHref("round-bars-supplier-exporter")}>Bars</Link>
+          <Link href={productHref("weld-neck-flanges-supplier-exporter")}>Flanges</Link>
+          <Link href={productHref("elbows-supplier-exporter")}>Butt Weld Fittings</Link>
+          <Link href={productHref("stud-bolts-supplier-exporter")}>Fasteners</Link>
         </nav>
 
-        <nav className="footer-v3-column" aria-label="Footer alloy navigation">
-          <small>Alloy families</small>
-          <Link href="/alloys">Alloy Directory</Link>
-          <Link href="/alloys#stainless-steel-grades">Stainless Steel</Link>
-          <Link href="/alloys#nickel-alloy-grades">Nickel Alloys</Link>
-          <Link href="/alloys#duplex-super-duplex-grades">Duplex &amp; Super Duplex</Link>
-          <Link href="/alloys#cupro-nickel-grades">Cupro Nickel</Link>
-          <Link href="/alloys#titanium-grades">Titanium</Link>
+        <nav className="footer-v3-column" aria-label="Footer materials navigation">
+          <small>Material families</small>
+          <Link href={MATERIALS_PATH}>Materials Directory</Link>
+          <Link href={`${MATERIALS_PATH}#stainless-steel-grades`}>Stainless Steel</Link>
+          <Link href={`${MATERIALS_PATH}#nickel-alloy-grades`}>Nickel Alloys</Link>
+          <Link href={`${MATERIALS_PATH}#duplex-super-duplex-grades`}>Duplex &amp; Super Duplex</Link>
+          <Link href={`${MATERIALS_PATH}#cupro-nickel-grades`}>Cupro Nickel</Link>
+          <Link href={`${MATERIALS_PATH}#titanium-grades`}>Titanium</Link>
         </nav>
 
         <nav className="footer-v3-column" aria-label="Footer company navigation">

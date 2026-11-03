@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Boxes, Check, CircleDot, Minus, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { alloyCategories, materialAvailabilityMatrix, productCategories } from "@/lib/catalog";
+import { productHref } from "@/lib/product-routes";
 
 type BrowseMode = "form" | "alloy";
 
@@ -15,7 +16,7 @@ type ProductExplorerProps = {
 
 const modes = [
   { id: "form" as const, label: "By product form", description: "Pipes, tubes, flanges and more" },
-  { id: "alloy" as const, label: "By alloy grade", description: "Stainless, nickel, duplex and more" },
+  { id: "alloy" as const, label: "By material", description: "Stainless, nickel, duplex and more" },
 ];
 
 const alloyGradeCount = alloyCategories.reduce((total, category) => total + category.items.length, 0);
@@ -67,12 +68,12 @@ export function ProductExplorer({ initialMode = "form" }: ProductExplorerProps) 
     <section className="product-explorer" aria-labelledby="product-explorer-title">
       <div className="explorer-heading">
         <div>
-          <span>{isAlloyDirectory ? "/ ALLOY DIRECTORY" : "/ PRODUCT DIRECTORY"}</span>
+          <span>{isAlloyDirectory ? "/ MATERIALS DIRECTORY" : "/ PRODUCT DIRECTORY"}</span>
           <h2 id="product-explorer-title">{isAlloyDirectory ? <>Material families.<br /><em>Grades ready to source.</em></> : <>One range.<br /><em>Two ways to source.</em></>}</h2>
         </div>
         <div className="explorer-heading-copy">
-          <p>{isAlloyDirectory ? "Start with the required alloy family, compare the available grades and continue to specification-led material pages prepared for industrial enquiries." : "Browse by physical product form or start with the alloy your application requires. Each path leads to clear, enquiry-ready product pages."}</p>
-          <div><span><b>{String(isAlloyDirectory ? alloyCategories.length : productCategories.length).padStart(2, "0")}</b> {isAlloyDirectory ? "material families" : "product families"}</span><span><b>{alloyGradeCount}</b> alloy grades</span></div>
+          <p>{isAlloyDirectory ? "Start with the required material family, compare the available grades and continue to specification-led material pages prepared for industrial enquiries." : "Browse by physical product form or start with the material your application requires. Each path leads to clear, enquiry-ready product pages."}</p>
+          <div><span><b>{String(isAlloyDirectory ? alloyCategories.length : productCategories.length).padStart(2, "0")}</b> {isAlloyDirectory ? "material families" : "product families"}</span><span><b>{alloyGradeCount}</b> material grades</span></div>
         </div>
       </div>
 
@@ -86,7 +87,7 @@ export function ProductExplorer({ initialMode = "form" }: ProductExplorerProps) 
       </div>
 
       <div className="explorer-workspace">
-        <nav className="explorer-category-nav" aria-label={mode === "form" ? "Product-form categories" : "Alloy categories"}>
+        <nav className="explorer-category-nav" aria-label={mode === "form" ? "Product-form categories" : "Material categories"}>
           <small>{mode === "form" ? "Core product line" : "Material families"}</small>
           {categories.map((category, index) => (
             <button key={category.id} type="button" className={index === activeIndex ? "active" : ""} onClick={() => setActiveIndex(index)} aria-pressed={index === activeIndex}>
@@ -103,7 +104,7 @@ export function ProductExplorer({ initialMode = "form" }: ProductExplorerProps) 
               <div className="explorer-visual">
                 <Image src={activeCategory.image} alt={activeCategory.title} fill sizes="(max-width: 900px) 100vw, 58vw" priority={activeIndex === 0} />
                 <div className="explorer-visual-shade" />
-                <span>{mode === "form" ? "Product form" : "Alloy family"}</span>
+                <span>{mode === "form" ? "Product form" : "Material family"}</span>
                 <div><small>{String(activeIndex + 1).padStart(2, "0")} / {String(categories.length).padStart(2, "0")}</small><h3>{activeCategory.title}</h3></div>
               </div>
               <div className="explorer-detail">
@@ -112,7 +113,7 @@ export function ProductExplorer({ initialMode = "form" }: ProductExplorerProps) 
                   <small>{mode === "form" ? "Available products" : "Available grades"}</small>
                   <div>
                     {activeCategory.items.map((item, index) => (
-                      <Link href={`/${item.slug}`} key={item.slug}>
+                      <Link href={productHref(item.slug)} key={item.slug}>
                         <b>{String(index + 1).padStart(2, "0")}</b>
                         <span>{item.title}</span>
                         <ArrowUpRight />

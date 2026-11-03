@@ -12,6 +12,8 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import ScrollSequenceHero from "@/components/ScrollSequenceHero";
 import { productCategories } from "@/lib/catalog";
 import { companyContact } from "@/lib/company-contact";
+import { productHref } from "@/lib/product-routes";
+import { type EnquiryStatus, submitEnquiry } from "@/lib/submit-enquiry";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -212,7 +214,7 @@ function Products() {
             <p>{category.summary}</p>
             <div>
               {category.items.slice(0, 4).map((item) => (
-                <Link href={`/${item.slug}`} key={item.slug}>{item.title}</Link>
+                <Link href={productHref(item.slug)} key={item.slug}>{item.title}</Link>
               ))}
             </div>
             <Link className="category-all" href={`/products#${category.id}`}>Full range <MoveRight /></Link>
@@ -321,10 +323,19 @@ function Reach() {
 }
 
 function Contact() {
-  function submit(e: FormEvent<HTMLFormElement>) {
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry is sent securely to the NESCO sales and exports team." });
+
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`Quote: ${data.get("product")}`)}&body=${encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nRequirement: ${data.get("message")}`)}`;
+    const form = e.currentTarget;
+    setSubmission({ status: "sending", message: "Sending your enquiry securely..." });
+    try {
+      await submitEnquiry(form, "Homepage quote form");
+      form.reset();
+      setSubmission({ status: "success", message: "Thank you. Your enquiry has been sent to the NESCO sales team." });
+    } catch (error) {
+      setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
+    }
   }
   return (
     <section className="contact-v3" id="contact">
@@ -346,13 +357,14 @@ function Contact() {
         </div>
       </motion.div>
       <motion.form className="contact-form-v3" onSubmit={submit} initial={{ opacity: 0, y: 36 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.65 }}>
+        <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
         <div className="form-head"><span className="form-head-icon"><Factory /></span><div><small>Direct sales enquiry</small><h3>Build your quotation brief.</h3></div><FileCheck2 /></div>
         <div className="quote-form-steps" aria-hidden="true"><span className="active">Contact</span><i /><span>Specification</span><i /><span>Send</span></div>
         <label><span>Your name <b>*</b></span><input name="name" placeholder="Full name" autoComplete="name" required /></label>
         <label><span>Work email <b>*</b></span><input name="email" type="email" placeholder="name@company.com" autoComplete="email" required /></label>
         <label className="wide"><span>Product or material grade <b>*</b></span><input name="product" placeholder="e.g. Duplex 2205 seamless pipes" required /></label>
         <label className="wide"><span>Requirement details <b>*</b></span><textarea name="message" placeholder="Add size, schedule or class, quantity, applicable standard and delivery destination" required /></label>
-        <button><span>Prepare email enquiry</span><ArrowUpRight /></button><p><CheckCircle2 /> Your details stay in your email client. Submitting opens a ready-to-send draft.</p>
+        <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><ArrowUpRight /></button><p className={`form-submission-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
       </motion.form>
     </section>
   );

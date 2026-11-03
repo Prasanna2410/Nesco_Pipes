@@ -296,7 +296,7 @@ export const companyPages = {
   },
   products: {
     title: "Product Catalogue",
-    description: "Explore pipes, tubes, flanges, fittings, flat products, bars and fasteners by product form or alloy family.",
+    description: "Explore pipes, tubes, flanges, fittings, flat products, bars and fasteners by product form or material family.",
   },
   "privacy-policy": {
     title: "Privacy Policy",

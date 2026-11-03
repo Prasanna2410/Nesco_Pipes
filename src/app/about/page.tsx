@@ -81,13 +81,13 @@ export default function AboutPage() {
         <div className="about-nx-hero-metrics">
           <div><small>Established</small><b>1985</b><span>Mumbai, India</span></div>
           <div><small>Industry experience</small><b>30+</b><span>Years of supply knowledge</span></div>
-          <div><small>Published range</small><b>{String(gradeCount).padStart(2, "0")}</b><span>Listed alloy grades</span></div>
+          <div><small>Published range</small><b>{String(gradeCount).padStart(2, "0")}</b><span>Listed material grades</span></div>
           <div><small>Supply reach</small><b>IN+</b><span>India and export markets</span></div>
         </div>
       </section>
 
       <div className="about-nx-marquee" aria-label="NESCO product and material range">
-        <div><span>Pipes</span><i /> <span>Tubes</span><i /> <span>Flat Products</span><i /> <span>Bars</span><i /> <span>Flanges</span><i /> <span>Fittings</span><i /> <span>Fasteners</span><i /> <span>Special Alloys</span></div>
+        <div><span>Pipes</span><i /> <span>Tubes</span><i /> <span>Flat Products</span><i /> <span>Bars</span><i /> <span>Flanges</span><i /> <span>Fittings</span><i /> <span>Fasteners</span><i /> <span>Special Materials</span></div>
       </div>
 
       <section className="about-nx-story" id="company-story">

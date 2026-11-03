@@ -3,18 +3,19 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { alloyCategories, productCategories } from "@/lib/catalog";
+import { MATERIALS_PATH, productHref } from "@/lib/product-routes";
 
 export const metadata: Metadata = {
   title: "Sitemap | NESCO Pipe & Tubes",
   description:
-    "Browse all NESCO Pipe & Tubes company, product and alloy-grade pages from one structured directory.",
+    "Browse all NESCO Pipe & Tubes company, product and material-grade pages from one structured directory.",
 };
 
 const companyLinks = [
   ["Home", "/"],
   ["About Us", "/about"],
   ["Product Directory", "/products"],
-  ["Alloy Directory", "/alloys"],
+  ["Materials Directory", MATERIALS_PATH],
   ["Quality Assurance", "/quality-policy"],
   ["Certifications & Compliance", "/certificate"],
   ["Contact the Sales Desk", "/contact"],
@@ -44,7 +45,7 @@ export default function SitemapPage() {
         <div className="sitemap-directory-intro">
           <small>/ Complete directory</small>
           <h2>Find the right page.</h2>
-          <p>Navigate by company information, product form or alloy family.</p>
+          <p>Navigate by company information, product form or material family.</p>
         </div>
 
         <div className="sitemap-primary-grid">
@@ -72,7 +73,7 @@ export default function SitemapPage() {
             <article className="sitemap-link-group" key={category.id}>
               <div className="sitemap-group-heading"><span>{String(category.items.length).padStart(2, "0")}</span><div><small>Product range</small><h3>{category.title}</h3></div></div>
               <nav aria-label={`${category.title} pages`}>
-                {category.items.map((item) => <Link href={`/${item.slug}`} key={item.slug}><span>{item.title}</span><ArrowUpRight /></Link>)}
+                {category.items.map((item) => <Link href={productHref(item.slug)} key={item.slug}><span>{item.title}</span><ArrowUpRight /></Link>)}
               </nav>
             </article>
           ))}
@@ -80,14 +81,14 @@ export default function SitemapPage() {
 
         <div className="sitemap-section-heading sitemap-alloy-heading">
           <small>/ 04 — Materials</small>
-          <h2>Browse by alloy grade.</h2>
+          <h2>Browse by material grade.</h2>
         </div>
         <div className="sitemap-groups-grid">
           {alloyCategories.map((category) => (
             <article className="sitemap-link-group" key={category.id}>
-              <div className="sitemap-group-heading"><span>{String(category.items.length).padStart(2, "0")}</span><div><small>Alloy family</small><h3>{category.title}</h3></div></div>
+              <div className="sitemap-group-heading"><span>{String(category.items.length).padStart(2, "0")}</span><div><small>Material family</small><h3>{category.title}</h3></div></div>
               <nav aria-label={`${category.title} grade pages`}>
-                {category.items.map((item) => <Link href={`/${item.slug}`} key={item.slug}><span>{item.displayTitle ?? item.title}</span><ArrowUpRight /></Link>)}
+                {category.items.map((item) => <Link href={productHref(item.slug)} key={item.slug}><span>{item.displayTitle ?? item.title}</span><ArrowUpRight /></Link>)}
               </nav>
             </article>
           ))}

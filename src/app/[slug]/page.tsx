@@ -11,6 +11,7 @@ import { ProductCategorySidebar } from "@/components/ProductCategorySidebar";
 import { ProductInquiryPanel } from "@/components/ProductInquiryPanel";
 import { allProducts, companyPages, getCategoryForProduct, getImageForProduct, getProductBySlug } from "@/lib/catalog";
 import { companyContact } from "@/lib/company-contact";
+import { productHref } from "@/lib/product-routes";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -57,6 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: title ? `${title} | NESCO Pipe & Tubes` : "NESCO Pipe & Tubes",
     description: description ?? "Industrial stainless steel, ferrous and non-ferrous metal products by NESCO Pipe & Tubes.",
+    alternates: { canonical: product ? productHref(slug) : `/${slug}` },
   };
 }
 
@@ -266,7 +268,7 @@ export default async function CatalogPage({ params }: Props) {
                 <div className="technical-feature-list"><small>Key features</small>{product.features.map((item, index) => <article key={item}><b>{String(index + 1).padStart(2, "0")}</b><p>{item}</p></article>)}</div>
                 <div className="technical-standard-list"><small>Common specification references</small>{product.standards.map((item) => <div key={item}><span>STD</span><p>{item}</p></div>)}</div>
               </div>
-              {product.pageKind === "product" && category ? <div className="product-type-strip"><small>Explore the {category.title.toLowerCase()} range</small><div>{category.items.map((item) => <Link className={item.slug === product.slug ? "is-current" : ""} href={`/${item.slug}`} key={item.slug}>{item.title}<ArrowUpRight /></Link>)}</div></div> : null}
+              {product.pageKind === "product" && category ? <div className="product-type-strip"><small>Explore the {category.title.toLowerCase()} range</small><div>{category.items.map((item) => <Link className={item.slug === product.slug ? "is-current" : ""} href={productHref(item.slug)} key={item.slug}>{item.title}<ArrowUpRight /></Link>)}</div></div> : null}
             </section>
           ) : null}
 
@@ -414,7 +416,7 @@ export default async function CatalogPage({ params }: Props) {
               <div className="catalog-heading"><small>Related range</small><h2>Complete {category?.title.toLowerCase() ?? "product"} supply support</h2></div>
               <div className="catalog-links">
                 {relatedItems.map((item) => (
-                  <Link href={`/${item.slug}`} key={item.slug}><span>{item.title}</span><ArrowUpRight /></Link>
+                  <Link href={productHref(item.slug)} key={item.slug}><span>{item.title}</span><ArrowUpRight /></Link>
                 ))}
               </div>
             </section>

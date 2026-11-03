@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, FileCheck2, Mail, Send, ShieldCheck, X } from "lucide-react";
-import { companyContact } from "@/lib/company-contact";
+import { type EnquiryStatus, submitEnquiry } from "@/lib/submit-enquiry";
 
 type ProductInquiryPanelProps = {
   productTitle: string;
@@ -13,6 +13,7 @@ type ProductInquiryPanelProps = {
 
 export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber = "11" }: ProductInquiryPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry will be delivered securely to the NESCO sales team." });
   const formRef = useRef<HTMLFormElement>(null);
   const standardPlaceholder = category === "Tubes"
     ? "e.g. ASTM A269 / A213 / approved project specification"
@@ -29,33 +30,17 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
     return () => window.cancelAnimationFrame(frame);
   }, [isOpen]);
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const value = (name: string) => String(data.get(name) ?? "").trim();
-    const drawing = data.get("drawing");
-    const drawingName = drawing instanceof File && drawing.name ? drawing.name : "Not provided";
-    const body = [
-      `Name: ${value("name")}`,
-      `Company: ${value("company")}`,
-      `Email: ${value("email")}`,
-      `Phone: ${value("phone")}`,
-      "",
-      `Product: ${productTitle}`,
-      `Category: ${category}`,
-      `Material grade: ${value("grade")}`,
-      `Standard: ${value("standard")}`,
-      `Dimensions: ${value("specification")}`,
-      `Quantity: ${value("quantity")}`,
-      `Delivery destination: ${value("destination")}`,
-      `Required test certificates: ${value("certificates")}`,
-      `Drawing / BOQ selected: ${drawingName}`,
-      "",
-      "Additional requirement:",
-      value("message"),
-    ].join("\n");
-
-    window.location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`NESCO product enquiry: ${productTitle}`)}&body=${encodeURIComponent(body)}`;
+    const form = event.currentTarget;
+    setSubmission({ status: "sending", message: "Sending your product enquiry securely..." });
+    try {
+      await submitEnquiry(form, `Product page: ${productTitle}`);
+      form.reset();
+      setSubmission({ status: "success", message: "Thank you. Your product enquiry has been sent to the NESCO sales team." });
+    } catch (error) {
+      setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
+    }
   }
 
   return (
@@ -75,7 +60,7 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
             <div className="product-rfq-assurance">
               <span><ShieldCheck /> Technical review</span>
               <span><FileCheck2 /> Documentation support</span>
-              <span><Mail /> Email-ready submission</span>
+              <span><Mail /> Secure submission</span>
             </div>
           </div>
           <div className="product-rfq-action-panel">
@@ -92,6 +77,7 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
 
       {isOpen ? (
         <form className="product-inline-enquiry" id="product-inquiry-form" ref={formRef} onSubmit={submit}>
+          <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
           <div className="product-inline-form-head">
             <span><FileCheck2 /></span>
             <div><small>Product-specific enquiry</small><h3>Tell us what the project requires.</h3><p>The product is already selected. Complete the technical and delivery details below.</p></div>
@@ -111,12 +97,12 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
             <label className="field-wide"><span>Delivery destination <b>*</b></span><input name="destination" placeholder="City / country / port" required /></label>
             <label className="field-wide"><span>Required test certificates</span><input name="certificates" placeholder="e.g. EN 10204 3.1, PMI, UT, RT or third-party inspection" /></label>
             <label className="field-wide"><span>Testing, inspection or additional requirements</span><textarea name="message" placeholder="MTC, PMI, NDT, finish, end preparation, packing or delivery schedule" /></label>
-            <label className="field-wide product-file-field"><span>Upload drawing / BOQ <small>(optional)</small></span><input name="drawing" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.dwg,.dxf,.jpg,.jpeg,.png" /><small>The email draft will record the selected filename. Attach the file to the email before sending.</small></label>
+            <label className="field-wide product-file-field"><span>Upload drawing / BOQ <small>(optional)</small></span><input name="drawing" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.dwg,.dxf,.jpg,.jpeg,.png" /><small>Accepted project files up to 5 MB will be attached securely to the enquiry.</small></label>
           </div>
 
           <div className="product-inline-submit-row">
-            <button type="submit"><span>Prepare email enquiry</span><Send /></button>
-            <p><CheckCircle2 /> Submission opens a completed email draft for your review.</p>
+            <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><Send /></button>
+            <p className={`product-submission-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
           </div>
         </form>
       ) : null}

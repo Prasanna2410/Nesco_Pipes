@@ -11,7 +11,7 @@ const manrope = Manrope({ variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "NESCO Pipe & Tubes | Stainless Steel & Alloy Products",
+  title: "NESCO Pipe & Tubes | Stainless Steel & Industrial Materials",
   description: "NESCO Pipe & Tubes supplies pipes, tubes, sheets, plates, coils, bars, flanges, fittings, fasteners, instrumentation fittings and valves from Mumbai.",
   icons: {
     icon: "/favicon.png",

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowDown,
@@ -22,6 +22,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { companyContact } from "@/lib/company-contact";
+import { type EnquiryStatus, submitEnquiry } from "@/lib/submit-enquiry";
 
 const enquirySteps = [
   {
@@ -60,33 +61,23 @@ const enquirySteps = [
 
 export function ContactExperience() {
   const heroRef = useRef<HTMLElement>(null);
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry is sent securely to the NESCO sales and exports team." });
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const visualTravel = useSpring(useTransform(scrollYProgress, [0, 1], [0, 110]), { stiffness: 90, damping: 24 });
   const heroProgress = useSpring(scrollYProgress, { stiffness: 110, damping: 26 });
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const value = (name: string) => String(data.get(name) ?? "").trim();
-    const product = value("product") || "Industrial material requirement";
-    const body = [
-      `Name: ${value("name")}`,
-      `Company: ${value("company")}`,
-      `Email: ${value("email")}`,
-      `Phone: ${value("phone")}`,
-      "",
-      `Product family: ${product}`,
-      `Material grade: ${value("grade")}`,
-      `Dimensions / standard: ${value("specification")}`,
-      `Quantity: ${value("quantity")}`,
-      `Delivery destination: ${value("destination")}`,
-      "",
-      "Additional requirement:",
-      value("message"),
-    ].join("\n");
-
-    window.location.href = `${companyContact.salesMailto}?subject=${encodeURIComponent(`NESCO quotation enquiry: ${product}`)}&body=${encodeURIComponent(body)}`;
+    const form = event.currentTarget;
+    setSubmission({ status: "sending", message: "Sending your enquiry securely..." });
+    try {
+      await submitEnquiry(form, "Contact page");
+      form.reset();
+      setSubmission({ status: "success", message: "Thank you. Your enquiry has been sent to the NESCO sales team." });
+    } catch (error) {
+      setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
+    }
   }
 
   return (
@@ -207,6 +198,7 @@ export function ContactExperience() {
             className="contact-experience-form"
             onSubmit={submit}
           >
+            <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
             <div className="contact-form-heading">
               <span><FileCheck2 /></span>
               <div><small className="contact-form-kicker">Quotation brief</small><h3>Tell us what you need.</h3></div>
@@ -270,8 +262,8 @@ export function ContactExperience() {
               <textarea name="message" placeholder="Testing, inspection, certification, finish, packing or delivery timeline" />
             </label>
 
-            <button className="contact-form-submit" type="submit"><span>Prepare email enquiry</span><Send /></button>
-            <p className="contact-form-note"><CheckCircle2 /> Your information remains in your email client. Submitting opens a completed draft for your review.</p>
+            <button className="contact-form-submit" type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><Send /></button>
+            <p className={`contact-form-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
           </form>
         </div>
       </section>
