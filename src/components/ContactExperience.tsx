@@ -81,7 +81,7 @@ export function ContactExperience() {
   }
 
   return (
-    <>
+    <div className="contact-experience-flow">
       <section className="contact-experience-hero" ref={heroRef}>
         <i className="contact-page-progress" aria-hidden="true">
           <motion.i style={{ scaleY: heroProgress }} />
@@ -129,7 +129,7 @@ export function ContactExperience() {
           </div>
         </motion.div>
 
-        <a className="contact-scroll-cue" href="#enquiry-path"><span>Scroll to prepare</span><i /><ArrowDown /></a>
+        <a className="contact-scroll-cue" href="#contact-request"><span>Start your quotation</span><i /><ArrowDown /></a>
       </section>
 
       <section className="contact-brief-story" id="enquiry-path">
@@ -180,8 +180,10 @@ export function ContactExperience() {
               <p className="contact-direct-copy">Speak directly with the team coordinating product, documentation, packing and delivery requirements.</p>
             </div>
             <div className="contact-direct-links">
-              <a className="contact-direct-link" href={companyContact.primaryPhoneHref}><Phone /><div><span>Call our team</span><strong>{companyContact.primaryPhone}<br />{companyContact.secondaryPhone}</strong></div><ArrowUpRight /></a>
-              <a className="contact-direct-link" href={companyContact.salesMailto}><Mail /><div><span>Email sales &amp; exports</span><strong>{companyContact.salesEmail}<br />{companyContact.exportsEmail}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.primaryPhoneHref}><Phone /><div><span>Call our sales team</span><strong>{companyContact.primaryPhone}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.secondaryPhoneHref}><Phone /><div><span>Alternate phone</span><strong>{companyContact.secondaryPhone}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.salesMailto}><Mail /><div><span>Sales enquiries</span><strong>{companyContact.salesEmail}</strong></div><ArrowUpRight /></a>
+              <a className="contact-direct-link" href={companyContact.exportsMailto}><Mail /><div><span>Export enquiries</span><strong>{companyContact.exportsEmail}</strong></div><ArrowUpRight /></a>
               <a className="contact-direct-link" href={companyContact.mapUrl} target="_blank" rel="noreferrer"><MapPin /><div><span>Visit the office</span><strong>{companyContact.address}</strong></div><ArrowUpRight /></a>
             </div>
             <div className="contact-availability">
@@ -261,12 +263,17 @@ export function ContactExperience() {
               <span>Additional requirement</span>
               <textarea name="message" placeholder="Testing, inspection, certification, finish, packing or delivery timeline" />
             </label>
+            <label className="contact-form-field contact-form-field--wide contact-file-field">
+              <span>Upload drawing / BOQ <small>(optional)</small></span>
+              <input name="drawing" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.dwg,.dxf,.jpg,.jpeg,.png" />
+              <small>PDF, Office, CAD or image files up to 5 MB.</small>
+            </label>
 
             <button className="contact-form-submit" type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><Send /></button>
             <p className={`contact-form-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
           </form>
         </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 export const metadata: Metadata = {
   title: "Certifications | NESCO Pipe & Tubes",
   description: "View NESCO Pipe & Tubes certifications for ISO 9001, ISO 14001, ISO 45001 and the Pressure Equipment Directive.",
+  alternates: { canonical: "/certificate" },
 };
 
 export default function CertificatePage() {

@@ -13,6 +13,7 @@ import ScrollSequenceHero from "@/components/ScrollSequenceHero";
 import { productCategories } from "@/lib/catalog";
 import { companyContact } from "@/lib/company-contact";
 import { productHref } from "@/lib/product-routes";
+import { industries as industryPages } from "@/lib/industry-content";
 import { type EnquiryStatus, submitEnquiry } from "@/lib/submit-enquiry";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,14 +25,7 @@ const strengths = [
   ["04", "Mumbai-based supply hub", "Responsive quotation and dispatch coordination for customers across India, the Middle East, Asia, Europe and other international markets."],
 ];
 
-const industries = [
-  { name: "Oil & Gas", text: "Pipe, flange and fitting supply for high-pressure process lines.", focus: "Pressure / process / offshore", image: "/assets/industry-backgrounds/01-oil-and-gas.png" },
-  { name: "Power Plants", text: "Heat-resistant grades for utility and maintenance requirements.", focus: "Heat / steam / utility", image: "/assets/industry-backgrounds/02-power-plants.png" },
-  { name: "Chemical", text: "Corrosion-conscious alloys for aggressive media and plant piping.", focus: "Corrosion / containment", image: "/assets/industry-backgrounds/03-chemical.png" },
-  { name: "Food & Pharma", text: "Clean-finish tubes, valves and fittings for hygienic systems.", focus: "Hygienic / clean finish", image: "/assets/industry-backgrounds/04-food-and-pharma.png" },
-  { name: "Marine", text: "Durable metals for salt-heavy and fabrication-intensive environments.", focus: "Saltwater / ship systems", image: "/assets/industry-backgrounds/05-marine.png" },
-  { name: "Infrastructure", text: "Fast-moving stock support for EPC, fabrication and project teams.", focus: "Structural / EPC / fabrication", image: "/assets/industry-backgrounds/06-infrastructure.png" },
-];
+const industries = industryPages.map((industry) => ({ name: industry.title, text: industry.summary, focus: industry.eyebrow, image: industry.image, slug: industry.slug }));
 
 const aboutSlides = [
   { image: "/assets/about-slider/01-pipes-tubes.png", title: "Pipes & tubes", detail: "Seamless, welded and precision tubular products" },
@@ -243,16 +237,16 @@ function Industries() {
             <div className="industry-brief-stats" aria-label="NESCO industry capabilities">
               <span><b>06</b> core sectors</span>
               <span><b>360°</b> supply support</span>
-              <span><b>24/7</b> enquiry response</span>
+              <span><b>RFQ</b> specification-led</span>
             </div>
           </div>
         </div>
       </div>
       <div className="industry-showcase-grid">
         {industries.map((item, index) => (
+          <Link className="industry-showcase-link" href={`/industries/${item.slug}`} key={item.slug}>
           <motion.article
             className="industry-showcase-card"
-            key={item.name}
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 70, clipPath: "inset(12% 0 0 0 round 18px)" }}
             whileInView={{ opacity: 1, y: 0, clipPath: "inset(0 0 0 0 round 18px)" }}
             whileHover={reduceMotion ? undefined : { y: -12, scale: 1.006 }}
@@ -282,8 +276,10 @@ function Industries() {
               <div className="industry-card-foot"><span><Factory /> NESCO / application supply</span><i /></div>
             </div>
           </motion.article>
+          </Link>
         ))}
       </div>
+      <Link className="catalog-master-link industry-master-link" href="/industries">Explore all industry supply guides <ArrowUpRight /></Link>
     </section>
   );
 }
@@ -314,7 +310,7 @@ function Reach() {
         <div className="network-copy">
           <small>Supply destinations</small>
           <div className="destination-list">{destinations.map((destination, index) => <span key={destination}>{String(index + 1).padStart(2, "0")} {destination}</span>)}</div>
-          <div className="network-stats"><div><b>39</b><span>Listed markets</span></div><div><b>243+</b><span>Happy clients</span></div><div><b>24/7</b><span>Support</span></div></div>
+          <div className="network-stats"><div><b>IND</b><span>Domestic supply</span></div><div><b>EXP</b><span>Export coordination</span></div><div><b>RFQ</b><span>Technical review</span></div></div>
           <Link href="/contact">Start an export enquiry <ArrowUpRight /></Link>
         </div>
       </div>

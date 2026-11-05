@@ -1,11 +1,15 @@
 import type { MetadataRoute } from "next";
 import { allProducts } from "@/lib/catalog";
 import { SITE_URL } from "@/lib/site";
+import { industries } from "@/lib/industry-content";
+import { resources } from "@/lib/resource-content";
 
 const staticPages = [
   { path: "", changeFrequency: "weekly", priority: 1 },
   { path: "/products", changeFrequency: "weekly", priority: 0.9 },
   { path: "/materials", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/industries", changeFrequency: "monthly", priority: 0.85 },
+  { path: "/resources", changeFrequency: "monthly", priority: 0.85 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.7 },
   { path: "/certificate", changeFrequency: "monthly", priority: 0.7 },
@@ -21,13 +25,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly",
     priority: 0.8,
   }));
+  const industryPages: MetadataRoute.Sitemap = industries.map(({ slug }) => ({ url: `${SITE_URL}/industries/${slug}`, changeFrequency: "monthly", priority: 0.8 }));
+  const resourcePages: MetadataRoute.Sitemap = resources.map(({ slug, updated }) => ({ url: `${SITE_URL}/resources/${slug}`, lastModified: updated, changeFrequency: "monthly", priority: 0.75 }));
 
   return [
     ...staticPages.map(({ path, changeFrequency, priority }) => ({
-      url: `${SITE_URL}${path}`,
+      url: path ? `${SITE_URL}${path}` : `${SITE_URL}/`,
       changeFrequency,
       priority,
     })),
     ...productPages,
+    ...industryPages,
+    ...resourcePages,
   ];
 }

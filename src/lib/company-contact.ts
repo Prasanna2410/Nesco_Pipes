@@ -9,4 +9,5 @@ export const companyContact = {
   secondaryPhone: "+91 91679 63226",
   primaryPhoneHref: "tel:+917977343455",
   secondaryPhoneHref: "tel:+919167963226",
+  whatsappHref: "https://wa.me/919167963226?text=Hello%20NESCO%20Pipe%20%26%20Tubes%2C%20I%20would%20like%20to%20request%20a%20quotation.%0A%0AProduct%20%2F%20material%3A%0AGrade%3A%0ASize%20%2F%20specification%3A%0AQuantity%3A%0ADelivery%20location%3A",
 } as const;

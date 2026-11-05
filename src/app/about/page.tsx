@@ -23,6 +23,7 @@ import { alloyCategories } from "@/lib/catalog";
 export const metadata: Metadata = {
   title: "About NESCO Pipe & Tubes",
   description: "Established in 1985, NESCO Pipe & Tubes brings 30+ years of experience to industrial metal supply across India and international markets.",
+  alternates: { canonical: "/about" },
 };
 
 const workflow = [

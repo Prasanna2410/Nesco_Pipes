@@ -129,7 +129,8 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
 }
 
 export function SiteFooter() {
-  return <footer className="site-footer footer-v3">
+  return <>
+  <footer className="site-footer footer-v3">
     <div className="footer-v3-grid" aria-hidden="true" />
     <div className="footer-v3-inner">
       <div className="footer-v3-main">
@@ -166,6 +167,8 @@ export function SiteFooter() {
           <Link href="/quality-policy">Quality Assurance</Link>
           <Link href="/certificate">Certifications &amp; Compliance</Link>
           <Link href="/contact">Contact the Sales Desk</Link>
+          <Link href="/industries">Industries We Serve</Link>
+          <Link href="/resources">Technical Resources</Link>
         </nav>
       </div>
 
@@ -181,5 +184,10 @@ export function SiteFooter() {
         <nav aria-label="Legal and website navigation"><Link href="/sitemap">Sitemap</Link><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms-condition">Terms &amp; Conditions</Link></nav>
       </div>
     </div>
-  </footer>;
+  </footer>
+  <a className="whatsapp-enquiry" href={companyContact.whatsappHref} target="_blank" rel="noreferrer" aria-label="Send NESCO a WhatsApp enquiry">
+    <span>WhatsApp enquiry</span>
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.1 4.2A11.7 11.7 0 0 0 6 21.8L4.4 27.6l6-1.6a11.7 11.7 0 1 0 5.7-21.8Zm0 21.3c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.5.9.9-3.4-.2-.4a9.5 9.5 0 1 1 8.5 4.6Zm5.2-7.1c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2l-.9 1c-.2.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3Z" /></svg>
+  </a>
+  </>;
 }

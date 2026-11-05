@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "NESCO Pipe & Tubes | Stainless Steel & Industrial Materials",
   description: "NESCO Pipe & Tubes supplies pipes, tubes, sheets, plates, coils, bars, flanges, fittings, fasteners, instrumentation fittings and valves from Mumbai.",
+  alternates: { canonical: "/" },
   icons: {
     icon: "/favicon.png",
   },

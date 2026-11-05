@@ -5,6 +5,7 @@ import { companyContact } from "@/lib/company-contact";
 export const metadata: Metadata = {
   title: "Privacy Policy | NESCO Pipe & Tubes",
   description: "Learn how NESCO Pipe & Tubes handles website enquiries, technical attachments, contact information and related business data.",
+  alternates: { canonical: "/privacy-policy" },
 };
 
 const sections: readonly LegalSection[] = [

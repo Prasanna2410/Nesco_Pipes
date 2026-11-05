@@ -45,6 +45,11 @@ export type ProductDetailContent = {
   selectionGuide?: ReadonlyArray<readonly [string, string]>;
   comparisonHeaders?: readonly string[];
   comparisonRows?: ReadonlyArray<readonly string[]>;
+  tubeSizeTables?: ReadonlyArray<{
+    readonly title: string;
+    readonly headers: readonly string[];
+    readonly rows: ReadonlyArray<readonly string[]>;
+  }>;
 };
 
 const stainlessChemistry = [
@@ -85,6 +90,24 @@ const tubeComparisonRows = [
   ["Dimensional / surface control", "Cold finishing can provide close OD, wall-thickness and surface control", "Controlled forming and finishing can provide consistent OD and surface characteristics"],
   ["Commercial basis", "May have a higher cost depending on grade, size, manufacturing route and requirements", "May offer a more economical option depending on grade, size, testing, welding requirements and finish"],
   ["Design rating", "Governed by the applicable code, material standard, dimensions and service conditions", "Governed by the applicable code, material standard, dimensions, weld quality and service conditions"],
+] as const;
+
+const tubeSizeTables = [
+  {
+    title: "Common tube outside diameters",
+    headers: ["OD (inch)", "OD (mm)"],
+    rows: [["1/4", "6.35"], ["3/8", "9.53"], ["1/2", "12.70"], ["5/8", "15.88"], ["3/4", "19.05"], ["1", "25.40"], ["1 1/4", "31.75"], ["1 1/2", "38.10"], ["2", "50.80"]],
+  },
+  {
+    title: "BWG wall thickness — gauges 7 to 15",
+    headers: ["BWG", "Wall (inch)", "Wall (mm)"],
+    rows: [["7", "0.180", "4.572"], ["8", "0.165", "4.191"], ["9", "0.148", "3.759"], ["10", "0.134", "3.404"], ["11", "0.120", "3.048"], ["12", "0.109", "2.769"], ["13", "0.095", "2.413"], ["14", "0.083", "2.108"], ["15", "0.072", "1.829"]],
+  },
+  {
+    title: "BWG wall thickness — gauges 16 to 24",
+    headers: ["BWG", "Wall (inch)", "Wall (mm)"],
+    rows: [["16", "0.065", "1.651"], ["17", "0.058", "1.473"], ["18", "0.049", "1.245"], ["19", "0.042", "1.067"], ["20", "0.035", "0.889"], ["21", "0.032", "0.813"], ["22", "0.028", "0.711"], ["23", "0.025", "0.635"], ["24", "0.022", "0.559"]],
+  },
 ] as const;
 
 const pipeDetails: ProductDetailContent = {
@@ -213,6 +236,7 @@ const tubeDetails: ProductDetailContent = {
   ],
   comparisonHeaders: tubeComparisonHeaders,
   comparisonRows: tubeComparisonRows,
+  tubeSizeTables,
   packaging: [
     "Heat-wise bundles with durable material and purchase-order identification",
     "Plain or prepared ends protected with plastic end caps where applicable",

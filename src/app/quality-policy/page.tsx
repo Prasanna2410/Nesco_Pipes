@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Quality Policy & Assurance | NESCO Pipe & Tubes",
   description:
     "Explore the NESCO Pipe & Tubes quality approach covering specification review, material traceability, inspection, testing coordination, documentation and protected dispatch.",
+  alternates: { canonical: "/quality-policy" },
 };
 
 const qualityCommitments = [

@@ -9,6 +9,7 @@ import { ProductExplorer } from "@/components/ProductExplorer";
 import { ProductPageNav } from "@/components/ProductPageNav";
 import { ProductCategorySidebar } from "@/components/ProductCategorySidebar";
 import { ProductInquiryPanel } from "@/components/ProductInquiryPanel";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { allProducts, companyPages, getCategoryForProduct, getImageForProduct, getProductBySlug } from "@/lib/catalog";
 import { companyContact } from "@/lib/company-contact";
 import { productHref } from "@/lib/product-routes";
@@ -39,6 +40,17 @@ function getApplicationImage(application: string) {
   }
 
   return "/assets/industry-backgrounds/06-infrastructure.png";
+}
+
+function industryHref(label: string) {
+  const value = label.toLowerCase();
+  if (value.includes("oil") || value.includes("gas") || value.includes("refiner") || value.includes("offshore")) return "/industries/oil-and-gas";
+  if (value.includes("chemical") || value.includes("petrochemical") || value.includes("fertilizer")) return "/industries/chemical-and-petrochemical";
+  if (value.includes("pharma") || value.includes("food") || value.includes("dairy") || value.includes("biotech")) return "/industries/pharmaceutical";
+  if (value.includes("power") || value.includes("energy") || value.includes("boiler") || value.includes("steam")) return "/industries/power-and-energy";
+  if (value.includes("manufactur") || value.includes("fabricat") || value.includes("engineering")) return "/industries/engineering-and-manufacturing";
+  if (value.includes("infrastructure") || value.includes("construction") || value.includes("water") || value.includes("marine")) return "/industries/infrastructure";
+  return undefined;
 }
 
 export function generateStaticParams() {
@@ -222,12 +234,14 @@ export default async function CatalogPage({ params }: Props) {
 
       {product ? (
         <div className="product-page-flow">
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.displayTitle ?? product.title }]} />
           <ProductPageNav items={[
             { id: "overview", label: "Overview" },
             ...(product.productTypeGuide?.length ? [{ id: "tube-range", label: "Tube range" }] : []),
             { id: "grades", label: product.materialIdentity ? "Grade identity" : "Grades" },
             { id: "specifications", label: "Specifications" },
             ...(product.dimensions?.length ? [{ id: "dimensions", label: "Dimensions" }] : []),
+            ...(product.tubeSizeTables?.length ? [{ id: "tube-sizes", label: "Tube sizes" }] : []),
             { id: "standards", label: "Standards" },
             ...(product.selectionGuide?.length ? [{ id: "tube-guide", label: "Selection guide" }] : []),
             ...(showMaterialData ? [{ id: "material-data", label: "Material data" }] : []),
@@ -257,7 +271,7 @@ export default async function CatalogPage({ params }: Props) {
                 <small>How it is made</small>
                 {product.manufacturing.map((step, index) => <div role="listitem" key={step}><b>{String(index + 1).padStart(2, "0")}</b><p>{step}</p></div>)}
               </div>
-              <div className="overview-actions"><Link href="/contact">Request reviewed quotation <ArrowUpRight /></Link><span>Material documents on request</span></div>
+              <div className="overview-actions"><Link href="#rfq">Request reviewed quotation <ArrowUpRight /></Link><span>Material documents on request</span></div>
             </div>
           </section>
 
@@ -330,10 +344,29 @@ export default async function CatalogPage({ params }: Props) {
 
           {product.dimensions?.length ? <section className="product-data-section product-dimensions-section" id="dimensions">
             <div className="product-section-heading"><small>/ 05 — DIMENSIONS & SIZE RANGE</small><h2>Dimensions aligned to the manufacturing route.</h2><p>{product.dimensionsNote}</p></div>
-            <div className="responsive-data-table dimensions-data-table" role="region" aria-label="Product dimensions and ordering parameters" tabIndex={0}>
+            <div className={`responsive-data-table dimensions-data-table${(product.dimensionHeaders?.length ?? 0) > 6 ? " is-wide-schedule-table" : ""}`} role="region" aria-label="Product dimensions and ordering parameters" tabIndex={0}>
               <div className="data-table-row data-table-head" style={{ gridTemplateColumns: `repeat(${product.dimensionHeaders?.length ?? 4}, minmax(150px, 1fr))` }}>{product.dimensionHeaders?.map((header) => <span key={header}>{header}</span>)}</div>
               {product.dimensions.map((row) => <div className="data-table-row" style={{ gridTemplateColumns: `repeat(${product.dimensionHeaders?.length ?? 4}, minmax(150px, 1fr))` }} key={row.join("-")}>{row.map((cell, index) => index === 0 ? <b data-label={product.dimensionHeaders?.[index] ?? "Parameter"} key={`${cell}-${index}`}>{cell}</b> : <span data-label={product.dimensionHeaders?.[index] ?? `Detail ${index}`} key={`${cell}-${index}`}>{cell}</span>)}</div>)}
             </div>
+            {(product.dimensionHeaders?.length ?? 0) > 6 ? <p className="table-scroll-hint">Scroll horizontally to review all schedules and wall thicknesses.</p> : null}
+          </section> : null}
+
+          {product.tubeSizeTables?.length ? <section className="tube-size-gauge-section" id="tube-sizes">
+            <div className="product-section-heading">
+              <small>/ TUBE SIZES &amp; GAUGES</small>
+              <h2>Tube OD and BWG wall reference.</h2>
+              <p>Tubes are ordered by actual outside diameter and wall thickness. Use these common values as an enquiry reference; the ordered standard and agreed tolerances govern final supply.</p>
+            </div>
+            <div className="tube-reference-grid">
+              {product.tubeSizeTables.map((table) => <article key={table.title}>
+                <div className="tube-reference-title"><h3>{table.title}</h3><small>{table.rows.length} reference sizes</small></div>
+                <div className="responsive-data-table tube-reference-table" role="region" aria-label={table.title} tabIndex={0}>
+                  <div className="data-table-row data-table-head" style={{ gridTemplateColumns: `repeat(${table.headers.length}, minmax(110px, 1fr))` }}>{table.headers.map((header) => <span key={header}>{header}</span>)}</div>
+                  {table.rows.map((row) => <div className="data-table-row" style={{ gridTemplateColumns: `repeat(${table.headers.length}, minmax(110px, 1fr))` }} key={row.join("-")}>{row.map((cell, index) => index === 0 ? <b data-label={table.headers[index]} key={`${cell}-${index}`}>{cell}</b> : <span data-label={table.headers[index]} key={`${cell}-${index}`}>{cell}</span>)}</div>)}
+                </div>
+              </article>)}
+            </div>
+            <p className="tube-reference-note">BWG is a wall-thickness reference, not a substitute for the complete tube specification. State OD, wall, grade, standard, length, finish and testing with the enquiry.</p>
           </section> : null}
 
           <section className="product-data-section product-standards-section" id="standards">
@@ -369,10 +402,11 @@ export default async function CatalogPage({ params }: Props) {
             <div className="product-section-heading light-heading"><small>{isDetailedGradePage ? "/ 07 — REFERENCE MATERIAL DATA" : "/ 06 — REFERENCE MATERIAL DATA"}</small><h2>{product.materialDataTitle ?? "Reference material data."}</h2><p>{product.materialDataDescription ?? "Representative values for frequently requested stainless grades. Values are percentages by mass or minimum mechanical requirements unless shown otherwise; always verify the ordered material standard, product form and edition."}</p></div>
             <div className="material-table-block">
               <div className="material-table-title"><span>{product.chemicalTableTitle ?? "Chemical composition"}</span><small>{product.chemicalTableNote ?? "Selected principal elements · % max or range"}</small></div>
-              <div className="responsive-data-table dark-data-table dynamic-material-table" role="region" aria-label={product.chemicalTableTitle ?? "Chemical composition"} tabIndex={0}>
+              <div className={`responsive-data-table dark-data-table dynamic-material-table${chemistryHeaders.length > 8 ? " is-wide-chemistry-table" : ""}`} role="region" aria-label={product.chemicalTableTitle ?? "Chemical composition"} tabIndex={0}>
                 <div className="data-table-row data-table-head" style={{ gridTemplateColumns: `repeat(${chemistryHeaders.length}, minmax(112px, 1fr))` }}>{chemistryHeaders.map((header) => <span key={header}>{header}</span>)}</div>
                 {product.chemical.map((row) => <div className="data-table-row" style={{ gridTemplateColumns: `repeat(${chemistryHeaders.length}, minmax(112px, 1fr))` }} key={row.join("-")}>{row.map((cell, index) => index === 0 ? <b data-label={chemistryHeaders[index]} key={`${cell}-${index}`}>{cell}</b> : <span data-label={chemistryHeaders[index]} key={`${cell}-${index}`}>{cell}</span>)}</div>)}
               </div>
+              {chemistryHeaders.length > 8 ? <p className="table-scroll-hint table-scroll-hint-dark">Scroll horizontally to review the complete composition reference.</p> : null}
             </div>
             <div className="material-table-block">
               <div className="material-table-title"><span>{product.mechanicalTableTitle ?? "Mechanical properties"}</span><small>{product.mechanicalTableNote ?? "Room-temperature minimums · verify the ordered product standard"}</small></div>
@@ -394,7 +428,7 @@ export default async function CatalogPage({ params }: Props) {
               const showApplicationImage = categoriesWithApplicationImages.has(product.category);
               return <article className={showApplicationImage ? "has-application-image" : undefined} key={item}>{showApplicationImage ? <Image className="application-card-image" src={getApplicationImage(item)} alt={`${item} application`} fill sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw" /> : null}<div><small>{String(index + 1).padStart(2, "0")}</small><ArrowUpRight aria-hidden="true" /></div><span>{item}</span></article>;
             })}</div>
-            <div className="industry-service-band"><div className="industry-band-copy"><small>Industries served</small><strong>One supply partner across critical sectors.</strong></div><div className="industry-chip-list" aria-label="Industries served" role="list">{product.industries.map((industry) => <span role="listitem" key={industry}>{industry}</span>)}</div></div>
+            <div className="industry-service-band"><div className="industry-band-copy"><small>Industries served</small><strong>One supply partner across critical sectors.</strong></div><div className="industry-chip-list" aria-label="Industries served" role="list">{product.industries.map((industry) => { const href = industryHref(industry); return href ? <Link role="listitem" href={href} key={industry}>{industry}</Link> : <span role="listitem" key={industry}>{industry}</span>; })}</div></div>
           </section>
 
           <section className="why-nesco-section" id="why-nesco">

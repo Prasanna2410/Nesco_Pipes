@@ -5,6 +5,7 @@ import { companyContact } from "@/lib/company-contact";
 export const metadata: Metadata = {
   title: "Terms & Conditions | NESCO Pipe & Tubes",
   description: "Terms governing access to the NESCO Pipe & Tubes website, product information, enquiries and quotations.",
+  alternates: { canonical: "/terms-condition" },
 };
 
 const sections: readonly LegalSection[] = [
