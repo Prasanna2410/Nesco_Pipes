@@ -154,7 +154,10 @@ export async function POST(request: Request) {
   const rows = details.map(([label, value]) => `<tr><th style="padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #dbe5ee;color:#153b5d;width:190px">${escapeHtml(label)}</th><td style="padding:10px 14px;border-bottom:1px solid #dbe5ee;color:#435f77;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`).join("");
 
   if (!apiKey || !from) {
-    const delivered = await sendWithFormSubmit(details, enquiry.email, recipients, drawing);
+    const delivered = await sendWithFormSubmit(details, enquiry.email, recipients, drawing).catch((error) => {
+      console.error("FormSubmit could not be reached:", error);
+      return false;
+    });
     if (!delivered) {
       return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
     }
@@ -186,7 +189,13 @@ export async function POST(request: Request) {
   if (!response.ok) {
     const providerError = await response.text();
     console.error("Resend rejected an enquiry email:", response.status, providerError);
-    return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
+    const delivered = await sendWithFormSubmit(details, enquiry.email, recipients, drawing).catch((error) => {
+      console.error("FormSubmit could not be reached:", error);
+      return false;
+    });
+    if (!delivered) {
+      return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
+    }
   }
 
   return NextResponse.json({ ok: true });
