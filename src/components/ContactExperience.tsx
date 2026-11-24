@@ -61,7 +61,7 @@ const enquirySteps = [
 
 export function ContactExperience() {
   const heroRef = useRef<HTMLElement>(null);
-  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry is sent securely to the NESCO sales and exports team." });
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your email app will open with the enquiry details ready to review." });
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const visualTravel = useSpring(useTransform(scrollYProgress, [0, 1], [0, 110]), { stiffness: 90, damping: 24 });
@@ -70,11 +70,10 @@ export function ContactExperience() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    setSubmission({ status: "sending", message: "Sending your enquiry securely..." });
+    setSubmission({ status: "sending", message: "Preparing your enquiry email..." });
     try {
       await submitEnquiry(form, "Contact page");
-      form.reset();
-      setSubmission({ status: "success", message: "Thank you. Your enquiry has been sent to the NESCO sales team." });
+      setSubmission({ status: "success", message: "Your email draft is ready. Please review it and press Send in your email app." });
     } catch (error) {
       setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
     }
@@ -266,10 +265,10 @@ export function ContactExperience() {
             <label className="contact-form-field contact-form-field--wide contact-file-field">
               <span>Upload drawing / BOQ <small>(optional)</small></span>
               <input name="drawing" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.dwg,.dxf,.jpg,.jpeg,.png" />
-              <small>PDF, Office, CAD or image files up to 5 MB.</small>
+              <small>Your email app will open next. Attach the selected file to the draft before sending.</small>
             </label>
 
-            <button className="contact-form-submit" type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><Send /></button>
+            <button className="contact-form-submit" type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Preparing email..." : "Email enquiry"}</span><Send /></button>
             <p className={`contact-form-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
           </form>
         </div>

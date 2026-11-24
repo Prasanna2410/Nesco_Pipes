@@ -319,16 +319,15 @@ function Reach() {
 }
 
 function Contact() {
-  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry is sent securely to the NESCO sales and exports team." });
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your email app will open with the enquiry details ready to review." });
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    setSubmission({ status: "sending", message: "Sending your enquiry securely..." });
+    setSubmission({ status: "sending", message: "Preparing your enquiry email..." });
     try {
       await submitEnquiry(form, "Homepage quote form");
-      form.reset();
-      setSubmission({ status: "success", message: "Thank you. Your enquiry has been sent to the NESCO sales team." });
+      setSubmission({ status: "success", message: "Your email draft is ready. Please review it and press Send in your email app." });
     } catch (error) {
       setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
     }
@@ -360,7 +359,7 @@ function Contact() {
         <label><span>Work email <b>*</b></span><input name="email" type="email" placeholder="name@company.com" autoComplete="email" required /></label>
         <label className="wide"><span>Product or material grade <b>*</b></span><input name="product" placeholder="e.g. Duplex 2205 seamless pipes" required /></label>
         <label className="wide"><span>Requirement details <b>*</b></span><textarea name="message" placeholder="Add size, schedule or class, quantity, applicable standard and delivery destination" required /></label>
-        <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><ArrowUpRight /></button><p className={`form-submission-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
+        <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Preparing email..." : "Email enquiry"}</span><ArrowUpRight /></button><p className={`form-submission-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
       </motion.form>
     </section>
   );
