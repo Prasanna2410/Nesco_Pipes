@@ -37,46 +37,6 @@ function escapeHtml(value: string) {
   })[character] ?? character);
 }
 
-async function sendWithFormSubmit(
-  details: Array<[string, string]>,
-  replyTo: string,
-  recipients: string[],
-  drawing: File | null,
-) {
-  const [primaryRecipient, ...copyRecipients] = recipients;
-  if (!primaryRecipient) return false;
-
-  const providerForm = new FormData();
-  details.forEach(([label, value]) => providerForm.append(label, value));
-  providerForm.set("_subject", `NESCO website enquiry: ${details.find(([label]) => label === "Product / material")?.[1] ?? "New requirement"}`);
-  providerForm.set("_replyto", replyTo);
-  providerForm.set("_template", "table");
-  providerForm.set("_captcha", "false");
-  providerForm.set("_url", "https://www.nescopipes.com");
-  if (copyRecipients.length) providerForm.set("_cc", copyRecipients.join(","));
-  if (drawing) providerForm.set("attachment", drawing, drawing.name.slice(0, 180));
-
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(primaryRecipient)}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Origin: "https://www.nescopipes.com",
-      Referer: "https://www.nescopipes.com/",
-    },
-    body: providerForm,
-  });
-
-  if (!response.ok) {
-    console.error("FormSubmit rejected an enquiry:", response.status, await response.text());
-    return false;
-  }
-
-  const result = await response.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
-  const activationPending = /needs activation/i.test(result?.message ?? "");
-  if (activationPending) console.warn("FormSubmit activation is pending for the NESCO sales inbox.");
-  return result?.success === true || result?.success === "true" || activationPending;
-}
-
 export async function POST(request: Request) {
   let raw: EnquiryPayload;
   let drawing: File | null = null;
@@ -127,7 +87,7 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL;
+  const from = process.env.CONTACT_FROM_EMAIL || "NESCO Website <website@nescopipes.com>";
   const recipients = (process.env.CONTACT_TO_EMAILS || "sales@nescopipes.com,exports@nescopipes.com")
     .split(",")
     .map((email) => email.trim())
@@ -153,15 +113,9 @@ export async function POST(request: Request) {
   const text = details.map(([label, value]) => `${label}: ${value}`).join("\n\n");
   const rows = details.map(([label, value]) => `<tr><th style="padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #dbe5ee;color:#153b5d;width:190px">${escapeHtml(label)}</th><td style="padding:10px 14px;border-bottom:1px solid #dbe5ee;color:#435f77;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`).join("");
 
-  if (!apiKey || !from) {
-    const delivered = await sendWithFormSubmit(details, enquiry.email, recipients, drawing).catch((error) => {
-      console.error("FormSubmit could not be reached:", error);
-      return false;
-    });
-    if (!delivered) {
-      return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
-    }
-    return NextResponse.json({ ok: true });
+  if (!apiKey) {
+    console.error("Website enquiry delivery is not configured: RESEND_API_KEY is missing.");
+    return NextResponse.json({ message: "Email delivery is temporarily unavailable. Please contact our sales team directly." }, { status: 503 });
   }
 
   const attachment = drawing ? [{
@@ -169,33 +123,33 @@ export async function POST(request: Request) {
     content: Buffer.from(await drawing.arrayBuffer()).toString("base64"),
   }] : undefined;
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: recipients,
-      reply_to: enquiry.email,
-      subject: `NESCO website enquiry: ${enquiry.product.replace(/[\r\n]+/g, " ")}`,
-      text,
-      html: `<div style="font-family:Arial,sans-serif;max-width:760px;margin:auto"><div style="padding:24px;background:#062b52;color:#fff"><p style="margin:0 0 7px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#85c9ff">NESCO Pipe &amp; Tubes</p><h1 style="margin:0;font-size:24px">New website enquiry</h1></div><table style="width:100%;border-collapse:collapse;background:#fff">${rows}</table></div>`,
-      attachments: attachment,
-    }),
-  });
+  let response: Response;
+  try {
+    response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: recipients,
+        reply_to: enquiry.email,
+        subject: `NESCO website enquiry: ${enquiry.product.replace(/[\r\n]+/g, " ")}`,
+        text,
+        html: `<div style="font-family:Arial,sans-serif;max-width:760px;margin:auto"><div style="padding:24px;background:#062b52;color:#fff"><p style="margin:0 0 7px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#85c9ff">NESCO Pipe &amp; Tubes</p><h1 style="margin:0;font-size:24px">New website enquiry</h1></div><table style="width:100%;border-collapse:collapse;background:#fff">${rows}</table></div>`,
+        attachments: attachment,
+      }),
+    });
+  } catch (error) {
+    console.error("Resend could not be reached:", error);
+    return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
+  }
 
   if (!response.ok) {
     const providerError = await response.text();
     console.error("Resend rejected an enquiry email:", response.status, providerError);
-    const delivered = await sendWithFormSubmit(details, enquiry.email, recipients, drawing).catch((error) => {
-      console.error("FormSubmit could not be reached:", error);
-      return false;
-    });
-    if (!delivered) {
-      return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
-    }
+    return NextResponse.json({ message: "We could not send the enquiry right now. Please try again or contact sales directly." }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });
