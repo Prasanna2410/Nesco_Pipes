@@ -13,7 +13,7 @@ type ProductInquiryPanelProps = {
 
 export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber = "11" }: ProductInquiryPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your email app will open with the product details ready to review." });
+  const [submission, setSubmission] = useState<{ status: EnquiryStatus; message: string }>({ status: "idle", message: "Your enquiry will be sent directly to the NESCO sales team." });
   const formRef = useRef<HTMLFormElement>(null);
   const standardPlaceholder = category === "Tubes"
     ? "e.g. ASTM A269 / A213 / approved project specification"
@@ -33,10 +33,11 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    setSubmission({ status: "sending", message: "Preparing your product enquiry email..." });
+    setSubmission({ status: "sending", message: "Sending your product enquiry securely..." });
     try {
       await submitEnquiry(form, `Product page: ${productTitle}`);
-      setSubmission({ status: "success", message: "Your email draft is ready. Please review it and press Send in your email app." });
+      form.reset();
+      setSubmission({ status: "success", message: "Thank you. Your product enquiry has been sent to the NESCO sales team." });
     } catch (error) {
       setSubmission({ status: "error", message: error instanceof Error ? error.message : "We could not send your enquiry. Please try again." });
     }
@@ -59,7 +60,7 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
             <div className="product-rfq-assurance">
               <span><ShieldCheck /> Technical review</span>
               <span><FileCheck2 /> Documentation support</span>
-              <span><Mail /> Direct email enquiry</span>
+              <span><Mail /> Secure submission</span>
             </div>
           </div>
           <div className="product-rfq-action-panel">
@@ -96,11 +97,10 @@ export function ProductInquiryPanel({ productTitle, category, cta, sectionNumber
             <label className="field-wide"><span>Delivery destination <b>*</b></span><input name="destination" placeholder="City / country / port" required /></label>
             <label className="field-wide"><span>Required test certificates</span><input name="certificates" placeholder="e.g. EN 10204 3.1, PMI, UT, RT or third-party inspection" /></label>
             <label className="field-wide"><span>Testing, inspection or additional requirements</span><textarea name="message" placeholder="MTC, PMI, NDT, finish, end preparation, packing or delivery schedule" /></label>
-            <label className="field-wide product-file-field"><span>Select drawing / BOQ <small>(optional)</small></span><input name="drawing" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.dwg,.dxf,.jpg,.jpeg,.png" /><small>Your email app will open next. Attach the selected file to the draft before sending.</small></label>
           </div>
 
           <div className="product-inline-submit-row">
-            <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Preparing email..." : "Email enquiry"}</span><Send /></button>
+            <button type="submit" disabled={submission.status === "sending"}><span>{submission.status === "sending" ? "Sending enquiry..." : "Send enquiry"}</span><Send /></button>
             <p className={`product-submission-note is-${submission.status}`} role="status" aria-live="polite"><CheckCircle2 /> {submission.message}</p>
           </div>
         </form>

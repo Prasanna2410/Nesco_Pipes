@@ -1,5 +1,7 @@
 export type EnquiryStatus = "idle" | "sending" | "success" | "error";
 
+const web3FormsAccessKey = "656f6e4d-efc3-425b-89e2-482e277939f2";
+
 const fieldLabels: Record<string, string> = {
   name: "Name",
   company: "Company",
@@ -15,36 +17,42 @@ const fieldLabels: Record<string, string> = {
   message: "Requirement",
 };
 
-export function submitEnquiry(form: HTMLFormElement, source: string) {
+export async function submitEnquiry(form: HTMLFormElement, source: string) {
   const formData = new FormData(form);
   if (String(formData.get("website") || "").trim()) return;
 
-  const details: string[] = [];
+  const submission = new FormData();
+  submission.set("access_key", web3FormsAccessKey);
+  submission.set("from_name", "NESCO Pipe & Tubes Website");
+  submission.set("subject", `NESCO website enquiry: ${String(formData.get("product") || "New requirement").trim()}`);
+  submission.set("Submitted from", source);
+
   formData.forEach((value, key) => {
-    if (key === "website") return;
-    if (value instanceof File) {
-      if (value.size > 0) details.push(`Selected drawing / BOQ: ${value.name} (please attach this file before sending)`);
-      return;
-    }
+    if (key === "website" || value instanceof File) return;
     const cleaned = value.trim();
-    if (cleaned) details.push(`${fieldLabels[key] || key}: ${cleaned}`);
+    if (!cleaned) return;
+    submission.set(key === "email" ? "email" : (fieldLabels[key] || key), cleaned);
   });
 
-  const product = String(formData.get("product") || "New requirement").trim();
-  const subject = `NESCO website enquiry: ${product}`;
-  const body = [
-    "Hello NESCO Sales Team,",
-    "",
-    "Please review the following enquiry:",
-    "",
-    ...details,
-    "",
-    `Submitted from: ${source}`,
-    "",
-    "Regards,",
-    String(formData.get("name") || "").trim(),
-  ].join("\n");
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
 
-  const mailto = `mailto:sales@nescopipes.com?cc=${encodeURIComponent("exports@nescopipes.com")}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.assign(mailto);
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: submission,
+      signal: controller.signal,
+    });
+    const result = await response.json().catch(() => null) as { success?: boolean; message?: string } | null;
+    if (!response.ok || !result?.success) {
+      throw new Error(result?.message || "We could not send your enquiry. Please try again.");
+    }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("The enquiry took too long to send. Please check your connection and try again.");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
