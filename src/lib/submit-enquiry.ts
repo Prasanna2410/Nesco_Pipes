@@ -51,6 +51,9 @@ export async function submitEnquiry(form: HTMLFormElement, source: string) {
     if (error instanceof DOMException && error.name === "AbortError") {
       throw new Error("The enquiry took too long to send. Please check your connection and try again.");
     }
+    if (error instanceof TypeError) {
+      throw new Error("We could not connect to the enquiry service. Please check your connection and try again.");
+    }
     throw error;
   } finally {
     window.clearTimeout(timeout);
